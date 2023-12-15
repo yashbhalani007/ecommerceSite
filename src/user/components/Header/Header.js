@@ -135,19 +135,17 @@ function Header(props) {
                                             </a>
                                         </li>
                                         <li >
-                                            <NavLink to={"/wishlist"}>wishlist</NavLink>
-                                            {/* <a href="wishlist">
-                                                <i className="far fa-heart" />
-                                            </a> */}
+                                            <NavLink to={"/wishlist"}><i className="far fa-heart" /></NavLink>
+
                                         </li>
                                         <li>
-                                        <NavLink  to={"/Cart"}><i className="ion ion-md-basket" /></NavLink>
-                                            {/* <a id="mini-cart-trigger">
+                                            <a id="mini-cart-trigger">
+
                                                 <i className="ion ion-md-basket" />
                                                 <span className="item-counter">4</span>
                                                 <span className="item-price">$220.00</span>
-                                            </a> */}
-                                            
+                                            </a>
+
                                         </li>
                                     </ul>
                                 </nav>
@@ -215,11 +213,11 @@ function Header(props) {
                             <span className="mini-total-price float-right">$220.00</span>
                         </div>
                         <ul>
-                        <div className="mini-action-anchors">
-                            <li ><NavLink  to={"/cart"}>View Cart</NavLink></li>
-                            {/* <a href="/cart" className="cart-anchor">View Cart</a> */}
-                            <a href="checkout.html" className="checkout-anchor">Checkout</a>
-                        </div>
+                            <div className="mini-action-anchors">
+                            <NavLink className="cart-anchor" to={"/Cart"}>View Cart</NavLink>
+                                {/* <a href="/cart" className="cart-anchor">View Cart</a> */}
+                                <a href="checkout.html" className="checkout-anchor">Checkout</a>
+                            </div>
                         </ul>
                     </div>
                 </div>

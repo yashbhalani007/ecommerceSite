@@ -11,7 +11,7 @@ function UserRoutes(props) {
         <>
             <Header />
             <Routes>
-                <Route path="/*" element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist />} />
             </Routes>
