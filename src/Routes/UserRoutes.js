@@ -5,6 +5,11 @@ import { Route, Routes } from 'react-router-dom';
 import Home from '../user/container/Home/Home';
 import Cart from '../user/container/Cart/Cart';
 import Wishlist from '../user/container/Wishlist/Wishlist';
+import Checkout from '../user/container/Checkout/Checkout';
+import Auth from '../user/container/Auth/Auth';
+import About from '../user/container/About/About';
+import Contact from '../user/container/Contact/Contact';
+import Faq from '../user/container/Faq/Faq';
 
 function UserRoutes(props) {
     return (
@@ -14,6 +19,11 @@ function UserRoutes(props) {
                 <Route path="/" element={<Home />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/faq" element={<Faq />} />
             </Routes>
             <Footer />
         </>

@@ -27,29 +27,32 @@ function Header(props) {
                         <nav>
                             <ul className="secondary-nav g-nav">
                                 <li>
+                                <NavLink className="cart-anchor" to={"/admin/auth"}>Become Supplier</NavLink>
                                     <a>My Account
                                         <i className="fas fa-chevron-down u-s-m-l-9" />
                                     </a>
                                     <ul className="g-dropdown" style={{ width: 200 }}>
                                         <li>
-                                            <a href="cart.html">
+                                            <NavLink to={"/Cart"}>
                                                 <i className="fas fa-cog u-s-m-r-9" />
-                                                My Cart</a>
+                                                My Cart</NavLink>
+
+                                            {/* <NavLink className="fas fa-cog u-s-m-r-9" to={"/Cart"}>My Cart</NavLink> */}
                                         </li>
                                         <li>
-                                            <a href="wishlist.html">
+                                            <NavLink to={"/wishlist"}>
                                                 <i className="far fa-heart u-s-m-r-9" />
-                                                My Wishlist</a>
+                                                My Wishlist</NavLink>
                                         </li>
                                         <li>
-                                            <a href="checkout.html">
+                                            <NavLink to={"/checkout"}>
                                                 <i className="far fa-check-circle u-s-m-r-9" />
-                                                Checkout</a>
+                                                Checkout</NavLink>
                                         </li>
                                         <li>
-                                            <a href="account.html">
+                                            <NavLink to={"/auth"}>
                                                 <i className="fas fa-sign-in-alt u-s-m-r-9" />
-                                                Login / Signup</a>
+                                                Login / Signup</NavLink>
                                         </li>
                                     </ul>
                                 </li>
@@ -89,9 +92,9 @@ function Header(props) {
                         <div className="row clearfix align-items-center">
                             <div className="col-lg-3 col-md-9 col-sm-6">
                                 <div className="brand-logo text-lg-center">
-                                    <a href="home.html">
+                                    <NavLink to={"/"}>
                                         <img src="../assets/images/main-logo/groover-branding-1.png" alt="Groover Brand Logo" className="app-brand-logo" />
-                                    </a>
+                                    </NavLink>
                                 </div>
                             </div>
                             <div className="col-lg-6 u-d-none-lg">
@@ -143,7 +146,6 @@ function Header(props) {
 
                                                 <i className="ion ion-md-basket" />
                                                 <span className="item-counter">4</span>
-                                                <span className="item-price">$220.00</span>
                                             </a>
 
                                         </li>
@@ -214,7 +216,7 @@ function Header(props) {
                         </div>
                         <ul>
                             <div className="mini-action-anchors">
-                            <NavLink className="cart-anchor" to={"/Cart"}>View Cart</NavLink>
+                                <NavLink className="cart-anchor" to={"/Cart"}>View Cart</NavLink>
                                 {/* <a href="/cart" className="cart-anchor">View Cart</a> */}
                                 <a href="checkout.html" className="checkout-anchor">Checkout</a>
                             </div>
@@ -251,104 +253,104 @@ function Header(props) {
                                             <ul>
                                                 <li className="menu-title">Home &amp; Static Pages</li>
                                                 <li>
-                                                    <a href="home.html" className="u-c-brand">Home</a>
+                                                    <NavLink to={"/"} className="u-c-brand">Home</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="about.html">About</a>
+                                                    <NavLink to={"/about"}>About</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="contact.html">Contact</a>
+                                                    <NavLink to={"/contact"}>Contact</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="faq.html">FAQ</a>
+                                                    <NavLink to={"/faq"}>FAQ</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="store-directory.html">Store Directory</a>
+                                                    <NavLink to={"/"}>Store Directory</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+                                                    <NavLink to={"/"}>Terms &amp; Conditions</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="404.html">404</a>
+                                                    <NavLink to={"/"}>404</NavLink>
                                                 </li>
                                                 <li className="menu-title">Single Product Page</li>
                                                 <li>
-                                                    <a href="single-product.html">Single Product Fullwidth</a>
+                                                    <NavLink to={"/"}>Single Product Fullwidth</NavLink>
                                                 </li>
                                                 <li className="menu-title">Blog</li>
                                                 <li>
-                                                    <a href="blog.html">Blog Page</a>
+                                                    <NavLink to={"/"}>Blog Page</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="blog-detail.html">Blog Details</a>
+                                                    <NavLink to={"/"}>Blog Details</NavLink>
                                                 </li>
                                             </ul>
                                             <ul>
                                                 <li className="menu-title">Ecommerce Pages</li>
                                                 <li>
-                                                    <a href="shop-v2-sub-category.html">Shop</a>
+                                                    <NavLink to={"/"}>Shop</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="cart.html">Cart</a>
+                                                    <NavLink to={"/"}>Cart</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="checkout.html">Checkout</a>
+                                                    <NavLink to={"/"}>Checkout</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="account.html">My Account</a>
+                                                    <NavLink to={"/"}>My Account</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="wishlist.html">Wishlist</a>
+                                                    <NavLink to={"/"}>Wishlist</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="track-order.html">Track your Order</a>
+                                                    <NavLink to={"/"}>Track your Order</NavLink>
                                                 </li>
                                                 <li className="menu-title">Cart Variations</li>
                                                 <li>
-                                                    <a href="cart-empty.html">Cart Ver 1 Empty</a>
+                                                    <NavLink to={"/"}>Cart Ver 1 Empty</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="cart.html">Cart Ver 2 Full</a>
+                                                    <NavLink to={"/"}>Cart Ver 2 Full</NavLink>
                                                 </li>
                                                 <li className="menu-title">Wishlist Variations</li>
                                                 <li>
-                                                    <a href="wishlist-empty.html">Wishlist Ver 1 Empty</a>
+                                                    <NavLink to={"/"}>Wishlist Ver 1 Empty</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="wishlist.html">Wishlist Ver 2 Full</a>
+                                                    <NavLink to={"/"}>Wishlist Ver 2 Full</NavLink>
                                                 </li>
                                             </ul>
                                             <ul>
                                                 <li className="menu-title">Shop Variations</li>
                                                 <li>
-                                                    <a href="shop-v1-root-category.html">Shop Ver 1 Root Category</a>
+                                                    <NavLink to={"/"}>Shop Ver 1 Root Category</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v2-sub-category.html">Shop Ver 2 Sub Category</a>
+                                                    <NavLink to={"/"}>Shop Ver 2 Sub Category</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v3-sub-sub-category.html">Shop Ver 3 Sub Sub Category</a>
+                                                    <NavLink to={"/"}>Shop Ver 3 Sub Sub Category</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v4-filter-as-category.html">Shop Ver 4 Filter as Category</a>
+                                                    <NavLink to={"/"}>Shop Ver 4 Filter as Category</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v5-product-not-found.html">Shop Ver 5 Product Not Found</a>
+                                                    <NavLink to={"/"}>Shop Ver 5 Product Not Found</NavLink>
                                                 </li>
                                                 <li>
-                                                    <a href="shop-v6-search-results.html">Shop Ver 6 Search Results</a>
+                                                    <NavLink to={"/"}>Shop Ver 6 Search Results</NavLink>
                                                 </li>
                                                 <li className="menu-title">My Account Variation</li>
                                                 <li>
-                                                    <a href="lost-password.html">Lost Your Password ?</a>
+                                                    <NavLink to={"/"}>Lost Your Password ?</NavLink>
                                                 </li>
                                                 <li className="menu-title">Checkout Variation</li>
                                                 <li>
-                                                    <a href="confirmation.html">Checkout Confirmation</a>
+                                                    <NavLink to={"/"}>Checkout Confirmation</NavLink>
                                                 </li>
                                                 <li className="menu-title">Custom Deals Page</li>
                                                 <li>
-                                                    <a href="custom-deal-page.html">Custom Deal Page</a>
+                                                    <NavLink to={"/"}>Custom Deal Page</NavLink>
                                                 </li>
                                             </ul>
                                         </div>
