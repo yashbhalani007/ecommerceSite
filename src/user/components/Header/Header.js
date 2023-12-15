@@ -27,7 +27,7 @@ function Header(props) {
                         <nav>
                             <ul className="secondary-nav g-nav">
                                 <li>
-                                <NavLink className="cart-anchor" to={"/admin/auth"}>Become Supplier</NavLink>
+                                {/* <NavLink className="cart-anchor" to={"/admin/auth"}>Become Supplier</NavLink> */}
                                     <a>My Account
                                         <i className="fas fa-chevron-down u-s-m-l-9" />
                                     </a>
