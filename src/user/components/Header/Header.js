@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 function Header(props) {
     return (
         <div id='app'>
-
             <header>
                 {/* Top-Header */}
                 <div className="full-layer-outer-header">
@@ -27,7 +26,6 @@ function Header(props) {
                         <nav>
                             <ul className="secondary-nav g-nav">
                                 <li>
-                                <NavLink className="cart-anchor" to={"/admin/auth"}>Become Supplier</NavLink>
                                     <a>My Account
                                         <i className="fas fa-chevron-down u-s-m-l-9" />
                                     </a>
@@ -265,10 +263,10 @@ function Header(props) {
                                                     <NavLink to={"/faq"}>FAQ</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Store Directory</NavLink>
+                                                    <NavLink to={"/storeDirectory"}>Store Directory</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Terms &amp; Conditions</NavLink>
+                                                    <NavLink to={"/termAndCondition"}>Terms &amp; Conditions</NavLink>
                                                 </li>
                                                 <li>
                                                     <NavLink to={"/"}>404</NavLink>
