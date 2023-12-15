@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Auth(props) {
     return (
@@ -50,8 +51,9 @@ function Auth(props) {
                                             </div>
                                             <div className="group-2 text-right">
                                                 <div className="page-anchor">
-                                                    <a href="lost-password.html">
-                                                        <i className="fas fa-circle-o-notch u-s-m-r-9" />Lost your password?</a>
+                                                    {/* <a href="lost-password.html">
+                                                        <i className="fas fa-circle-o-notch u-s-m-r-9" />Lost your password?</a> */}
+                                                        <NavLink className="fas fa-circle-o-notch u-s-m-r-9" to={"/forgotpassword"}>Lost your password?</NavLink>
                                                 </div>
                                             </div>
                                         </div>

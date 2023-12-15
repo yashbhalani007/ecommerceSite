@@ -10,6 +10,9 @@ import Auth from '../user/container/Auth/Auth';
 import About from '../user/container/About/About';
 import Contact from '../user/container/Contact/Contact';
 import Faq from '../user/container/Faq/Faq';
+import StoreDirectory from '../user/container/Store-directory/StoreDirectory';
+import TermAndCondition from '../user/container/TermAndCondition/TermAndCondition';
+import ForgotPassword from '../user/container/ForgotPassword/ForgotPassword';
 
 function UserRoutes(props) {
     return (
@@ -24,6 +27,9 @@ function UserRoutes(props) {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/faq" element={<Faq />} />
+                <Route path="/storeDirectory" element={<StoreDirectory />} />
+                <Route path="/termAndCondition" element={<TermAndCondition />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
             </Routes>
             <Footer />
         </>
