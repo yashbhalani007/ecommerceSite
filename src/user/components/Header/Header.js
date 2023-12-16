@@ -39,7 +39,7 @@ function Header(props) {
                                         </li>
                                         <li>
                                             <NavLink to={"/wishlist"}>
-                                                <i className="far fa-heart u-s-m-r-9" />
+                                                <i className="far fa-heart u-s-m-r-9" />    
                                                 My Wishlist</NavLink>
                                         </li>
                                         <li>

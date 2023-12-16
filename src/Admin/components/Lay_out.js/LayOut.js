@@ -44,12 +44,12 @@ function Lay_out({ children }) {
                             <ShoppingCartIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Orders</span>
                         </Link></li>
-                        <li><NavLink to="/admin/managecontent">
+                        <li><NavLink to="/admin/inventory">
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <InventoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Inventory</span>
                         </NavLink></li>
-                        <li><NavLink to="/admin/managecontent">
+                        <li><NavLink to="/admin/catlogupload">
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <UploadFileIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Catalog upload</span>
