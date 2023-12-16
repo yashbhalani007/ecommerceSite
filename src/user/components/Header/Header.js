@@ -26,10 +26,6 @@ function Header(props) {
                         <nav>
                             <ul className="secondary-nav g-nav">
                                 <li>
-<<<<<<< HEAD
-                                {/* <NavLink className="cart-anchor" to={"/admin/auth"}>Become Supplier</NavLink> */}
-=======
->>>>>>> 7e288533fdd983c6f5a9604b98f383305a59aa93
                                     <a>My Account
                                         <i className="fas fa-chevron-down u-s-m-l-9" />
                                     </a>
@@ -43,7 +39,7 @@ function Header(props) {
                                         </li>
                                         <li>
                                             <NavLink to={"/wishlist"}>
-                                                <i className="far fa-heart u-s-m-r-9" />
+                                                <i className="far fa-heart u-s-m-r-9" />    
                                                 My Wishlist</NavLink>
                                         </li>
                                         <li>
