@@ -60,8 +60,8 @@ function CategoryForm({ onHandleSubmit }) {
 
     return (
         <React.Fragment>
-            <Button variant="outlined" onClick={handleClickOpen} style={{ marginTop: '75px' }}>
-                Add category
+            <Button variant="outlined" onClick={handleClickOpen} style={{ marginTop: '18px' }}>
+                Add Catelog
             </Button>
             <Dialog open={open} onClose={handleClose} >
                 <DialogTitle>Add Category</DialogTitle>

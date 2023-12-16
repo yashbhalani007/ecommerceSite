@@ -5,9 +5,9 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import CategoryForm from './CategoryForm';
-
-function Category(props) {
+import CategoryForm from '../Category/CategoryForm';
+import { Link, NavLink } from 'react-router-dom';
+function CatUpload(props) {
 
     const [data, setData] = useState([])
 
@@ -86,7 +86,11 @@ function Category(props) {
         <br></br>
         <br></br>
             <div className='contentTop'>
-                <CategoryForm onHandleSubmit={handleFormSubmit} />
+            <Link to ='addcatelog'>
+            <Button variant="contained" style={{ marginTop: '18px' }}>
+                Add Catelog
+            </Button>
+            </Link>
             </div>
             <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
                 <DataGrid
@@ -109,4 +113,4 @@ function Category(props) {
     );
 }
 
-export default Category;
+export default CatUpload;
