@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 // import { addCategoryData, getCategoryData } from '../../../common/api/category.api';
@@ -110,6 +111,20 @@ function CatUpload(props) {
                 />
             </Box>
         </>
+=======
+import React from 'react';
+
+function CatUpload(props) {
+    return (
+        <div>
+            <h1>This is a Proper Category form</h1>
+            <h1>This is a Proper Category form</h1>
+            <h1>This is a Proper Category form</h1>
+            <h1>This is a Proper Category  form</h1>
+            <h1>This is a Proper Category form</h1>
+            
+        </div>
+>>>>>>> eb77c8eb42d34c1cdfd29130635576365a6824c8
     );
 }
 
