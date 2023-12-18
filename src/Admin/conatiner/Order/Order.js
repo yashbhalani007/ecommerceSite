@@ -63,19 +63,19 @@ function Order(props) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Item One" {...a11yProps(0)} />
-            <Tab label="Item Two" {...a11yProps(1)} />
-            <Tab label="Item Three" {...a11yProps(2)} />
+            <Tab label="Pending" {...a11yProps(0)} />
+            <Tab label="Ready to Ship" {...a11yProps(1)} />
+            <Tab label="Shipped" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Item One
+          Pending
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          Ready to Ship
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+         Shipped  
         </CustomTabPanel>
       </Box>
 

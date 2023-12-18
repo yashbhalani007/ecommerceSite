@@ -82,6 +82,9 @@ function Category(props) {
 
     return (
         <>
+
+        <br></br>
+        <br></br>
             <div className='contentTop'>
                 <CategoryForm onHandleSubmit={handleFormSubmit} />
             </div>

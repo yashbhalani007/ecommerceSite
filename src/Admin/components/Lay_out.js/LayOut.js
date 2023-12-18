@@ -39,7 +39,7 @@ function Lay_out({ children }) {
                             <DashboardIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Dashboard</span>
                         </Link></li>
-                        <li><Link to="order">
+                        <li><Link to="/admin/order">
                             {/* <i className="uil uil-estate" /> */}
                             <ShoppingCartIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Orders</span>
