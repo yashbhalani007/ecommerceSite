@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-function CatUpload(props) {
-    return (
-        <div>
-            <h1>This is a Proper Category form</h1>
-            <h1>This is a Proper Category form</h1>
-            <h1>This is a Proper Category form</h1>
-            <h1>This is a Proper Category  form</h1>
-            <h1>This is a Proper Category form</h1>
-            
-        </div>
-=======
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 // import { addCategoryData, getCategoryData } from '../../../common/api/category.api';
@@ -124,7 +110,6 @@ function CatUpload(props) {
                 />
             </Box>
         </>
->>>>>>> adminside_page_keval
     );
 }
 
