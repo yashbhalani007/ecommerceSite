@@ -12,8 +12,9 @@ function AdminRoutes(props) {
     <LayOut>
       <Routes>
           <Route path='/' element={<Dashboard />} />
+          <Route path='inventory' element={<Content />} />
           <Route path='managecontent' element={<Content />} />
-          <Route path='order' element={<Order />} />
+          <Route path='order' element={<Order/>} />
           <Route path='category' element={<Category />} />
       </Routes>
     </LayOut>
