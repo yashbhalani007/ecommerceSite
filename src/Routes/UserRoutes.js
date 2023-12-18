@@ -13,6 +13,13 @@ import Faq from '../user/container/Faq/Faq';
 import StoreDirectory from '../user/container/Store-directory/StoreDirectory';
 import TermAndCondition from '../user/container/TermAndCondition/TermAndCondition';
 import ForgotPassword from '../user/container/ForgotPassword/ForgotPassword';
+import Singlepage from '../user/container/Singlepage/Singlepage';
+import Blog from '../user/container/Blog/Blog';
+import BlogDetails from '../user/container/BlogDetails/BlogDetails';
+import Shop from '../user/container/Shop/Shop';
+import TrackOrder from '../user/container/TrackOrder/TrackOrder';
+import Conformation from '../user/container/Conformation/Conformation';
+import NewArrival from '../user/container/NewArrival/NewArrival';
 
 function UserRoutes(props) {
     return (
@@ -30,6 +37,13 @@ function UserRoutes(props) {
                 <Route path="/storeDirectory" element={<StoreDirectory />} />
                 <Route path="/termAndCondition" element={<TermAndCondition />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/singlepage" element={<Singlepage />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blogdetails" element={<BlogDetails />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/trackorder" element={<TrackOrder />} />
+                <Route path="/conformation" element={<Conformation />} />
+                <Route path="/newarrival" element={<NewArrival />} />
             </Routes>
             <Footer />
         </>

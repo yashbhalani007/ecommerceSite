@@ -46,7 +46,7 @@ function Cart(props) {
                                                     <td>
                                                         <div className="cart-anchor-image">
                                                             <a href="single-product.html">
-                                                                <img src="images/product/product@1x.jpg" alt="Product" />
+                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
                                                                 <h6>Casual Hoodie Full Cotton</h6>
                                                             </a>
                                                         </div>
@@ -76,7 +76,7 @@ function Cart(props) {
                                                     <td>
                                                         <div className="cart-anchor-image">
                                                             <a href="single-product.html">
-                                                                <img src="images/product/product@1x.jpg" alt="Product" />
+                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
                                                                 <h6>Black Rock Dress with High Jewelery Necklace</h6>
                                                             </a>
                                                         </div>
@@ -106,7 +106,7 @@ function Cart(props) {
                                                     <td>
                                                         <div className="cart-anchor-image">
                                                             <a href="single-product.html">
-                                                                <img src="images/product/product@1x.jpg" alt="Product" />
+                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
                                                                 <h6>Xiaomi Note 2 Black Color</h6>
                                                             </a>
                                                         </div>
@@ -136,7 +136,7 @@ function Cart(props) {
                                                     <td>
                                                         <div className="cart-anchor-image">
                                                             <a href="single-product.html">
-                                                                <img src="images/product/product@1x.jpg" alt="Product" />
+                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
                                                                 <h6>Dell Inspiron 15</h6>
                                                             </a>
                                                         </div>

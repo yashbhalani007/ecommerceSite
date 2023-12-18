@@ -39,7 +39,7 @@ function Header(props) {
                                         </li>
                                         <li>
                                             <NavLink to={"/wishlist"}>
-                                                <i className="far fa-heart u-s-m-r-9" />    
+                                                <i className="far fa-heart u-s-m-r-9" />
                                                 My Wishlist</NavLink>
                                         </li>
                                         <li>
@@ -216,7 +216,8 @@ function Header(props) {
                             <div className="mini-action-anchors">
                                 <NavLink className="cart-anchor" to={"/Cart"}>View Cart</NavLink>
                                 {/* <a href="/cart" className="cart-anchor">View Cart</a> */}
-                                <a href="checkout.html" className="checkout-anchor">Checkout</a>
+                                {/* <a href="checkout.html" className="checkout-anchor">Checkout</a> */}
+                                <NavLink className="checkout-anchor" to={"/checkout"}>Checkout</NavLink>
                             </div>
                         </ul>
                     </div>
@@ -227,12 +228,15 @@ function Header(props) {
                     <div className="container">
                         <div className="row align-items-center">
 
-                            <div className="col-lg-9">
+                            <div className="col-lg-9 new">
                                 <ul className="bottom-nav g-nav u-d-none-lg">
                                     <li>
-                                        <a href="custom-deal-page.html">New Arrivals
+                                        {/* <a href="custom-deal-page.html">New Arrivals
                                             <span className="superscript-label-new">NEW</span>
-                                        </a>
+                                        </a> */}
+                                        <NavLink to={"/newarrival"}>New Arrivals
+                                            <span className="superscript-label-new">NEW</span>
+                                        </NavLink>
                                     </li>
                                     <li>
                                         <a href="custom-deal-page.html">Exclusive Deals
@@ -268,54 +272,37 @@ function Header(props) {
                                                 <li>
                                                     <NavLink to={"/termAndCondition"}>Terms &amp; Conditions</NavLink>
                                                 </li>
-                                                <li>
-                                                    <NavLink to={"/"}>404</NavLink>
-                                                </li>
                                                 <li className="menu-title">Single Product Page</li>
                                                 <li>
-                                                    <NavLink to={"/"}>Single Product Fullwidth</NavLink>
+                                                    <NavLink to={"/singlepage"}>Single Product Fullwidth</NavLink>
                                                 </li>
                                                 <li className="menu-title">Blog</li>
                                                 <li>
-                                                    <NavLink to={"/"}>Blog Page</NavLink>
+                                                    <NavLink to={"/blog"}>Blog Page</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Blog Details</NavLink>
+                                                    <NavLink to={"/blogdetails"}>Blog Details</NavLink>
                                                 </li>
                                             </ul>
                                             <ul>
                                                 <li className="menu-title">Ecommerce Pages</li>
                                                 <li>
-                                                    <NavLink to={"/"}>Shop</NavLink>
+                                                    <NavLink to={"/shop"}>Shop</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Cart</NavLink>
+                                                    <NavLink to={"/Cart"}>Cart</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Checkout</NavLink>
+                                                    <NavLink to={"/checkout"}>Checkout</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>My Account</NavLink>
+                                                    <NavLink to={"/auth"}>My Account</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Wishlist</NavLink>
+                                                    <NavLink to={"/wishlist"}>Wishlist</NavLink>
                                                 </li>
                                                 <li>
-                                                    <NavLink to={"/"}>Track your Order</NavLink>
-                                                </li>
-                                                <li className="menu-title">Cart Variations</li>
-                                                <li>
-                                                    <NavLink to={"/"}>Cart Ver 1 Empty</NavLink>
-                                                </li>
-                                                <li>
-                                                    <NavLink to={"/"}>Cart Ver 2 Full</NavLink>
-                                                </li>
-                                                <li className="menu-title">Wishlist Variations</li>
-                                                <li>
-                                                    <NavLink to={"/"}>Wishlist Ver 1 Empty</NavLink>
-                                                </li>
-                                                <li>
-                                                    <NavLink to={"/"}>Wishlist Ver 2 Full</NavLink>
+                                                    <NavLink to={"/trackorder"}>Track your Order</NavLink>
                                                 </li>
                                             </ul>
                                             <ul>
@@ -344,11 +331,11 @@ function Header(props) {
                                                 </li>
                                                 <li className="menu-title">Checkout Variation</li>
                                                 <li>
-                                                    <NavLink to={"/"}>Checkout Confirmation</NavLink>
+                                                    <NavLink to={"/conformation"}>Checkout Confirmation</NavLink>
                                                 </li>
                                                 <li className="menu-title">Custom Deals Page</li>
                                                 <li>
-                                                    <NavLink to={"/"}>Custom Deal Page</NavLink>
+                                                    <NavLink to={"/newarrival"}>Custom Deal Page</NavLink>
                                                 </li>
                                             </ul>
                                         </div>
