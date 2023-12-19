@@ -46,10 +46,96 @@ function a11yProps(index) {
 
 function Order(props) {
   const [value, setValue] = React.useState(0);
+  console.log(value);
+  const [data, setData] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  
+  const handleFormSubmit = (data) => {
+    // addCategoryData(data)
+}
+
+const handleEdit = (value) => {
+
+}
+
+const handleDelete = (value) => {
+    console.log(value);
+}
+
+const handleCustomTabPannel = () =>{
+    
+  return (
+      <> 
+    <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
+    <DataGrid
+        rows={data}
+        columns={ [
+            {
+                field: 'category',
+                headerName: 'Category Name',
+                width: 150,
+                editable: true,
+            },
+            {
+                field: 'description',
+                headerName: 'Description',
+                width: 300,
+                editable: true,
+            },
+            {
+                field: 'artical',
+                headerName: 'Artical',
+                type: 'number',
+                width: 110,
+                editable: true,
+            },
+            {
+                field: 'icon',
+                headerName: 'Icon',
+                type: 'file',
+                width: 110,
+                editable: true,
+            },
+            {
+                field: 'poster',
+                headerName: 'Poster',
+                type: 'file',
+                width: 110,
+                editable: true,
+            },
+            {
+                field: 'action',
+                headerName: 'Action',
+                renderCell: (params) => (
+                    <strong>
+                        <EditIcon id='editico' style={{ color: 'blue' }} onCellClick={(e) => handleEdit(e.row)} />
+                        <DeleteIcon id='deleteico' style={{ color: 'red' }} onClick={(e) => handleDelete(e.data)} />
+                    </strong>
+                )
+            }
+    
+        ]}
+        // onCellClick={(e) => handleData(e)}
+        initialState={{
+            pagination: {
+                paginationModel: {
+                    pageSize: 5,
+                },
+            },
+        }}
+        pageSizeOptions={[5]}
+        checkboxSelection
+        disableRowSelectionOnClick
+    />
+</Box>
+
+</>
+)
+} 
 
   return (
     <>
@@ -63,23 +149,29 @@ function Order(props) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Pending" {...a11yProps(0)} />
+            <Tab label="Pending Order" {...a11yProps(0)} />
             <Tab label="Ready to Ship" {...a11yProps(1)} />
-            <Tab label="Shipped" {...a11yProps(2)} />
+            <Tab label="Shipeed" {...a11yProps(2)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Pending
+        {handleCustomTabPannel()}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Ready to Ship
+        {handleCustomTabPannel()}
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-         Shipped  
+        {handleCustomTabPannel()}
         </CustomTabPanel>
       </Box>
 
+
+
+      
+    
+
       <div className="contentTop col-4"></div>
+     
     </>
   );
 }
