@@ -25,8 +25,6 @@
 //                 const errorMessage = error.message;
 //                 // ..
 //             });
-//         const dispatch = useDispatch()
-//         dispatch({ type: SIGNUP_REQUEST, payload: data })
 
 //         return data
 //     }

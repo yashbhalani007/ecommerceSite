@@ -5,19 +5,33 @@ import AdminRoutes from './Routes/AdminRoutes';
 import AdminAuth from './Admin/conatiner/AdminAuth/AdminAuth';
 import Register from './Admin/conatiner/AdminAuth/Register';
 import { Provider } from 'react-redux';
-import { store } from './redux/Store';
+import { persistor, store } from './redux/Store';
+import { SnackbarProvider } from 'notistack';
+import { PersistGate } from 'redux-persist/integration/react';
+import Alert from './Admin/conatiner/Alert/Alert';
 
 function App() {
   return (
     <>
-      <Provider store={store}>
-        <Routes>
-          <Route path="/*" element={<UserRoutes />} />
-          <Route path='/admin/*' element={<AdminRoutes />} />
-          <Route path='/adminauth' element={<AdminAuth />} />
-          <Route path='/supplierregister' element={<Register />} />
-        </Routes>
-      </Provider>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        autoHideDuration={3000}
+      >
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <Routes>
+              <Route path="/*" element={<UserRoutes />} />
+              <Route path='/admin/*' element={<AdminRoutes />} />
+              <Route path='/admin/login' element={<AdminAuth />} />
+              <Route path='/admin/register' element={<Register />} />
+            </Routes>
+            <Alert />
+          </PersistGate>
+        </Provider>
+      </SnackbarProvider>
     </>
   );
 }
