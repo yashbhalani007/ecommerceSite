@@ -3625,3 +3625,16 @@ body {
   margin: 150px auto;
 
 }
+
+
+.align-items-center {
+  -ms-flex-align: center!important;
+  align-items: center!important;
+  display: flex!important;;
+  justify-content: center!important;;
+}
+
+.new {
+  display: flex!important;;
+  justify-content: center!important;;
+}
