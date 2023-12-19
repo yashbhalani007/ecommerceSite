@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { adminLogin, adminSignup } from '../../../redux/slice/adminauth.slice';
+import { useDispatch } from 'react-redux';
+import { handleSignup } from '../../../redux/action/adminauth.action';
 
 function Register(props) {
     const [step, setStep] = useState(1)
+    const dispatch = useDispatch()
 
     const initialValues = {
         full_name: '',
@@ -42,7 +46,7 @@ function Register(props) {
                             initialValues={initialValues}
                             validationSchema={validationSchema}
                             onSubmit={(values, actions) => {
-                                console.log(values);
+                                dispatch(handleSignup(values))
                                 setTimeout(() => {
                                     alert("Form submitted successfully");
                                     actions.setSubmitting(false);
@@ -67,28 +71,28 @@ function Register(props) {
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="text" id="user-name-fname" name='full_name' className="text-field" placeholder="Full Name" />
-                                                <ErrorMessage name="full_name" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="full_name" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="user-name-email">Email
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="email" id="user-name-email" name='email' className="text-field" placeholder="Email" />
-                                                <ErrorMessage name="email" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="email" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="user-name-mobilenumber">Mobile Number
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="text" id="user-name-mobilenumber" name='mobile_number' className="text-field" placeholder="Mobile Number" />
-                                                <ErrorMessage name="mobile_number" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="mobile_number" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="login-password">Password
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="password" id="login-password" name='password' className="text-field" placeholder="Password" />
-                                                <ErrorMessage name="password" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
                                             </div>
                                         </>
                                     }
@@ -100,28 +104,28 @@ function Register(props) {
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="text" id="user-name-storename" name='store_name' className="text-field" placeholder="Store Name" />
-                                                <ErrorMessage name="store_name" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="store_name" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="user-name-gstnumber">GST No.
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="text" id="user-name-gstnumber" name='gst_number' className="text-field" placeholder="GST Number" />
-                                                <ErrorMessage name="gst_number" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="gst_number" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="user-name-pickup">Pickup Address
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field as="textarea" id="user-name-pickup" name='pickup' className="text-field" placeholder="Pickup Address" style={{ paddingTop: '10px', height: '100px' }} />
-                                                <ErrorMessage name="pickup" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="pickup" component="div" style={{ color: 'red' }} />
                                             </div>
                                             <div className="u-s-m-b-30">
                                                 <label htmlFor="user-name-pincode">Pincode
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <Field type="text" id="user-name-pincode" name='pincode' className="text-field" placeholder="Pincode" />
-                                                <ErrorMessage name="pincode" component="div" style={{color: 'red'}}/>
+                                                <ErrorMessage name="pincode" component="div" style={{ color: 'red' }} />
                                             </div>
                                         </>
                                     }

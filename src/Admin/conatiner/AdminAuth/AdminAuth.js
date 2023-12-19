@@ -1,10 +1,21 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { forgotPassword, loginRequest, loginResponse } from '../../../redux/action/adminauth.action';
 
 function AdminAuth(props) {
     const [formName, setFormName] = useState('login')
+    const dispatch = useDispatch()
+
+    const handleLogin = (data) => {
+        dispatch(loginRequest(data))
+    }
+
+    const handleForgot = (data) => {
+        dispatch(forgotPassword(data))
+    }
 
     let initialValues, authObj;
     if (formName === 'login') {
@@ -36,8 +47,12 @@ function AdminAuth(props) {
     const formikObj = useFormik({
         initialValues,
         onSubmit: values => {
-            console.log(values);
-            alert(values.email, values.password)
+            // alert(values.email, values.password)
+            if (formName === 'login') {
+                handleLogin(values)
+            } else if (formName === 'forgot') {
+                handleForgot(values)
+            }
         },
         enableReinitialize: true,
         validationSchema: authSchema
@@ -92,7 +107,7 @@ function AdminAuth(props) {
                                     <div className="group-inline u-s-m-b-30">
                                         <div className="group-1">
                                             <div className="page-anchor">
-                                                <Link to='/supplierregister'>
+                                                <Link to='/admin/register'>
                                                     <i className="fas fa-circle-o-notch u-s-m-r-9" />Create supplier account?</Link>
                                             </div>
                                         </div>
@@ -106,7 +121,7 @@ function AdminAuth(props) {
                             }
                             <div className="m-b-45">
                                 {formName === 'login' ?
-                                    <button className="button button-outline-secondary w-100">Login</button> :
+                                    <button className="button button-outline-secondary w-100" type='submit'>Login</button> :
                                     <div className="page-anchor">
                                         <button className="button button-outline-secondary" type='submit'>Get Reset Link</button>
                                         <a onClick={() => setFormName('login')}>
