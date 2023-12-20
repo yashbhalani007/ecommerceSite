@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import { forgotPassword, loginRequest, loginResponse } from '../../../redux/action/adminauth.action';
 
-function AdminAuth(props) {
+function    AdminAuth(props) {
     const [formName, setFormName] = useState('login')
     const dispatch = useDispatch()
 
@@ -107,13 +107,13 @@ function AdminAuth(props) {
                                     <div className="group-inline u-s-m-b-30">
                                         <div className="group-1">
                                             <div className="page-anchor">
-                                                <Link to='/admin/register'>
+                                                <Link to='/admin/register' className='anchor'>
                                                     <i className="fas fa-circle-o-notch u-s-m-r-9" />Create supplier account?</Link>
                                             </div>
                                         </div>
                                         <div className="group-2 text-right">
                                             <div className="page-anchor">
-                                                <a onClick={() => setFormName('forgot')}>
+                                                <a onClick={() => setFormName('forgot')} className='anchor'>
                                                     <i className="fas fa-circle-o-notch u-s-m-r-9" />Lost your password?</a>
                                             </div>
                                         </div>
