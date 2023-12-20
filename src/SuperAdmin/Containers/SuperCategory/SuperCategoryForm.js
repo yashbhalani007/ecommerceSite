@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-function SuperCategoryForm( onHandleSubmit ) {
+function SuperCategoryForm(onHandleSubmit) {
     const [open, setOpen] = React.useState(false);
 
     // useEffect(() => {
@@ -32,20 +32,24 @@ function SuperCategoryForm( onHandleSubmit ) {
             .string('Please enter valid name')
             .max(12)
             .required('Please enter title'),
-        description: yup
+            type1: yup
             .string()
-            .min(200, 'Minimum 200 characters required')
-            .max(1000, 'Minimum 1000 characters required')
-            .required('Please enter description')
+            .required('Please enter type'),
+            type2: yup
+            .string()
+            .required('Please enter type'),
+            type3: yup
+            .string()
+            .required('Please enter type'),
     });
 
     const formik = useFormik({
         initialValues: {
             category: '',
-            description: '',
-            poster: '',
-            icon: '',
-            Articles: 0
+            type1: '',
+            type2: '',
+            type3: '',
+
         },
         validationSchema: categorySchema,
         onSubmit: (values, action) => {
@@ -82,16 +86,41 @@ function SuperCategoryForm( onHandleSubmit ) {
 
                         <TextField
                             margin="dense"
-                            id="description"
-                            label="Description"
+                            id="type1"
+                            label="type-1"
                             type="text"
                             fullWidth
                             variant="standard"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.description}
+                            value={values.type1}
                         />
-                        <p className='error'>{errors.description && touched.description ? errors.description : ''}</p>
+                        <p className='error'>{errors.type1 && touched.type1 ? errors.type1 : ''}</p>
+                        <TextField
+                            margin="dense"
+                            id="type2"
+                            label="type-2"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.type2}
+                        />
+                        <p className='error'>{errors.type2 && touched.type2 ? errors.type2 : ''}</p>
+                        
+                        <TextField
+                            margin="dense"
+                            id="type3"
+                            label="type-3"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.type3}
+                        />
+                        <p className='error'>{errors.type3 && touched.type3 ? errors.type3 : ''}</p>
 
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
