@@ -13,10 +13,17 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { useDispatch } from 'react-redux';
+import { logoutRequest } from '../../../redux/action/adminauth.action';
 
 function Lay_out({ children }) {
-
     let [toggle, setToogle] = useState(true);
+    const dispatch = useDispatch()
+
+    const handleLogout = () => {
+        dispatch(logoutRequest())
+        console.log('logout');
+    }
 
     const handleToggleSwitch = () => {
         setToogle(!toggle)
@@ -81,7 +88,7 @@ function Lay_out({ children }) {
                         </NavLink></li>
                     </ul>
                     <ul className="logout-mode">
-                        <li><a href="#">
+                        <li><a onClick={() => handleLogout()}>
                             {/* <i className="uil uil-signout" /> */}
                             <ExitToAppIcon style={{marginRight: '10px', fontSize: '26px',color: '#707070'}}/>
                             <span className="link-name">Logout</span>
