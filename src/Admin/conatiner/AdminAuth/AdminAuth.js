@@ -11,16 +11,12 @@ function AdminAuth(props) {
     const navigate = useNavigate()
 
     const handleLogin = (data) => {
-<<<<<<< HEAD
-        dispatch(userLoginRequest(data))
-=======
         dispatch(loginRequest({
             data: data,
             callback : (route) => {
                 navigate(route)
             }
         }))
->>>>>>> dff95d269f80cbf8db0c3bb3f5cd2f5f0c874764
     }
 
     const handleForgot = (data) => {
