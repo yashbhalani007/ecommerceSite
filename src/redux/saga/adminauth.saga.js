@@ -1,7 +1,7 @@
 
 import { forgotAPI, loginAPI, signupAPI } from "../../Admin/conatiner/common/adminauth.api";
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { FORGOT_PASSWORD, LOGIN_REQUEST, SIGNUP_REQUEST } from "../Actiontype";
+import { FORGOT_PASSWORD, LOGIN_REQUEST, SIGNUP_REQUEST, USERLOGIN_REQUEST } from "../Actiontype";
 import { authError, loginResponse, signupResponse } from "../action/adminauth.action";
 import { setAlert } from "../slice/alert.slice";
 import { collection, addDoc } from "firebase/firestore";
@@ -41,6 +41,17 @@ function* adminLogin(action) {
     }
 }
 
+function* userAdminLogin(action){
+    try {
+        const user = yield call(loginAPI, action.payload)
+        yield put(loginResponse(user.user))
+        yield put(setAlert({ text: user.message, color: 'success' }))
+    } catch (error) {
+        yield put(authError(error.message))
+        yield put(setAlert({ text: error.message, color: 'error' }))
+    }
+}
+
 function* forgotPass(action) {
     try {
         console.log(action.payload);
@@ -61,10 +72,14 @@ function* watchLogin() {
     yield takeEvery(LOGIN_REQUEST, adminLogin)
 }
 
+function* watchUserLogin() {
+    yield takeEvery(USERLOGIN_REQUEST, userAdminLogin)
+}
+
 function* watchForgot() {
     yield takeEvery(FORGOT_PASSWORD, forgotPass)
 }
 
 export default function* adminAuthSaga() {
-    yield all([watchSignup(), watchLogin(), watchForgot()])
+    yield all([watchSignup(), watchLogin(), watchForgot(),watchUserLogin()])
 }

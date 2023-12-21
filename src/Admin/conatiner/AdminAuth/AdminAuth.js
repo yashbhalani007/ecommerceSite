@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
-import { forgotPassword, loginRequest, loginResponse } from '../../../redux/action/adminauth.action';
+import { forgotPassword, loginRequest, loginResponse, userLoginRequest } from '../../../redux/action/adminauth.action';
 
 function    AdminAuth(props) {
     const [formName, setFormName] = useState('login')
     const dispatch = useDispatch()
 
     const handleLogin = (data) => {
-        dispatch(loginRequest(data))
+        dispatch(userLoginRequest(data))
     }
 
     const handleForgot = (data) => {

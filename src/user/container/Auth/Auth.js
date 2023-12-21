@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { forgotPassword, handleSignup, userLoginRequest } from "../../../redux/action/adminauth.action";
 
 
 function Auth(props) {
@@ -10,16 +11,16 @@ function Auth(props) {
   const dispatch = useDispatch();
   console.log(formName);
 
-  const handleSingup = () => {
-
+  const handleSign = (values) => {
+    dispatch(handleSignup(values))
   }
 
-  const handleLogin = () => {
-
+  const handleLogged = (values) => {
+    dispatch(userLoginRequest(values))
   }
 
-  const handlefPassword = () => {
-
+  const handlefPassw = (data) => {
+    dispatch(forgotPassword(data))
   }
 
 
@@ -38,7 +39,6 @@ function Auth(props) {
   } else if (formName === "sign-up") {
     authobj = {
       email: yup.string().email('Please Enter a Valid Email').required('Please Enter a Email'),
-      phone: yup.string().required(),
       name: yup.string().required('Please Enter a Valid Name'),
       password :yup.string().required('Please Enter a Valid Password')
     };
@@ -76,12 +76,14 @@ function Auth(props) {
     enableReinitialize: true,
     onSubmit: (values, action) => {
 
-      if(formName=== "signUp"){
-        handleSingup(values);
+      if(formName === "sign-up"){
+        console.log('kkkk');
+        handleSign(values);
       }else if(formName === "login"){
-        handleLogin(values);
+        console.log('kkkkkkk');
+        handleLogged(values);
       }else if(formName === "fpassword"){
-        handlefPassword(values);
+        handlefPassw(values);
       }
       console.log(values);
       action.resetForm();

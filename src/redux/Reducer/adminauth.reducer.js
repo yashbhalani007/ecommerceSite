@@ -1,4 +1,4 @@
-import { AUTH_ERROR, LOGIN_REQUEST, LOGIN_RESPONSE, SIGNUP_REQUEST, SIGNUP_RESPONSE } from "../Actiontype"
+ import { AUTH_ERROR, LOGIN_REQUEST, LOGIN_RESPONSE, SIGNUP_REQUEST, SIGNUP_RESPONSE, USERLOGIN_REQUEST } from "../Actiontype"
 
 const initialState = {
     isLoading: false,
@@ -22,6 +22,9 @@ export const adminAuthReducer = (state = initialState, action) => {
                 adminAuth: [],
                 errorMessage: action.payload
             }
+
+        case USERLOGIN_REQUEST:
+            return state;
 
         case LOGIN_REQUEST:
             return state
