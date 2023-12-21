@@ -115,6 +115,32 @@ body {
   color: #707070;
   font-family: "Open Sans", sans-serif; }
 
+  /* .formsignup{
+    display: flex;
+    text-align: center;
+    margin-left: 4.0rem;
+  } */
+
+  .error-handle{
+    color: red;
+  }
+
+  
+
+  .fpass{
+    display: block;
+  }
+
+  .formsignupone{
+    display: flex;
+    text-align: center;
+  }
+
+
+  .login{
+    margin-right: 2.0rem;
+  }
+
 /*--------------------------------------------------------------
 3.0 Pre-configured styles
 --------------------------------------------------------------*/
