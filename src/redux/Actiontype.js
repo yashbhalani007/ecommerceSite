@@ -6,6 +6,15 @@ export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_RESPONSE = "LOGIN_RESPONSE";
 export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
+<<<<<<< HEAD
 export const USERLOGIN_REQUEST = 'USERLOGIN_REQUEST';
+=======
+export const LOGOUT_ACCOUNT = "LOGOUT_ACCOUNT"
+export const LOGOUT_RESPONSE = "LOGOUT_RESPONSE"
+
+
+// export const ADMIN_LOGIN_SUCCESS = "ADMIN_LOGIN_SUCCESS";
+
+>>>>>>> dff95d269f80cbf8db0c3bb3f5cd2f5f0c874764
 
 

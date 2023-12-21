@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
@@ -168,6 +168,22 @@ export const forgotAPI = (data) => {
                     }
                     console.log(errorCode, errorMessage);
                 });
+        })
+    } catch (error) {
+
+    }
+}
+
+export const logoutAPI = () => {
+    try {
+        return new Promise((resolve, reject) => {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                resolve({ message: "Logout successful!" })
+            }).catch((error) => {
+                // An error happened.
+                resolve({ message: error.message })
+            });
         })
     } catch (error) {
 

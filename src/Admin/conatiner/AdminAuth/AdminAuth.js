@@ -1,16 +1,26 @@
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { forgotPassword, loginRequest, loginResponse, userLoginRequest } from '../../../redux/action/adminauth.action';
 
-function    AdminAuth(props) {
+function AdminAuth(props) {
     const [formName, setFormName] = useState('login')
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleLogin = (data) => {
+<<<<<<< HEAD
         dispatch(userLoginRequest(data))
+=======
+        dispatch(loginRequest({
+            data: data,
+            callback : (route) => {
+                navigate(route)
+            }
+        }))
+>>>>>>> dff95d269f80cbf8db0c3bb3f5cd2f5f0c874764
     }
 
     const handleForgot = (data) => {

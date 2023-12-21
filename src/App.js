@@ -30,10 +30,8 @@ function App() {
               <Route element={<PrivateRoutes />} >
                 <Route path='/admin/*' element={<AdminRoutes />} />
               </Route>
-
-              <Route path='/admin/login' element={<AdminAuth />} />
-              <Route path='/admin/register' element={<Register />} />
-
+              <Route exact path='/admin/panel/login' element={<AdminAuth />} />
+              <Route exact path='/admin/panel/register' element={<Register />} />
               <Route path='/super/*' element={<SuperAdminRoutes />} />
             </Routes>
             <Alert />
