@@ -59,8 +59,6 @@ export const loginAPI = (data) => {
                         if (user.email === v.email && user.emailVerified) {
                             if (v.type === 'supplier') {
                                 resolve({ message: 'Signed in successfully', user: user })
-                            }else {
-                                resolve({message : 'Signed in Succesfiully', user : user})
                             }
                         } else {
                             reject({ message: 'Email is not verified'  })
@@ -94,58 +92,58 @@ export const loginAPI = (data) => {
     }
 }
 
-// export const loginAPI = (data) => {
-//     console.log(data);
-//     try {
-//         return new Promise((resolve, reject) => {
-//             signInWithEmailAndPassword(auth, data.email, data.password)
-//                 .then(async (userCredential) => {
-//                     // Signed in 
-//                     const user = userCredential.user;
+export const userloginAPI = (data) => {
+    console.log(data);
+    try {
+        return new Promise((resolve, reject) => {
+            signInWithEmailAndPassword(auth, data.email, data.password)
+                .then(async (userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
 
-//                     let data = []
-//                     const querySnapshot = await getDocs(collection(db, "users"));
-//                     querySnapshot.forEach((doc) => {
-//                         console.log(`${doc.id} => ${doc.data()}`);
-//                         data.push({ ...doc.data() })
-//                     });
+                    let data = []
+                    const querySnapshot = await getDocs(collection(db, "users"));
+                    querySnapshot.forEach((doc) => {
+                        console.log(`${doc.id} => ${doc.data()}`);
+                        data.push({ ...doc.data() })
+                    });
 
-//                     data.map((v) => {
-//                         if (user.email === v.email && user.emailVerified) {
-//                             if (v.type === 'supplier') {
-//                                 resolve({ message: 'Signed in successfully', user: user })
-//                             }
-//                         } else {
-//                             reject({ message: 'Email is not verified' })
-//                         }
-//                     })
+                    data.map((v) => {
+                        if (user.email === v.email && user.emailVerified) {
+                            if (v.type === 'consumer') {
+                                resolve({ message: 'Signed in successfully', user: user })
+                            }
+                        } else {
+                            reject({ message: 'Email is not verified' })
+                        }
+                    })
 
 
-//                     // if (user.emailVerified) {
-//                     //     console.log(user);
-//                     //     resolve({ message: 'Signed in successfully', user: user })
+                    // if (user.emailVerified) {
+                    //     console.log(user);
+                    //     resolve({ message: 'Signed in successfully', user: user })
 
-//                     // } else {
-//                     //     reject({ message: 'Email is not verified' })
-//                     // }
-//                     // ...
-//                 })
-//                 .catch((error) => {
-//                     const errorCode = error.code;
-//                     const errorMessage = error.message;
+                    // } else {
+                    //     reject({ message: 'Email is not verified' })
+                    // }
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
 
-//                     if (errorCode.localeCompare('auth/invalid-login-credentials') === 0) {
-//                         reject({ message: 'Invalid username/password*' })
-//                     } else if (errorCode.localeCompare('auth/invalid-credential') === 0) {
-//                         reject({ message: 'Invalid username/password*' })
-//                     }
-//                 });
-//         })
+                    if (errorCode.localeCompare('auth/invalid-login-credentials') === 0) {
+                        reject({ message: 'Invalid username/password*' })
+                    } else if (errorCode.localeCompare('auth/invalid-credential') === 0) {
+                        reject({ message: 'Invalid username/password*' })
+                    }
+                });
+        })
 
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export const forgotAPI = (data) => {
     try {

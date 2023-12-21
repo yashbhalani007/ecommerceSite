@@ -1,7 +1,7 @@
 
-import { forgotAPI, loginAPI, logoutAPI, signupAPI } from "../../Admin/conatiner/common/adminauth.api";
+import { forgotAPI, loginAPI, logoutAPI, signupAPI, userloginAPI } from "../../Admin/conatiner/common/adminauth.api";
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { ADMIN_LOGIN_SUCCESS, FORGOT_PASSWORD, LOGIN_REQUEST, LOGOUT_ACCOUNT, SIGNUP_REQUEST } from "../Actiontype";
+import { ADMIN_LOGIN_SUCCESS, FORGOT_PASSWORD, LOGIN_REQUEST, LOGOUT_ACCOUNT, SIGNUP_REQUEST, USERLOGIN_REQUEST } from "../Actiontype";
 import { authError, loginResponse, logoutResponse, signupResponse } from "../action/adminauth.action";
 import { setAlert } from "../slice/alert.slice";
 import { collection, addDoc } from "firebase/firestore";
@@ -43,7 +43,7 @@ function* adminLogin(action) {
 
 function* userAdminLogin(action){
     try {
-        const user = yield call(loginAPI, action.payload)
+        const user = yield call(userloginAPI, action.payload)
         yield put(loginResponse(user.user))
         yield put(setAlert({ text: user.message, color: 'success' }))
     } catch (error) {
