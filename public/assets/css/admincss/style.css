@@ -535,3 +535,11 @@ nav.close~.dashboard .top {
     color: red;
     font-size: 14px;
 }
+
+.anchor {
+    color: #697c94;
+}
+
+.anchor:hover {
+    color: #d90429;
+}

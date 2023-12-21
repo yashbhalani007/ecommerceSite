@@ -7,8 +7,10 @@ import Register from './Admin/conatiner/AdminAuth/Register';
 import { Provider } from 'react-redux';
 import { persistor, store } from './redux/Store';
 import { SnackbarProvider } from 'notistack';
-import { PersistGate } from 'redux-persist/integration/react';
 import Alert from './Admin/conatiner/Alert/Alert';
+import { PersistGate } from 'redux-persist/integration/react';
+import SuperAdminRoutes from './Routes/SuperAdminRoutes';
+import PrivateRoutes from './Routes/PrivateRoutes';
 
 function App() {
   return (
@@ -24,9 +26,15 @@ function App() {
           <PersistGate loading={null} persistor={persistor}>
             <Routes>
               <Route path="/*" element={<UserRoutes />} />
-              <Route path='/admin/*' element={<AdminRoutes />} />
+
+              <Route element={<PrivateRoutes />} >
+                <Route path='/admin/*' element={<AdminRoutes />} />
+              </Route>
+
               <Route path='/admin/login' element={<AdminAuth />} />
               <Route path='/admin/register' element={<Register />} />
+
+              <Route path='/super/*' element={<SuperAdminRoutes />} />
             </Routes>
             <Alert />
           </PersistGate>
