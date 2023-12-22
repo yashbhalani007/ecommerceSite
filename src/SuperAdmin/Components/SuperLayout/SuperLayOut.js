@@ -44,6 +44,16 @@ function SuperLayOut({ children }) {
                             <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Category</span>
                         </NavLink></li>
+                        <li><NavLink to="/super/supplier">
+                            {/* <i className="uil uil-files-landscapes" /> */}
+                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <span className="link-name">Supplier</span>
+                        </NavLink></li>
+                        <li><NavLink to="/super/consumer">
+                            {/* <i className="uil uil-files-landscapes" /> */}
+                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <span className="link-name">Consumer</span>
+                        </NavLink></li>
                         <li><NavLink to="#">
                             {/* <i className="uil uil-chart" /> */}
                             <AnalyticsIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
