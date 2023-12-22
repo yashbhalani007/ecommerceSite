@@ -1,5 +1,6 @@
 import { type } from "@testing-library/user-event/dist/type"
 import { AUTH_ERROR, FORGOT_PASSWORD, LOGIN_REQUEST, LOGIN_RESPONSE, LOGOUT_ACCOUNT, LOGOUT_RESPONSE,USERLOGIN_REQUEST, SIGNUP_REQUEST, SIGNUP_RESPONSE } from "../Actiontype"
+import { addUsersData } from "../slice/user.slice"
 
 export const handleSignup = (data) => (dispatch) => {
     dispatch({type: SIGNUP_REQUEST, payload: data})
@@ -7,6 +8,10 @@ export const handleSignup = (data) => (dispatch) => {
 
 export const signupResponse = (data) => (dispatch) => {
     dispatch({type: SIGNUP_RESPONSE, payload: data})
+}
+
+export const addSignupResponse = (data) => (dispatch) => {
+    dispatch(addUsersData(data))
 }
 
 export const authError = (data) => (dispatch) => {
