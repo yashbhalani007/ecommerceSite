@@ -10,6 +10,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import PeopleIcon from '@mui/icons-material/People';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -46,12 +48,12 @@ function SuperLayOut({ children }) {
                         </NavLink></li>
                         <li><NavLink to="/super/supplier">
                             {/* <i className="uil uil-files-landscapes" /> */}
-                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <SupervisedUserCircleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Supplier</span>
                         </NavLink></li>
                         <li><NavLink to="/super/consumer">
                             {/* <i className="uil uil-files-landscapes" /> */}
-                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <PeopleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Consumer</span>
                         </NavLink></li>
                         <li><NavLink to="#">
