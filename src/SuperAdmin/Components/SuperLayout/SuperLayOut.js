@@ -41,11 +41,6 @@ function SuperLayOut({ children }) {
                             <DashboardIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Dashboard</span>
                         </Link></li>
-                        <li><NavLink to="/super/supercategory">
-                            {/* <i className="uil uil-files-landscapes" /> */}
-                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Category</span>
-                        </NavLink></li>
                         <li><NavLink to="/super/supplier">
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <SupervisedUserCircleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
@@ -55,6 +50,11 @@ function SuperLayOut({ children }) {
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <PeopleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Consumer</span>
+                        </NavLink></li>
+                        <li><NavLink to="/super/supercategory">
+                            {/* <i className="uil uil-files-landscapes" /> */}
+                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <span className="link-name">Category</span>
                         </NavLink></li>
                         <li><NavLink to="#">
                             {/* <i className="uil uil-chart" /> */}
