@@ -13,17 +13,10 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import { useDispatch } from 'react-redux';
-import { logoutRequest } from '../../../redux/action/adminauth.action';
 
-function Lay_out({ children }) {
+function SuperLayOut({ children }) {
+
     let [toggle, setToogle] = useState(true);
-    const dispatch = useDispatch()
-
-    const handleLogout = () => {
-        dispatch(logoutRequest())
-        console.log('logout');
-    }
 
     const handleToggleSwitch = () => {
         setToogle(!toggle)
@@ -41,27 +34,12 @@ function Lay_out({ children }) {
                 </div>
                 <div className="menu-items">
                     <ul className="nav-links">
-                        <li><Link to="/admin/">
+                        <li><Link to="/super/">
                             {/* <i className="uil uil-estate" /> */}
                             <DashboardIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Dashboard</span>
                         </Link></li>
-                        <li><Link to="/admin/order">
-                            {/* <i className="uil uil-estate" /> */}
-                            <ShoppingCartIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Orders</span>
-                        </Link></li>
-                        <li><NavLink to="/admin/inventory">
-                            {/* <i className="uil uil-files-landscapes" /> */}
-                            <InventoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Inventory</span>
-                        </NavLink></li>
-                        <li><NavLink to="/admin/catlogupload">
-                            {/* <i className="uil uil-files-landscapes" /> */}
-                            <UploadFileIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Catalog upload</span>
-                        </NavLink></li>
-                        <li><NavLink to="/admin/category">
+                        <li><NavLink to="/super/supercategory">
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Category</span>
@@ -88,7 +66,7 @@ function Lay_out({ children }) {
                         </NavLink></li>
                     </ul>
                     <ul className="logout-mode">
-                        <li><a onClick={() => handleLogout()}>
+                        <li><a href="#">
                             {/* <i className="uil uil-signout" /> */}
                             <ExitToAppIcon style={{marginRight: '10px', fontSize: '26px',color: '#707070'}}/>
                             <span className="link-name">Logout</span>
@@ -122,4 +100,4 @@ function Lay_out({ children }) {
     );
 }
 
-export default Lay_out;
+export default SuperLayOut;

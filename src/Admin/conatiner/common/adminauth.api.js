@@ -1,5 +1,7 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase";
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth, db } from "../../../firebase";
+import { collection, getDocs } from "firebase/firestore";
+
 
 export const signupAPI = (data) => {
     try {
@@ -38,19 +40,92 @@ export const signupAPI = (data) => {
 }
 
 export const loginAPI = (data) => {
+    console.log(data);
     try {
-        console.log(data);
         return new Promise((resolve, reject) => {
             signInWithEmailAndPassword(auth, data.email, data.password)
-                .then((userCredential) => {
+                .then(async (userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
 
-                    if (user.emailVerified) {
-                        resolve({ message: 'Signed in successfully', user: user })
-                    } else {
-                        reject({ message: 'Email is not verified' })
+                    let data = []
+                    const querySnapshot = await getDocs(collection(db, "users"));
+                    querySnapshot.forEach((doc) => {
+                        console.log(`${doc.id} => ${doc.data()}`);
+                        data.push({ ...doc.data() })
+                    });
+
+                    data.map((v) => {
+                        if (user.email === v.email && user.emailVerified) {
+                            if (v.type === 'supplier') {
+                                resolve({ message: 'Signed in successfully', user: user })
+                            }
+                        } else {
+                            reject({ message: 'Email is not verified'  })
+                        }
+                    })
+
+
+                    // if (user.emailVerified) {
+                    //     console.log(user);
+                    //     resolve({ message: 'Signed in successfully', user: user })
+
+                    // } else {
+                    //     reject({ message: 'Email is not verified' })
+                    // }
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    if (errorCode.localeCompare('auth/invalid-login-credentials') === 0) {
+                        reject({ message: 'Invalid username/password*' })
+                    } else if (errorCode.localeCompare('auth/invalid-credential') === 0) {
+                        reject({ message: 'Invalid username/password*' })
                     }
+                });
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const userloginAPI = (data) => {
+    console.log(data);
+    try {
+        return new Promise((resolve, reject) => {
+            signInWithEmailAndPassword(auth, data.email, data.password)
+                .then(async (userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+
+                    let data = []
+                    const querySnapshot = await getDocs(collection(db, "users"));
+                    querySnapshot.forEach((doc) => {
+                        console.log(`${doc.id} => ${doc.data()}`);
+                        data.push({ ...doc.data() })
+                    });
+
+                    data.map((v) => {
+                        if (user.email === v.email && user.emailVerified) {
+                            if (v.type === 'consumer') {
+                                resolve({ message: 'Signed in successfully', user: user })
+                            }
+                        } else {
+                            reject({ message: 'Email is not verified' })
+                        }
+                    })
+
+
+                    // if (user.emailVerified) {
+                    //     console.log(user);
+                    //     resolve({ message: 'Signed in successfully', user: user })
+
+                    // } else {
+                    //     reject({ message: 'Email is not verified' })
+                    // }
                     // ...
                 })
                 .catch((error) => {
@@ -91,6 +166,22 @@ export const forgotAPI = (data) => {
                     }
                     console.log(errorCode, errorMessage);
                 });
+        })
+    } catch (error) {
+
+    }
+}
+
+export const logoutAPI = () => {
+    try {
+        return new Promise((resolve, reject) => {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                resolve({ message: "Logout successful!" })
+            }).catch((error) => {
+                // An error happened.
+                resolve({ message: error.message })
+            });
         })
     } catch (error) {
 

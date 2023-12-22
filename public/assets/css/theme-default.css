@@ -578,7 +578,8 @@ html[dir=rtl] .border-primary {
 }
 
 a {
-  color: #696cff;
+  /* color: #696cff; */
+  color: #292929;
 }
 a:hover {
   color: #787bff;
