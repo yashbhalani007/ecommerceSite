@@ -1385,3 +1385,9 @@ footer {
     color: #708ab0;
     font-size: 18px;
 }
+
+#searchB {
+    width: 50%;
+    height: 12px !important;
+    align-items: center;
+}

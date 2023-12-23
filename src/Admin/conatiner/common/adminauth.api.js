@@ -57,7 +57,7 @@ export const loginAPI = async (data) => {
 
                     data.map((v) => {
                         if (user.email === v.email && user.emailVerified) {
-                            if (v.type === 'supplier') {
+                            if (v.type === 'supplier' && v.emailVerified === true) {
                                 console.log(v.type === 'supplier' && v.emailVerified === true);
                                 resolve({ message: 'Signed in successfully', user: user})
                             }

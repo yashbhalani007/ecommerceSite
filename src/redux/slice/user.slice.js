@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore"
-import { db } from "../../firebase"
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc  } from "firebase/firestore";
+import { deleteUser } from "firebase/auth";
+import { auth, db } from "../../firebase"
 
 const initialState = {
     isLoading: false,
@@ -61,6 +62,15 @@ export const deleteUserData = createAsyncThunk(
     'user/delete',
     async (id) => {
         await deleteDoc(doc(db, "users/", id))
+        
+        let user = auth.currentUser
+        deleteUser(user).then(() => {
+            // User deleted.
+            console.log('User Deleted');
+          }).catch((error) => {
+            // An error ocurred
+            console.log(error);
+          });
 
         return id
     }
