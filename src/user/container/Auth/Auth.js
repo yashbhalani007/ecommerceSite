@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { forgotPassword, handleSignup, userLoginRequest } from "../../../redux/action/adminauth.action";
@@ -9,14 +9,16 @@ import { forgotPassword, handleSignup, userLoginRequest } from "../../../redux/a
 function Auth(props) {
   const [formName, setFormName] = useState("sign-up");
   const dispatch = useDispatch();
-  console.log(formName);
+  const navigate = useNavigate();
 
   const handleSign = (values) => {
     dispatch(handleSignup(values))
   }
 
   const handleLogged = (values) => {
-    dispatch(userLoginRequest(values))
+    dispatch(userLoginRequest({values :values, callback : (route) => {
+      navigate(route)
+    }}))
   }
 
   const handlefPassw = (data) => {
@@ -73,7 +75,6 @@ function Auth(props) {
     validationSchema: authSchema,
     enableReinitialize: true,
     onSubmit: (values, action) => {
-
       if(formName === "sign-up"){
         console.log('kkkk');
         handleSign(values);
@@ -284,17 +285,17 @@ function Auth(props) {
                     </div>
                     <div className="m-b-45">
                       {formName === "fpassword" ? (
-                        <button className="button button-primary w-100">
+                        <button className="button button-primary w-100" type="submit">
                           Reset Password
                         </button>
                       ) : formName === "login" ? (
                         <div>
-                          <button className="button button-primary w-100">
+                          <button className="button button-primary w-100" type="submit">
                             Login
                           </button>
                         </div>
                       ) : (
-                        <button className="button button-primary w-100">
+                        <button className="button button-primary w-100" type="submit">
                           Register
                         </button>
                       )}
