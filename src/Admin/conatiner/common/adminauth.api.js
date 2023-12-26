@@ -108,15 +108,7 @@ export const userloginAPI = (data) => {
                         data.push({ ...doc.data() })
                     });
 
-                    data.map((v) => {
-                        if (user.email === v.email && user.emailVerified) {
-                            if (v.type === 'consumer') {
-                                resolve({ message: 'Signed in successfully', user: user })
-                            }
-                        } else {
-                            reject({ message: 'Email is not verified' })
-                        }
-                    })
+                    console.log(data);
 
 
                     // if (user.emailVerified) {
@@ -124,7 +116,7 @@ export const userloginAPI = (data) => {
                     //     resolve({ message: 'Signed in successfully', user: user })
 
                     // } else {
-                    //     reject({ message: 'Email is not verified' })
+                    //    reject({ message: 'Email is not verified' })
                     // }
                     // ...
                 })
