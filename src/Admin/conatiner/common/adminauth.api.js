@@ -102,17 +102,15 @@ export const userloginAPI = (data) => {
                         data.push({ ...doc.data() })
                     });
 
-                    console.log(data);
 
+                    if (user.emailVerified) {
+                        return resolve({ message: 'Login  in successfully', user: user })
 
-                    // if (user.emailVerified) {
-                    //     console.log(user);
-                    //     resolve({ message: 'Signed in successfully', user: user })
-
-                    // } else {
-                    //    reject({ message: 'Email is not verified' })
-                    // }
-                    // ...
+                    } else {
+                        console.log('no');
+                        return reject({ message: 'Email is not verified' })
+                    }
+                
                 })
                 .catch((error) => {
                     const errorCode = error.code;
