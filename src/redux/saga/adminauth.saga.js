@@ -2,26 +2,22 @@
 import { forgotAPI, loginAPI, logoutAPI, signupAPI, userloginAPI } from "../../Admin/conatiner/common/adminauth.api";
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { ADMIN_LOGIN_SUCCESS, FORGOT_PASSWORD, LOGIN_REQUEST, LOGOUT_ACCOUNT, SIGNUP_REQUEST, USERLOGIN_REQUEST } from "../Actiontype";
-import { authError, loginResponse, logoutResponse, signupResponse, userLoginResponse } from "../action/adminauth.action";
+import { addSignupResponse, authError, loginResponse, logoutResponse, signupResponse } from "../action/adminauth.action";
 import { setAlert } from "../slice/alert.slice";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { addUsersData } from "../slice/user.slice";
 
 function* adminSignup(action) {
+    // let iData = { ...action.payload }
     try {
         const user = yield call(signupAPI, action.payload)
         if (user.user) {
-            try {
-                const docRef = addDoc(collection(db, "users"), { ...action.payload, emailVerified: false, uid: user.user.uid, type: action.payload.pickup || action.payload.store_name ? 'supplier' : 'consumer' });
-                console.log(docRef.id);
-                console.log("Document written with ID: ", docRef.id);
-            } catch (e) {
-                console.error("Error adding document: ", e);
-            }
+            yield put(addSignupResponse(action.payload))
         }
         yield put(signupResponse(user.user))
         yield put(setAlert({ text: user.message, color: 'success' }))
-        
+
     } catch (error) {
         console.log(error);
         yield put(authError(error.message))
@@ -41,7 +37,7 @@ function* adminLogin(action) {
     }
 }
 
-function* userAdminLogin(action){
+function* userAdminLogin(action) {
     try {
         const user = yield call(userloginAPI, action.payload)
         yield put(userLoginResponse(user.user))
@@ -67,9 +63,9 @@ function* logOut(action) {
     try {
         const user = yield call(logoutAPI)
         yield put(logoutResponse())
-        yield put(setAlert({text: user.message, color:'success'}))
+        yield put(setAlert({ text: user.message, color: 'success' }))
     } catch (error) {
-        
+
     }
 }
 
@@ -94,5 +90,5 @@ function* watchLogout() {
 }
 
 export default function* adminAuthSaga() {
-    yield all([watchSignup(), watchLogin(), watchForgot(),watchUserLogin(),watchLogout()])
+    yield all([watchSignup(), watchLogin(), watchForgot(), watchUserLogin(), watchLogout()])
 }

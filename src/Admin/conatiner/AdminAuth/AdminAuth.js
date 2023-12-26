@@ -113,7 +113,7 @@ function AdminAuth(props) {
                                     <div className="group-inline u-s-m-b-30">
                                         <div className="group-1">
                                             <div className="page-anchor">
-                                                <Link to='/admin/register' className='anchor'>
+                                                <Link to='/admin/panel/register' className='anchor'>
                                                     <i className="fas fa-circle-o-notch u-s-m-r-9" />Create supplier account?</Link>
                                             </div>
                                         </div>

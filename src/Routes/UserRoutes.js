@@ -39,11 +39,11 @@ function UserRoutes(props) {
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/singlepage" element={<Singlepage />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/blogdetails" element={<BlogDetails />} />
+                <Route path="/blogdetails" element={<BlogDetails/>} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/trackorder" element={<TrackOrder />} />
-                <Route path="/conformation" element={<Conformation />} />
-                <Route path="/newarrival" element={<NewArrival />} />
+                <Route path="/conformation" element={<Conformation/>} />
+                <Route path="/newarrival" element={<NewArrival/>} />
             </Routes>
             <Footer />
         </>

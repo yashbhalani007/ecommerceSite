@@ -39,11 +39,11 @@ export const signupAPI = (data) => {
     }
 }
 
-export const loginAPI = (data) => {
+export const loginAPI = async (data) => {
     console.log(data);
     try {
-        return new Promise((resolve, reject) => {
-            signInWithEmailAndPassword(auth, data.email, data.password)
+        return new Promise(async(resolve, reject) => {
+            await signInWithEmailAndPassword(auth, data.email, data.password)
                 .then(async (userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
@@ -57,23 +57,17 @@ export const loginAPI = (data) => {
 
                     data.map((v) => {
                         if (user.email === v.email && user.emailVerified) {
-                            if (v.type === 'supplier') {
-                                resolve({ message: 'Signed in successfully', user: user })
+                            if (v.type === 'supplier' && v.emailVerified === true) {
+                                console.log(v.type === 'supplier' && v.emailVerified === true);
+                                return resolve({ message: 'Signed in successfully', user: user})
+                            } else {
+                                return reject({message: 'Your seller account is not Approved by super Admin'})
                             }
                         } else {
-                            reject({ message: 'Email is not verified'  })
+                            console.log('no');
+                            return reject({ message: 'Email is not verified' }) 
                         }
                     })
-
-
-                    // if (user.emailVerified) {
-                    //     console.log(user);
-                    //     resolve({ message: 'Signed in successfully', user: user })
-
-                    // } else {
-                    //     reject({ message: 'Email is not verified' })
-                    // }
-                    // ...
                 })
                 .catch((error) => {
                     const errorCode = error.code;

@@ -109,10 +109,10 @@ function Lay_out({ children }) {
             <section className="dashboard">
                 <div className="top">
                     <i className="uil uil-bars sidebar-toggle" onClick={() => handleToggleSwitch()} />
-                    <div className="search-box">
+                    {/* <div className="search-box">
                         <i className="uil uil-search" />
                         <input type="text" placeholder="Search here..." />
-                    </div>
+                    </div> */}
                     <img src="assets/images/admin/profile.jpg" alt />
                 </div>
                 {children}
