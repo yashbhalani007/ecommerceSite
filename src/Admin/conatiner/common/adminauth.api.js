@@ -56,28 +56,18 @@ export const loginAPI = async (data) => {
                     });
 
                     data.map((v) => {
-                        console.log(user.email, v.email, user.emailVerified);
                         if (user.email === v.email && user.emailVerified) {
-                            console.log('yes');
-                            if (v.type === 'supplier') {
+                            if (v.type === 'supplier' && v.emailVerified === true) {
                                 console.log(v.type === 'supplier' && v.emailVerified === true);
-                                resolve({ message: 'Signed in successfully', user: user})
+                                return resolve({ message: 'Signed in successfully', user: user})
+                            } else {
+                                return reject({message: 'Your seller account is not Approved by super Admin'})
                             }
                         } else {
                             console.log('no');
-                            reject({ message: 'Email is not verified' }) 
+                            return reject({ message: 'Email is not verified' }) 
                         }
                     })
-
-
-                    // if (user.emailVerified) {
-                    //     console.log(user);
-                    //     resolve({ message: 'Signed in successfully', user: user })
-
-                    // } else {
-                    //     reject({ message: 'Email is not verified' })
-                    // }
-                    // ...
                 })
                 .catch((error) => {
                     const errorCode = error.code;
