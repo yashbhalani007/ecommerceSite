@@ -56,13 +56,16 @@ export const loginAPI = async (data) => {
                     });
 
                     data.map((v) => {
+                        console.log(user.email, v.email, user.emailVerified);
                         if (user.email === v.email && user.emailVerified) {
-                            if (v.type === 'supplier' && v.emailVerified === true) {
+                            console.log('yes');
+                            if (v.type === 'supplier') {
                                 console.log(v.type === 'supplier' && v.emailVerified === true);
                                 resolve({ message: 'Signed in successfully', user: user})
                             }
                         } else {
-                            reject({ message: 'Email is not verified' })
+                            console.log('no');
+                            reject({ message: 'Email is not verified' }) 
                         }
                     })
 

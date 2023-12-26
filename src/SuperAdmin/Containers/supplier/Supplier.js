@@ -62,7 +62,7 @@ function Supplier(props) {
             children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };
     }
-
+    console.log(usersData.users);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -71,7 +71,6 @@ function Supplier(props) {
         setOpen(false);
     };
 
-    console.log(usersData.users);
     const handleApprve = async (data) => {
         // setAlert("Supplier Approved")
         console.log("supplier Approved");
@@ -88,14 +87,12 @@ function Supplier(props) {
 
     const handleSearch = (value) => {
         console.log(value);
-        let finData
-        finData = usersData.users.filter((v) => v.full_name.toLowerCase().includes(value.toLowerCase()) || v.email.toLowerCase().includes(value.toLowerCase()) || v.mobile_number.toLowerCase().includes(value.toLowerCase()) || JSON.stringify(v.emailVerified).includes(value))
+        let searData = usersData.users.filter((v) => v.full_name.toLowerCase().includes(value.toLowerCase()) || v.email.toLowerCase().includes(value.toLowerCase()) || JSON.stringify(v.mobile_number).includes(JSON.stringify(value)) || JSON.stringify(v.emailVerified).includes(value) || console.log(v.full_name,v.email))
 
-        setFdata(finData)
+        setFdata(searData)
     }
 
     const FinalData = fData.length > 0 ? fData : data
-
     return (
         <>
             <div style={{ paddingTop: '70px', textAlign: 'center' }}>

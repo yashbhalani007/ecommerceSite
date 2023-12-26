@@ -39,16 +39,14 @@ function Auth(props) {
   } else if (formName === "sign-up") {
     authobj = {
       email: yup.string().email('Please Enter a Valid Email').required('Please Enter a Email'),
-      name: yup.string().required('Please Enter a Valid Name'),
+      full_name: yup.string().required('Please Enter a Valid Name'),
       password :yup.string().required('Please Enter a Valid Password')
     };
 
     initialValues = {
       email: "",
-      phone: "",
-      name: "",
-      password : "",
-      con_phone:""
+      full_name: "",
+      password : ""
     };
   } else if (formName === "fpassword") {
     authobj = {
@@ -138,7 +136,7 @@ function Auth(props) {
                          <input
                            type="text"
                            id="user-name"
-                           name="name"
+                           name="full_name"
                            className="text-field"
                            placeholder="Username"
                            onChange={handleChange}
