@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { adminLogin, adminSignup } from '../../../redux/slice/adminauth.slice';
 import { useDispatch } from 'react-redux';
 import { handleSignup } from '../../../redux/action/adminauth.action';
 
