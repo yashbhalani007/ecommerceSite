@@ -65,7 +65,7 @@ function SuperCategoryForm(onHandleSubmit) {
     return (
         <React.Fragment>
             <Button variant="outlined" onClick={handleClickOpen} style={{ marginTop: '18px' }}>
-                Add Catelog
+                Add Category
             </Button>
             <Dialog open={open} onClose={handleClose} >
                 <DialogTitle>Add Category</DialogTitle>
