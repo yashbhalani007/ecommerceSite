@@ -80,38 +80,38 @@
 //                 />
 //                 <div style={{ marginTop: '35px' }}>
 //                     {
-//                         FinalData.map((v) => {
+//                         // FinalData.map((v) => {
 
-//                             if (v.type === 'consumer') {
-//                                 return (
-//                                     <List sx={{ width: '90%', bgcolor: 'background.paper' }}>
-//                                         <ListItem alignItems="flex-start">
-//                                             <ListItemAvatar>
-//                                                 {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
-//                                                 <Avatar {...stringAvatar(v.name)} />
-//                                             </ListItemAvatar>
-//                                             <ListItemText
-//                                                 primary={v.name}
-//                                                 secondary={
-//                                                     <React.Fragment>
-//                                                         <Typography
-//                                                             sx={{ display: 'inline' }}
-//                                                             component="span"
-//                                                             variant="body2"
-//                                                             color="text.primary"
-//                                                         >
-//                                                             Email:
-//                                                         </Typography>
-//                                                         {" " + v.email}
-//                                                     </React.Fragment>
-//                                                 }
-//                                             />
-//                                         </ListItem>
-//                                         <Divider variant="inset" component="li" />
-//                                     </List>
-//                                 )
-//                             }
-//                         })
+//                             // if (v.type === 'consumer') {
+//                             //     return (
+//                             //         <List sx={{ width: '90%', bgcolor: 'background.paper' }}>
+//                             //             <ListItem alignItems="flex-start">
+//                             //                 <ListItemAvatar>
+//                             //                     {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
+//                             //                     <Avatar {...stringAvatar(v.name)} />
+//                             //                 </ListItemAvatar>
+//                             //                 <ListItemText
+//                             //                     primary={v.name}
+//                             //                     secondary={
+//                             //                         <React.Fragment>
+//                             //                             <Typography
+//                             //                                 sx={{ display: 'inline' }}
+//                             //                                 component="span"
+//                             //                                 variant="body2"
+//                             //                                 color="text.primary"
+//                             //                             >
+//                             //                                 Email:
+//                             //                             </Typography>
+//                             //                             {" " + v.email}
+//                             //                         </React.Fragment>
+//                             //                     }
+//                             //                 />
+//                             //             </ListItem>
+//                             //             <Divider variant="inset" component="li" />
+//                             //         </List>
+//                             //     )
+//                             // }
+//                         // })
 //                     }
 //                 </div>
 //             </div>
