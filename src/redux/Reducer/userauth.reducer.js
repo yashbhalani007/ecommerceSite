@@ -7,7 +7,6 @@ const initialState = {
 }
 
 export const userAuthReducer = (state = initialState, action) => {
-    console.log(action);
     switch (action.type) {
         case USERLOGIN_RESPONSE:
             return  {

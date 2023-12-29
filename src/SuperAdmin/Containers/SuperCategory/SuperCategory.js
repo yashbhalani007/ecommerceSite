@@ -16,18 +16,27 @@ import { addCategory, getCategoryData } from '../../../redux/slice/category.slic
 import { useDispatch, useSelector } from 'react-redux';
 import { Divider, FormControl, MenuItem } from '@mui/material';
 import Select from '@mui/material/Select';
+import Input from '@mui/joy/Input';
+import { addSubCategory } from '../../../redux/slice/subcategory.slice';
 
 function SuperCategory(props) {
     const [data, setData] = useState([])
     const [open, setOpen] = React.useState(false);
-    const [subCategory, setSubCategory] = React.useState('');
+    const [categorys, setCategory] = React.useState('');
     const category = useSelector(state => state.category)
-    console.log(category.category);
+    const [formValues, setFormValues] = useState({
+        categorys: '',
+        newSubCategory: '',
+    });
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getCategoryData())
-        // setData(category.category)
+        const getData = () => {
+            dispatch(getCategoryData())
+        }
+
+        getData();
     }, [category.category])
 
     const handleClickOpen = () => {
@@ -38,43 +47,33 @@ function SuperCategory(props) {
         setOpen(false);
     };
 
-    const columns = [
-        {
-            field: 'category',
-            headerName: 'Category Name',
-            width: 200,
-            editable: true,
-        },
-        {
-            field: 'action',
-            headerName: 'Action',
-            renderCell: (params) => (
-                <strong>
-                    <EditIcon id='editico' style={{ color: 'blue' }} onCellClick={(e) => handleEdit(e.row)} />
-                    <DeleteIcon id='deleteico' style={{ color: 'red' }} onClick={(e) => handleDelete(e.data)} />
-                </strong>
-            )
-        }
-
-    ];
-
-
-
     const handleChanges = (event) => {
-        setSubCategory(event.target.value);
+        const { name, value } = event.target;
+        setFormValues((prevValues) => ({
+            ...prevValues,
+            [name]: value,
+        }));
     };
 
-    const handleEdit = (value) => {
+    const handleSubCategory = (event) => {
+        event.preventDefault();
+        console.log('Form values:', formValues);
+        
+        dispatch(addSubCategory(formValues))
 
+        resetForm()
     }
 
-    const handleDelete = (value) => {
-        console.log(value);
-    }
+    const resetForm = () => {
+        // Reset form state
+        setFormValues({
+            categorys: '',
+            newSubCategory: '',
+        });
 
-    const handleData = (e) => {
-        console.log(e.row);
-    }
+        // Reset the actual HTML form element
+        document.getElementById('categoryForm').reset();
+    };
 
     let categorySchema = yup.object().shape({
         category: yup
@@ -135,28 +134,54 @@ function SuperCategory(props) {
             </div>
             <Divider variant="middle" style={{ margin: '15px 0' }} />
             <div>
-                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        // label="Subcategory"
-                        placeholder='subCategory'
-                        value={subCategory}
-                        Select
-                        onChange={handleChanges}
+                <form id='categoryForm' onSubmit={handleSubCategory}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 5,
+                            alignItems: 'center',
+                            flexWrap: 'wrap',
+                        }}
                     >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        {
-                            category.category.map(v => {
-                                return (
-                                    <MenuItem value={v.category}>{v.category}</MenuItem>
-                                )
-                            })
-                        }
-                    </Select>
-                </FormControl>
+                        <div>
+                            <span style={{ display: 'block' }}>Select Category: </span>
+                            <Select
+                                labelId="demo-select-small-label"
+                                id="demo-select-small"
+                                label="Category"
+                                placeholder="Category"
+                                name="categorys"
+                                value={formValues.categorys}
+                                onChange={handleChanges}
+                                style={{ width: '200px', height: '45px' }}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {category.category.map((v) => (
+                                    <MenuItem key={v.category} value={v.category}>
+                                        {v.category}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </div>
+                        <div>
+                            <span>Add Subcategory: </span>
+                            <Input
+                                placeholder="Type in here…"
+                                variant="outlined"
+                                size="lg"
+                                name="newSubCategory"
+                                value={formValues.newSubCategory}
+                                onChange={handleChanges}
+                            />
+                        </div>
+                        <Button type="submit" variant="outlined" style={{ width: '150px', height: '45px', marginTop: '22px' }}>
+                            Submit
+                        </Button>
+                    </Box>
+                </form>
+
             </div>
         </>
     );
