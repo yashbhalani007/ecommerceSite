@@ -1,8 +1,8 @@
 
-import { forgotAPI, loginAPI, logoutAPI, signupAPI, userloginAPI } from "../../Admin/conatiner/common/adminauth.api";
+import { forgotAPI, loginAPI, logoutAPI, signupAPI, userloginAPI, userlogoutAPI } from "../../Admin/conatiner/common/adminauth.api";
 import { all, call, put, takeEvery, takeLatest } from 'redux-saga/effects'
-import { ADMIN_LOGIN_SUCCESS, FORGOT_PASSWORD, LOGIN_REQUEST, LOGOUT_ACCOUNT, SIGNUP_REQUEST, USERLOGIN_REQUEST } from "../Actiontype";
-import { addSignupResponse, authError, loginResponse, logoutResponse, signupResponse, userLoginResponse } from "../action/adminauth.action";
+import { ADMIN_LOGIN_SUCCESS, FORGOT_PASSWORD, LOGIN_REQUEST, LOGOUT_ACCOUNT, SIGNUP_REQUEST, USERLOGIN_REQUEST, USERLOGOUT_REQUEST } from "../Actiontype";
+import { addSignupResponse, authError, loginResponse, logoutResponse, signupResponse, uselogoutResponse, userLoginResponse, userLogoutRequest } from "../action/adminauth.action";
 import { setAlert } from "../slice/alert.slice";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -16,12 +16,12 @@ function* adminSignup(action) {
             yield put(addSignupResponse(action.payload))
         }
         yield put(signupResponse(user.user))
-        yield put(setAlert({ text: user.message, color: 'success' }))
+        yield put(setAlert({ text: user.message, color: 'success'}))
 
     } catch (error) {
         console.log(error);
         yield put(authError(error.message))
-        yield put(setAlert({ text: error.message, color: 'error' }))
+        yield put(setAlert({ text: error.message, color: 'error'}))
     }
 }
 
@@ -71,6 +71,16 @@ function* logOut(action) {
     }
 }
 
+function* userLogout(action) {
+    try{
+        const user = yield call(userlogoutAPI)
+        yield put(uselogoutResponse(user.user))
+        yield put(setAlert({text: user.message, color: 'success'}))
+    }catch(error){
+        
+    }
+}
+
 function* watchSignup() {
     yield takeEvery(SIGNUP_REQUEST, adminSignup)
 }
@@ -91,6 +101,10 @@ function* watchLogout() {
     yield takeEvery(LOGOUT_ACCOUNT, logOut)
 }
 
+function* watchuserLogout() {
+    yield takeEvery(USERLOGOUT_REQUEST, userLogout)
+}
+
 export default function* adminAuthSaga() {
-    yield all([watchSignup(), watchLogin(), watchForgot(), watchUserLogin(), watchLogout()])
+    yield all([watchSignup(), watchLogin(), watchForgot(), watchUserLogin(), watchLogout(),watchuserLogout()])
 }

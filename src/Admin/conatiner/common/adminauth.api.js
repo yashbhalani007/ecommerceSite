@@ -15,7 +15,7 @@ export const signupAPI = (data) => {
                         .then(() => {
                             // Email verification sent!
                             // A confirmation email has been sent to ${user.email}.
-                            resolve({ message: `Email verification sent!`, user: user });
+                            resolve({ message: `Email verification sent!`, user: user});
                         })
                         .catch(() => {
                             reject({ message: 'Failed to send email verification' })
@@ -164,10 +164,27 @@ export const logoutAPI = () => {
                 resolve({ message: "Logout successful!" })
             }).catch((error) => {
                 // An error happened.
-                resolve({ message: error.message })
+                reject({ message: error.message })
             });
         })
     } catch (error) {
 
     }
 }
+
+export const userlogoutAPI = () => {
+    try {
+        return new Promise((resolve, reject) => {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                resolve({ message: "Logout successful!" })
+            }).catch((error) => {
+                // An error happened.
+                reject({ message: error.message })
+            });
+        })
+    } catch (error) {
+
+    }
+}
+

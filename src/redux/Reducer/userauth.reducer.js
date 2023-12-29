@@ -1,4 +1,4 @@
-import { USERLOGIN_RESPONSE } from "../Actiontype"
+import { USERLOGIN_RESPONSE, USERLOGOUT_REQUEST, USERLOGOUT_RESPONSE } from "../Actiontype"
 
 const initialState = {
     isLoading: false,
@@ -7,6 +7,7 @@ const initialState = {
 }
 
 export const userAuthReducer = (state = initialState, action) => {
+    console.log(action);
     switch (action.type) {
         case USERLOGIN_RESPONSE:
             return  {
@@ -14,6 +15,17 @@ export const userAuthReducer = (state = initialState, action) => {
                 userAuth: action.payload,
                 errorMessage: null
             }
+
+         case USERLOGOUT_REQUEST:
+            return state;
+
+        case USERLOGOUT_RESPONSE :
+            
+                return{
+                  isLoading: false,
+                  error: null,
+                  user: null
+                }
         
         default:
             return state
