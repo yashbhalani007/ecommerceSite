@@ -11,9 +11,11 @@ const initialState = {
 export const addCategory = createAsyncThunk(
     'category/add',
     async (data) => {
+        let nData = []
         const docRef = await addDoc(collection(db, "category"), data);
-
-        return data
+        nData.push(data)
+        
+        return nData
     }
 )
 

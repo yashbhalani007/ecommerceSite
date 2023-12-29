@@ -14,10 +14,13 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { addCategory, getCategoryData } from '../../../redux/slice/category.slice';
 import { useDispatch, useSelector } from 'react-redux';
+import { Divider, FormControl, MenuItem } from '@mui/material';
+import Select from '@mui/material/Select';
 
 function SuperCategory(props) {
     const [data, setData] = useState([])
     const [open, setOpen] = React.useState(false);
+    const [subCategory, setSubCategory] = React.useState('');
     const category = useSelector(state => state.category)
     console.log(category.category);
     const dispatch = useDispatch()
@@ -54,6 +57,12 @@ function SuperCategory(props) {
         }
 
     ];
+
+
+
+    const handleChanges = (event) => {
+        setSubCategory(event.target.value);
+    };
 
     const handleEdit = (value) => {
 
@@ -94,7 +103,7 @@ function SuperCategory(props) {
             <br></br>
             <br></br>
             <br></br>
-            <div className='contentTop'>
+            <div className='contentTop' >
                 <Button variant="outlined" onClick={handleClickOpen} style={{ marginTop: '18px' }}>
                     Add Category
                 </Button>
@@ -124,34 +133,31 @@ function SuperCategory(props) {
 
                 </Dialog>
             </div>
+            <Divider variant="middle" style={{ margin: '15px 0' }} />
             <div>
-                <select>
-                    {
-                        category.category.map(v => {
-                            return (
-                                <option>{v.category}</option>
-                            )
-                        })
-                    }
-                </select>
+                <FormControl sx={{ m: 1, minWidth: 200 }} size="small">
+                    <Select
+                        labelId="demo-select-small-label"
+                        id="demo-select-small"
+                        // label="Subcategory"
+                        placeholder='subCategory'
+                        value={subCategory}
+                        Select
+                        onChange={handleChanges}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        {
+                            category.category.map(v => {
+                                return (
+                                    <MenuItem value={v.category}>{v.category}</MenuItem>
+                                )
+                            })
+                        }
+                    </Select>
+                </FormControl>
             </div>
-            {/* <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
-                <DataGrid
-                    rows={data}
-                    columns={columns}
-                    // onCellClick={(e) => handleData(e)}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 5,
-                            },
-                        },
-                    }}
-                    pageSizeOptions={[5]}
-                    checkboxSelection
-                    disableRowSelectionOnClick
-                />
-            </Box> */}
         </>
     );
 }
