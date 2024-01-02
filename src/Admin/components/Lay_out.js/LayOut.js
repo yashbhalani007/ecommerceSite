@@ -61,31 +61,31 @@ function Lay_out({ children }) {
                             <UploadFileIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Catalog upload</span>
                         </NavLink></li>
-                        <li><NavLink to="/admin/category">
+                        <li><NavLink to="/admin/">
                             {/* <i className="uil uil-files-landscapes" /> */}
-                            <CategoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Category</span>
+                            <UploadFileIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <span className="link-name">Payments</span>
                         </NavLink></li>
                         <li><NavLink to="#">
                             {/* <i className="uil uil-chart" /> */}
                             <AnalyticsIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Analytics</span>
                         </NavLink></li>
-                        <li><NavLink to="#">
-                            {/* <i className="uil uil-thumbs-up" /> */}
+                        {/* <li><NavLink to="#">
+                            <i className="uil uil-thumbs-up" />
                             <ThumbUpAltIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Like</span>
-                        </NavLink></li>
+                        </NavLink></li> */}
                         <li><NavLink to="#">
                             {/* <i className="uil uil-comments" /> */}
                             <CommentIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
-                            <span className="link-name">Comment</span>
+                            <span className="link-name">Support</span>
                         </NavLink></li>
-                        <li><NavLink to="#">
-                            {/* <i className="uil uil-share" /> */}
+                        {/* <li><NavLink to="#">
+                            <i className="uil uil-share" />
                             <IosShareIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Share</span>
-                        </NavLink></li>
+                        </NavLink></li> */}
                     </ul>
                     <ul className="logout-mode">
                         <li><a onClick={() => handleLogout()}>

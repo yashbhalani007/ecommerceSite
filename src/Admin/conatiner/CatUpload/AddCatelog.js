@@ -6,7 +6,11 @@ import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 function AddCatelog(props) {
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
+  const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
   const [categorys, setCategorys] = useState(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL']
 
   const dispatch = useDispatch()
 
@@ -17,6 +21,40 @@ function AddCatelog(props) {
     }
     getData()
   }, [])
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleCheckboxChange = (size) => {
+    if (selectedSizes.includes(size)) {
+      setSelectedSizes(selectedSizes.filter((s) => s !== size));
+    } else {
+      setSelectedSizes([...selectedSizes, size]);
+    }
+  };
+
+  const handleFileChange = (id) => (event) => {
+    const fileInput = event.target;
+    const file = fileInput.files[0];
+
+    setFileInputs((prevInputs) =>
+      prevInputs.map((input) =>
+        input.id === id ? { ...input, selectedFile: file } : input
+      )
+    );
+
+    // Add a new file input when a file is selected
+    setFileInputs((prevInputs) => [
+      ...prevInputs,
+      { id: prevInputs.length + 1, selectedFile: null },
+    ]);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log('Submit',event.target.name);
+  }
   return (
     <div className="content-wrapper">
       <br></br>
@@ -25,7 +63,7 @@ function AddCatelog(props) {
       {/* Content */}
       <div className="container-xxl flex-grow-1 container-p-y">
         <h4 className="py-3 mb-4">
-          <span className="text-muted fw-light">eCommerce /</span><span> Add Product</span>
+          <span className="text-muted fw-light">Catalog upload /</span><span> Add Product</span>
         </h4>
         <div className="app-ecommerce">
           {/* Add Product */}
@@ -64,79 +102,91 @@ function AddCatelog(props) {
                     <label className="form-label">Description</label>
                     <br></br>
                     <textarea rows={"10"} cols={"77"} style={{ padding: '15px' }} />
-                    {/* <div className="form-control p-0 pt-1">
-                  <div className="comment-toolbar border-0 border-bottom">
-                    <div className="d-flex justify-content-start">
-                      <span className="ql-formats me-0">
-                        <button className="ql-bold font" />
-                        <button className="ql-italic" />
-                        <button className="ql-underline" />
-                        <button className="ql-list" value="ordered" />
-                        <button className="ql-list" value="bullet" />
-                        <button className="ql-link" />
-                        <button className="ql-image" />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="comment-editor border-0 pb-4" id="ecommerce-category-description">
-                  </div>
-                </div> */}
                   </div>
                 </div>
               </div>
               {/* /Product Information */}
-              {/* Media */}
-              <div className="card mb-4">
-                <div className="card-header d-flex justify-content-between align-items-center">
-                  <h5 className="mb-0 card-title">Media</h5>
-                  <a href="javascript:void(0);" className="fw-medium">Add media from URL</a>
-                </div>
-                <div className="card-body">
-                  <form action="/upload" className="dropzone needsclick dz-clickable" id="dropzone-basic">
-                    <div className="dz-message needsclick my-5">
-                      <p className="fs-4 note needsclick my-2">Drag and drop your image here</p>
-                      <small className="text-muted d-block fs-6 my-2">or</small>
-                      <span className="note needsclick btn bg-label-primary d-inline" id="btnBrowse">Browse image</span>
-                    </div>
-                    <div className="fallback">
-                      <input name="file" type="file" />
-                    </div>
-                  </form>
-                </div>
-              </div>
-              {/* /Media */}
               {/* Variants */}
               <div className="card mb-4">
                 <div className="card-header">
                   <h5 className="card-title mb-0">Variants</h5>
                 </div>
                 <div className="card-body">
-                  <form className="form-repeater">
+                  <form className="form-repeater" onSubmit={(e) => handleSubmit(e)}>
                     <div data-repeater-list="group-a">
                       <div data-repeater-item>
+                        <label className="form-label" htmlFor="form-repeater-1-1">Images</label>
+                        <div className='addProduct'>
+                          {fileInputs.map((input) => (
+                            <div key={input.id}>
+                              <input
+                                type="file"
+                                id={`fileInput${input.id}`}
+                                onChange={handleFileChange(input.id)}
+                                style={{ display: 'none' }}
+                              />
+                              <label htmlFor={`fileInput${input.id}`} className="file-input-label">
+                                {input.selectedFile ? 'Change Image' : 'Choose Image'}
+                              </label>
+
+                              {input.selectedFile && (
+                                <div className="image-container" style={{ margin: '0 11px' }}>
+                                  <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
                         <div className="row">
                           <div className="mb-3 col-4">
-                            <label className="form-label" htmlFor="form-repeater-1-1">Options</label>
-                            <select id="form-repeater-1-1" className="select2 form-select" data-placeholder="Size">
-                              <option value>Size</option>
-                              <option value="size">Size</option>
-                              <option value="color">Color</option>
-                              <option value="weight">Weight</option>
-                              <option value="smell">Smell</option>
-                            </select>
+                            <label className="form-label" htmlFor="form-repeater-1-1">Color</label>
+                            <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="productSku" aria-label="Product SKU" />
                           </div>
-                          <div className="mb-3 col-8">
-                            <label className="form-label invisible" htmlFor="form-repeater-1-2">Not visible</label>
-                            <input type="number" id="form-repeater-1-2" className="form-control" placeholder="Enter size" />
+                          <div className="mb-3 col-4">
+                            <label className="form-label" htmlFor="form-repeater-1-1">Sizes</label>
+                            <div className="dropdown">
+                              <div className="dropdown-toggle" onClick={toggleDropdown}>
+                                Select Sizes
+                              </div>
+                              {isOpen && (
+                                <div className="dropdown-content">
+                                  {sizes.map((size) => (
+                                    <label key={size} className='labelcheck'>
+                                      <input
+                                        type="checkbox"
+                                        value={size}
+                                        checked={selectedSizes.includes(size)}
+                                        onChange={() => handleCheckboxChange(size)}
+                                      />
+                                      {size}
+                                    </label>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    {/* Pricing Card */}
+                    {/* Base Price */}
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
+                      <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="productPrice" aria-label="Product price" />
+                    </div>
+                    {/* Discounted Price */}
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
+                      <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="Discounted Price" name="productDiscountedPrice" aria-label="Product discounted price" />
+                    </div>
+                    {/* /Pricing Card */}
                     <div>
                       <button className="btn btn-primary" data-repeater-create>
                         Add another option
                       </button>
                     </div>
+                    <button type="submit" className="btn btn-primary">Publish product</button>
+
                   </form>
                 </div>
               </div>
@@ -336,44 +386,23 @@ function AddCatelog(props) {
             {/* Second column */}
             <div className="col-12 col-lg-4">
               {/* Pricing Card */}
-              <div className="card mb-4">
+              {/* <div className="card mb-4">
                 <div className="card-header">
                   <h5 className="card-title mb-0">Pricing</h5>
                 </div>
-                <div className="card-body">
-                  {/* Base Price */}
-                  <div className="mb-3">
+                <div className="card-body"> */}
+              {/* Base Price */}
+              {/* <div className="mb-3">
                     <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
                     <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="productPrice" aria-label="Product price" />
-                  </div>
-                  {/* Discounted Price */}
-                  <div className="mb-3">
+                  </div> */}
+              {/* Discounted Price */}
+              {/* <div className="mb-3">
                     <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
                     <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="Discounted Price" name="productDiscountedPrice" aria-label="Product discounted price" />
                   </div>
-                  {/* Charge tax check box */}
-                  {/* <div className="form-check mb-2">
-                    <input className="form-check-input" type="checkbox" defaultValue id="price-charge-tax" defaultChecked />
-                    <label className="form-label" htmlFor="price-charge-tax">
-                      Charge tax on this product
-                    </label>
-                  </div> */}
-                  {/* Instock switch
-                  <div className="d-flex justify-content-between align-items-center border-top pt-3">
-                    <span className="mb-0 h6">In stock</span>
-                    <div className="w-25 d-flex justify-content-end">
-                      <label className="switch switch-primary switch-sm me-4 pe-2">
-                        <input type="checkbox" className="switch-input" defaultChecked />
-                        <span className="switch-toggle-slider">
-                          <span className="switch-on">
-                            <span className="switch-off" />
-                          </span>
-                        </span>
-                      </label>
-                    </div>
-                  </div> */}
                 </div>
-              </div>
+              </div> */}
               {/* /Pricing Card */}
 
               {/* Organize Card */}
