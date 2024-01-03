@@ -3426,7 +3426,7 @@ fieldset:disabled .btn {
 }
 
 .tab-content > .tab-pane {
-  display: none;
+  display: contents;
 }
 .tab-content > .active {
   display: block;
