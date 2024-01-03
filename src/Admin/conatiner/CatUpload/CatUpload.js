@@ -7,18 +7,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CategoryForm from '../Category/CategoryForm';
 import { Link, NavLink } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import AddCatelog from './AddCatelog';
+// import TextField from '@mui/material/TextField';
+// import Dialog from '@mui/material/Dialog';
+// import DialogActions from '@mui/material/DialogActions';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+// import AddCatelog from './AddCatelog';
 
 function CatUpload(props) {
-    const [open, setOpen] = React.useState(false);
     const [data, setData] = useState([])
-    const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
+    // const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
     // const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
@@ -27,30 +26,24 @@ function CatUpload(props) {
         // data.then(value => setData(value.data))
     }, [])
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleFileChange = (id) => (event) => {
+    //     const fileInput = event.target;
+    //     const file = fileInput.files[0];
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    //     setFileInputs((prevInputs) =>
+    //         prevInputs.map((input) =>
+    //             input.id === id ? { ...input, selectedFile: file } : input
+    //         )
+    //     );
 
-    const handleFileChange = (id) => (event) => {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
+    //     // Add a new file input when a file is selected
+    //     setFileInputs((prevInputs) => [
+    //         ...prevInputs,
+    //         { id: prevInputs.length + 1, selectedFile: null },
+    //     ]);
+    // };
 
-        setFileInputs((prevInputs) =>
-            prevInputs.map((input) =>
-                input.id === id ? { ...input, selectedFile: file } : input
-            )
-        );
-
-        // Add a new file input when a file is selected
-        setFileInputs((prevInputs) => [
-            ...prevInputs,
-            { id: prevInputs.length + 1, selectedFile: null },
-        ]);
-    };
+    
 
     const columns = [
         {
@@ -99,10 +92,6 @@ function CatUpload(props) {
 
     ];
 
-    const handleFormSubmit = (data) => {
-        // addCategoryData(data)
-    }
-
     const handleEdit = (value) => {
 
     }
@@ -114,17 +103,19 @@ function CatUpload(props) {
     const handleData = (e) => {
         console.log(e.row);
     }
-    console.log(fileInputs);
     return (
         <>
-
             <br></br>
             <br></br>
+            <br></br>
+            <h4 className="py-3 mb-4">
+                <span> Catalog upload/</span>
+            </h4>
             <div className='contentTop'>
-                <Link to ='addcatelog'>
-                <Button variant="outlined">
-                    Add Catalog
-                </Button>
+                <Link to='addcatelog'>
+                    <Button variant="outlined">
+                        Add Catalog
+                    </Button>
                 </Link>
             </div>
             <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
@@ -145,7 +136,7 @@ function CatUpload(props) {
                 />
             </Box>
 
-            <Dialog open={open} onClose={handleClose}>
+            {/* <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Subscribe</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -176,9 +167,9 @@ function CatUpload(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button >Subscribe</Button>
+                    <Button onClick={()=> handleSubmit()}>Subscribe</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </>
     );
 }

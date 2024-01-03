@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 
-function AddCatelog(props) {
+function AddCatelog({ data, setData, isSelected, imgFile }) {
+  console.log(imgFile);
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
-  const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
+  const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
   const [categorys, setCategorys] = useState(null)
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
@@ -21,6 +22,7 @@ function AddCatelog(props) {
     }
     getData()
   }, [])
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -53,13 +55,10 @@ function AddCatelog(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log('Submit',event.target.name);
+    console.log('Submit', event.target.name);
   }
   return (
     <div className="content-wrapper">
-      <br></br>
-      <br></br>
-      <br></br>
       {/* Content */}
       <div className="container-xxl flex-grow-1 container-p-y">
         <h4 className="py-3 mb-4">
@@ -94,7 +93,7 @@ function AddCatelog(props) {
                   <div className="row mb-3">
                     <div className="col"><label className="form-label" htmlFor="ecommerce-product-sku">SKU</label>
                       <input type="text" className="form-control" id="ecommerce-product-sku" placeholder="SKU" name="productSku" aria-label="Product SKU" /></div>
-                    <div className="col"><label className="form-label" htmlFor="ecommerce-product-barcode">Barcode</label>
+                    <div className="col"><label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
                       <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="productBarcode" aria-label="Product barcode" /></div>
                   </div>
                   {/* Description */}
@@ -133,7 +132,9 @@ function AddCatelog(props) {
                                 <div className="image-container" style={{ margin: '0 11px' }}>
                                   <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
                                 </div>
+
                               )}
+
                             </div>
                           ))}
                         </div>
@@ -185,7 +186,6 @@ function AddCatelog(props) {
                         Add another option
                       </button>
                     </div>
-                    <button type="submit" className="btn btn-primary">Publish product</button>
 
                   </form>
                 </div>
@@ -194,53 +194,29 @@ function AddCatelog(props) {
               {/* Inventory */}
               <div className="card mb-4">
                 <div className="card-header">
-                  <h5 className="card-title mb-0">Inventory</h5>
+                  <h5 className="card-title mb-0">Shipping</h5>
                 </div>
                 <div className="card-body">
                   <div className="row">
                     {/* Navigation */}
-                    <div className="col-12 col-md-4 mx-auto card-separator">
+                    {/* <div className="col-12 col-md-4 mx-auto card-separator">
                       <div className="d-flex justify-content-between flex-column mb-3 mb-md-0 pe-md-3">
                         <ul className="nav nav-align-left nav-pills flex-column">
-                          <li className="nav-item">
-                            <button className="nav-link active" data-bs-toggle="tab" data-bs-target="#restock">
-                              <i className="bx bx-cube me-2" />
-                              <span className="align-middle">Restock</span>
-                            </button>
-                          </li>
                           <li className="nav-item">
                             <button className="nav-link" data-bs-toggle="tab" data-bs-target="#shipping">
                               <i className="bx bx-car me-2" />
                               <span className="align-middle">Shipping</span>
                             </button>
                           </li>
-                          <li className="nav-item">
-                            <button className="nav-link" data-bs-toggle="tab" data-bs-target="#global-delivery">
-                              <i className="bx bx-globe me-2" />
-                              <span className="align-middle">Global Delivery</span>
-                            </button>
-                          </li>
-                          <li className="nav-item">
-                            <button className="nav-link" data-bs-toggle="tab" data-bs-target="#attributes">
-                              <i className="bx bx-link me-2" />
-                              <span className="align-middle">Attributes</span>
-                            </button>
-                          </li>
-                          <li className="nav-item">
-                            <button className="nav-link" data-bs-toggle="tab" data-bs-target="#advanced">
-                              <i className="bx bx-lock me-2" />
-                              <span className="align-middle">Advanced</span>
-                            </button>
-                          </li>
                         </ul>
                       </div>
-                    </div>
+                    </div> */}
                     {/* /Navigation */}
                     {/* Options */}
                     <div className="col-12 col-md-8 pt-4 pt-md-0">
                       <div className="tab-content p-0 pe-md-5 ps-md-3">
                         {/* Restock Tab */}
-                        <div className="tab-pane fade show active" id="restock" role="tabpanel">
+                        {/* <div className="tab-pane fade show active" id="restock" role="tabpanel">
                           <h5>Options</h5>
                           <label className="form-label" htmlFor="ecommerce-product-stock">Add to Stock</label>
                           <div className="row mb-3 g-3">
@@ -256,9 +232,9 @@ function AddCatelog(props) {
                             <h6>Last time restocked: <span className="text-muted">24th June, 2023</span></h6>
                             <h6>Total stock over lifetime: <span className="text-muted">2430</span></h6>
                           </div>
-                        </div>
+                        </div> */}
                         {/* Shipping Tab */}
-                        <div className="tab-pane fade" id="shipping" role="tabpanel">
+                        <div className="tab-pane fade" id="shipping" role="tabpanel" style={{display: 'block !important'}}>
                           <h5 className="mb-4">Shipping Type</h5>
                           <div>
                             <div className="form-check mb-3">
@@ -281,35 +257,35 @@ function AddCatelog(props) {
                           </div>
                         </div>
                         {/* Global Delivery Tab */}
-                        <div className="tab-pane fade" id="global-delivery" role="tabpanel">
-                          <h5 className="mb-4">Global Delivery</h5>
+                        {/* <div className="tab-pane fade" id="global-delivery" role="tabpanel"> */}
+                          {/* <h5 className="mb-4">Global Delivery</h5> */}
                           {/* Worldwide delivery */}
-                          <div className="form-check mb-3">
+                          {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" id="worldwide" />
                             <label className="form-check-label" htmlFor="worldwide">
                               <span className="mb-1 h6">Worldwide delivery</span>
                               <small className="text-muted">Only available with Shipping method:
                                 <a href="javascript:void(0);">Fulfilled by Company name</a></small>
                             </label>
-                          </div>
+                          </div> */}
                           {/* Global delivery */}
-                          <div className="form-check mb-3">
+                          {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" defaultChecked />
                             <label className="form-check-label w-75 pe-5" htmlFor="country-selected">
                               <span className="mb-2 h6">Selected Countries</span>
                               <input type="text" className="form-control" placeholder="Type Country name" id="country-selected" />
                             </label>
-                          </div>
+                          </div> */}
                           {/* Local delivery */}
-                          <div className="form-check">
+                          {/* <div className="form-check">
                             <input className="form-check-input" type="radio" name="globalDel" id="local" />
                             <label className="form-check-label" htmlFor="local">
                               <span className="mb-1 h6">Local delivery</span>
                               <small className="text-muted">Deliver to your country of residence :
                                 <a href="javascript:void(0);">Change profile address</a></small>
                             </label>
-                          </div>
-                        </div>
+                          </div> */}
+                        {/* </div> */}
                         {/* Attributes Tab */}
                         <div className="tab-pane fade" id="attributes" role="tabpanel">
                           <h5 className="mb-4">Attributes</h5>
@@ -330,7 +306,7 @@ function AddCatelog(props) {
                             </div>
                             {/* Frozen Product */}
                             <div className="form-check mb-3">
-                              <input className="form-check-input" type="checkbox" defaultValue="frozen" defaultChecked />
+                              <input className="form-check-input" type="checkbox" defaultValue="frozen" />
                               <label className="form-check-label w-75 pe-5" htmlFor="frozen">
                                 <span className="mb-1 h6">Frozen Product</span>
                                 <input type="number" className="form-control" placeholder="Max. allowed Temperature" id="frozen" />
@@ -338,7 +314,7 @@ function AddCatelog(props) {
                             </div>
                             {/* Exp Date */}
                             <div className="form-check mb-4">
-                              <input className="form-check-input" type="checkbox" defaultValue="expDate" id="expDate" defaultChecked />
+                              <input className="form-check-input" type="checkbox" defaultValue="expDate" id="expDate" />
                               <label className="form-check-label w-75 pe-5" htmlFor="date-input">
                                 <span className="mb-1 h6">Expiry Date of Product</span>
                                 <input type="date" className="product-date form-control" id="date-input" />
@@ -347,33 +323,6 @@ function AddCatelog(props) {
                           </div>
                         </div>
                         {/* /Attributes Tab */}
-                        {/* Advanced Tab */}
-                        <div className="tab-pane fade" id="advanced" role="tabpanel">
-                          <h5 className="mb-4">Advanced</h5>
-                          <div className="row">
-                            {/* Product Id Type */}
-                            <div className="col">
-                              <label className="form-label" htmlFor="product-id">
-                                <span className="mb-0 h6">Product ID Type</span>
-                              </label>
-                              <select id="product-id" className="select2 form-select" data-placeholder="ISBN">
-                                <option value>ISBN</option>
-                                <option value="ISBN">ISBN</option>
-                                <option value="UPC">UPC</option>
-                                <option value="EAN">EAN</option>
-                                <option value="JAN">JAN</option>
-                              </select>
-                            </div>
-                            {/* Product Id */}
-                            <div className="col">
-                              <label className="form-label" htmlFor="product-id-1">
-                                <span className="mb-0 h6">Product ID</span>
-                              </label>
-                              <input type="number" id="product-id-1" className="form-control" placeholder="ISBN Number" />
-                            </div>
-                          </div>
-                        </div>
-                        {/* /Advanced Tab */}
                       </div>
                     </div>
                     {/* /Options*/}
