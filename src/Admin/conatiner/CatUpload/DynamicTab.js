@@ -76,3 +76,101 @@ const TabContent = ({ data, setData, isSelected }) => {
 };
 
 export default DynamicTabsComponent;
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useFormik } from 'formik';
+// import * as yup from 'yup';
+
+// const DynamicTabsComponent = () => {
+//   const [activeTab, setActiveTab] = useState(null);
+//   const [tabData, setTabData] = useState({});
+//   const [tabValidationSchemas, setTabValidationSchemas] = useState({});
+
+//   // Example: For demonstration purposes, let's assume you have a list of dynamic tabs
+//   const dynamicTabs = ['tab1', 'tab2', 'tab3'];
+
+//   // Example validation schemas for each tab
+//   const tabValidationSchemasInitial = {
+//     tab1: yup.object({
+//       product_name: yup.string().required('Product name is required in tab1'),
+//       // Add more validations for other fields in tab1
+//     }),
+//     tab2: yup.object({
+//       product_name: yup.string().required('Product name is required in tab2'),
+//       // Add more validations for other fields in tab2
+//     }),
+//     tab3: yup.object({
+//       product_name: yup.string().required('Product name is required in tab3'),
+//       // Add more validations for other fields in tab3
+//     }),
+//   };
+
+//   useEffect(() => {
+//     setTabValidationSchemas(tabValidationSchemasInitial);
+//   }, []);
+
+//   const handleTabChange = (tabId) => {
+//     setActiveTab(tabId);
+//   };
+
+//   const handleInputChange = (fieldName, value) => {
+//     setTabData((prevData) => ({
+//       ...prevData,
+//       [activeTab]: {
+//         ...prevData[activeTab],
+//         [fieldName]: value,
+//       },
+//     }));
+//   };
+
+//   const formik = useFormik({
+//     initialValues: tabData[activeTab] || {},
+//     validationSchema: tabValidationSchemas[activeTab] || yup.object(),
+//     onSubmit: (values) => {
+//       // Handle form submission for the active tab
+//       console.log(`Form submitted for ${activeTab}`, values);
+//     },
+//   });
+
+//   return (
+//     <div>
+//         <br></br>
+//         <br></br>
+//         <br></br>
+//         <br></br>
+//       <div>
+//         {dynamicTabs.map((tabId) => (
+//           <button key={tabId} onClick={() => handleTabChange(tabId)}>
+//             {`Tab ${tabId}`}
+//           </button>
+//         ))}
+//       </div>
+
+//       {activeTab && (
+//         <div>
+//           <h3>{`Active Tab: ${activeTab}`}</h3>
+//           <form onSubmit={formik.handleSubmit}>
+//             <input
+//               type="text"
+//               name="product_name"
+//               value={formik.values.product_name || ''}
+//               onChange={(e) => {
+//                 formik.handleChange(e);
+//                 handleInputChange('product_name', e.target.value);
+//               }}
+//             />
+//             {/* Add more input fields for other data fields as needed */}
+//             {formik.errors.product_name && formik.touched.product_name && (
+//               <div>{formik.errors.product_name}</div>
+//             )}
+//             <button type="submit">Submit</button>
+//           </form>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default DynamicTabsComponent;
