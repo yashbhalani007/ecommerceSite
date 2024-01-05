@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 import { useFormik, ErrorMessage } from 'formik';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
 
 function AddCatelog({ data, setData, isSelected, imgFile }) {
   console.log(imgFile);
@@ -18,19 +20,17 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const getData = () => {
-      dispatch(getCategoryData())
-      dispatch(getSubCategoryData())
+    const getData = async () => {
+      await dispatch(getCategoryData())
+      await dispatch(getSubCategoryData())
     }
     getData()
-    setValues(data)
-  }, [])
-
+  }, [dispatch])
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-
+  console.log(fileInputs);
   const handleCheckboxChange = (size) => {
     if (selectedSizes.includes(size)) {
       setSelectedSizes(selectedSizes.filter((s) => s !== size));
@@ -56,11 +56,6 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     ]);
   };
 
-  // const change = (e) => {
-  //   setData({ ...data, name: e.target.value })
-  //   handleChange()
-  // }
-
   const productSchema = yup.object({
     product_name: yup.string().required("Name is required"),
     sku: yup.string().required(),
@@ -73,7 +68,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
       })
     ),
     color: yup.string(),
-    sizes: yup.array().of(yup.string()),
+    sizes: yup.array().min(1, 'Please select at least one size'),
     price: yup.number().positive().required(),
     mrp: yup.number().positive().required(),
     stock: yup.number().integer().min(0).required(),
@@ -86,38 +81,36 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
   });
 
 
-  const obj = {
-    product_name: '',
-    sku: '',
-    group_id: '',
-    description: '',
-    Images: '',
-    color: '',
-    sizes: '',
-    price: '',
-    mrp: '',
-    stock: '',
-    category: '',
-    subcategory: '',
-    status: '',
-    tags: '',
-    shipping_type: '',
-    attributes: ''
-  }
+  // const obj = {
+  //   product_name: '',
+  //   sku: '',
+  //   group_id: '',
+  //   description: '',
+  //   Images: '',
+  //   color: '',
+  //   sizes: '',
+  //   price: '',
+  //   mrp: '',
+  //   stock: '',
+  //   category: '',
+  //   subcategory: '',
+  //   status: '',
+  //   tags: '',
+  //   shipping_type: '',
+  //   attributes: ''
+  // }
 
-  const formik = useFormik({
-    initialValues: obj,
-    validationSchema: productSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  // const formik = useFormik({
+  //   initialValues: obj,
+  //   validationSchema: productSchema,
+  //   validateOnChange: false,
+  //   validateOnBlur: false,
+  //   onSubmit: values => {
+  //     alert(JSON.stringify(values, null, 2));
+  //   },
+  // });
 
-
-
-  const { handleBlur, handleChange, handleReset, handleSubmit, errors, values, setValues, touched } = formik
+  // const { handleBlur, handleChange, handleReset, handleSubmit, errors, values, setValues, touched } = formik
 
   // useEffect(() => {
   //   const productNameInput = document.getElementById('ecommerce-product-name');
@@ -125,6 +118,20 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
   //     productNameInput.focus();
   //   }
   // }, [values.product_name]);
+
+  // const productSchema = yup.object({
+  //   product_name: yup.string().min(2).required("Name is required")
+  // })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(productSchema) });
+
+  const onsubmit = (data) => {
+    console.log("All Form values", data);
+  }
 
   return (
     <div className="content-wrapper">
@@ -135,56 +142,61 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
         </h4>
         <div className="app-ecommerce">
           {/* Add Product */}
-          <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-            <div className="d-flex flex-column justify-content-center">
-              <h4 className="mb-1 mt-3">Add a new Product</h4>
-              <p className="text-muted">Orders placed across your store</p>
+          <form className="form-repeater" onSubmit={handleSubmit(onsubmit)}>
+            <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
+              <div className="d-flex flex-column justify-content-center">
+                <h4 className="mb-1 mt-3">Add a new Product</h4>
+                <p className="text-muted">Orders placed across your store</p>
+              </div>
+              <div className="d-flex align-content-center flex-wrap gap-3">
+                <button className="btn btn-primary">Discard</button>
+                <button className="btn btn-primary">Save draft</button>
+                <button type="submit" className="btn btn-primary">Publish product</button>
+              </div>
             </div>
-            <div className="d-flex align-content-center flex-wrap gap-3">
-              <button className="btn btn-primary">Discard</button>
-              <button className="btn btn-primary">Save draft</button>
-              <button type="submit" className="btn btn-primary">Publish product</button>
-            </div>
-          </div>
-          <div className="row">
-            {/* First column*/}
-            {/* Form Start */}
-            <form className="form-repeater" onSubmit={handleSubmit}>
+            <div className="row">
+              {/* First column*/}
+              {/* Form Start */}
               <div className="col-12 col-lg-8">
                 {/* Product Information */}
                 <div className="card mb-4">
                   <div className="card-header">
                     <h5 className="card-tile mb-0">Product information</h5>
                   </div>
-
                   <div className="card-body">
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-name">Name</label>
                       <input type="text" className="form-control" id="ecommerce-product-name" placeholder="Product title" aria-label="Product title"
                         name="product_name"
-                        value={data.product_name}
-                        onBlur={handleBlur}
-                        onChange={(e) => {setData({ ...data, product_name: e.target.value })}}
+                        {...register('product_name', { required: true })}
                       />
-                      {errors.product_name ? <div>{errors.product_name}</div> : null}
+                      {errors.product_name && <p>{errors.product_name.message}</p>}
                     </div>
                     <div className="row mb-3">
                       <div className="col">
                         <label className="form-label" htmlFor="ecommerce-product-sku">SKU</label>
                         <input type="text" className="form-control" id="ecommerce-product-sku" placeholder="SKU" aria-label="Product SKU"
                           name="sku"
+                          {...register('sku', { required: true })}
                         />
+                        {errors.sku && <p>{errors.sku.message}</p>}
                       </div>
                       <div className="col">
                         <label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
-                        <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode" />
+                        <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode"
+                          {...register('group_id', { required: true })}
+                        />
+                        {errors.group_id && <p>{errors.group_id.message}</p>}
                       </div>
                     </div>
                     {/* Description */}
                     <div>
                       <label className="form-label">Description</label>
                       <br></br>
-                      <textarea rows={"10"} cols={"77"} style={{ padding: '15px' }} name='description' />
+                      <textarea rows={"10"} cols={"77"} style={{ padding: '15px' }} name='description'
+                        {...register('description', { required: true })}
+                      />
+                      {errors.description && <p>{errors.description.message}</p>}
                     </div>
                   </div>
                 </div>
@@ -206,6 +218,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 id={`fileInput${input.id}`}
                                 onChange={handleFileChange(input.id)}
                                 style={{ display: 'none' }}
+                                // {...register(`Images[${input.id - 1}].url`)}
                               />
                               <label htmlFor={`fileInput${input.id}`} className="file-input-label">
                                 {input.selectedFile ? 'Change Image' : 'Choose Image'}
@@ -215,16 +228,26 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 <div className="image-container" style={{ margin: '0 11px' }}>
                                   <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
                                 </div>
-
                               )}
 
+                              {/* <input
+                                type="text"
+                                placeholder="Alt text"
+                                {...register(`Images[${input.id - 1}].alt`)}
+                              />
+                              {errors.Images && errors.Images[input.id - 1]?.alt && (
+                                <p>{errors.Images[input.id - 1].alt.message}</p>
+                              )} */}
                             </div>
                           ))}
                         </div>
                         <div className="row">
                           <div className="mb-3 col-4">
-                            <label className="form-label" htmlFor="form-repeater-1-1">Color</label>
-                            <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="productSku" aria-label="Product SKU" />
+                            <label className="form-label" htmlFor="ecommerce-product-color">Color</label>
+                            <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="color" aria-label="Product SKU"
+                              {...register('color', { required: true })}
+                            />
+                            {errors.color && <p>{errors.color.message}</p>}
                           </div>
                           <div className="mb-3 col-4">
                             <label className="form-label" htmlFor="form-repeater-1-1">Sizes</label>
@@ -235,40 +258,48 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               {isOpen && (
                                 <div className="dropdown-content">
                                   {sizes.map((size) => (
-                                    <label key={size} className='labelcheck'>
+                                    <div key={size} className='checkbox-wrapper'>
                                       <input
                                         type="checkbox"
+                                        id={`size-${size}`}
                                         value={size}
                                         checked={selectedSizes.includes(size)}
                                         onChange={() => handleCheckboxChange(size)}
+                                        // {...register('sizes')}
                                       />
-                                      {size}
-                                    </label>
+                                      <label htmlFor={`size-${size}`}>{size}</label>
+                                    </div>
                                   ))}
+                                  {console.log(selectedSizes)}
                                 </div>
                               )}
                             </div>
                           </div>
                         </div>
+                        {errors.sizes && <p>{errors.sizes.message}</p>}
                       </div>
                     </div>
                     {/* Pricing Card */}
                     {/* Base Price */}
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
-                      <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="productPrice" aria-label="Product price" />
+                      <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="price" aria-label="Product price"
+                        {...register('price', { required: true })}
+                      />
                     </div>
                     {/* Discounted Price */}
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
-                      <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="Discounted Price" name="productDiscountedPrice" aria-label="Product discounted price" />
+                      <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="MRP" name="mrp" aria-label="Product discounted price"
+                        {...register('mrp', { required: true })}
+                      />
                     </div>
                     {/* /Pricing Card */}
-                    <div>
+                    {/* <div>
                       <button className="btn btn-primary" data-repeater-create>
                         Add another option
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* /Variants */}
@@ -319,7 +350,10 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                             <h5 className="mb-4">Shipping Type</h5>
                             <div>
                               <div className="form-check mb-3">
-                                <input className="form-check-input" type="radio" name="shippingType" id="seller" />
+                                <input className="form-check-input" type="radio" name="shippingType" id="seller"
+                                  value="seller"
+                                  {...register('shipping_type')}
+                                />
                                 <label className="form-check-label" htmlFor="seller">
                                   <span className="mb-1 h6">Fulfilled by Seller</span>
                                   <small className="text-muted">You'll be responsible for product delivery.<br />
@@ -327,7 +361,9 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 </label>
                               </div>
                               <div className="form-check mb-5">
-                                <input className="form-check-input" type="radio" name="shippingType" id="companyName" defaultChecked />
+                                <input className="form-check-input" type="radio" name="shippingType" id="companyName"
+                                  value="companyName"
+                                  {...register('shipping_type')} defaultChecked />
                                 <label className="form-check-label" htmlFor="companyName">
                                   <span className="mb-1 h6">Fulfilled by Company name &nbsp;<span className="badge rounded-2 badge-warning bg-label-warning fs-tiny py-1">RECOMMENDED</span></span>
                                   <br /><small className="text-muted">Your product, Our responsibility.<br />
@@ -496,10 +532,11 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                 {/* /Organize Card */}
               </div>
               {/* /Second column */}
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
-      </div></div >
+      </div>
+    </div >
 
 
 
