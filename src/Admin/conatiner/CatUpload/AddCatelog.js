@@ -1,68 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCategoryData } from '../../../redux/slice/category.slice';
-import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategoryData } from "../../../redux/slice/category.slice";
+import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
+import { validateYupSchema } from "formik";
 
 function AddCatelog({ data, setData, isSelected, imgFile }) {
   console.log(imgFile);
-  const category = useSelector(state => state.category)
-  const subcategory = useSelector(state => state.subcategory)
-  const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
-  const [categorys, setCategorys] = useState(null)
+  const category = useSelector(state => state.category);
+  const subcategory = useSelector(state => state.subcategory);
+  const [fileInputs, setFileInputs] = useState([
+    { id: 1, selectedFile: imgFile },
+    { id: 2, selectedFile: null }
+  ]);
+  const [categorys, setCategorys] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL']
+  const [value , setValue] = useState({
+  });
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = () => {
-      dispatch(getCategoryData())
-      dispatch(getSubCategoryData())
-    }
-    getData()
-  }, [])
-
+      dispatch(getCategoryData());
+      dispatch(getSubCategoryData());
+    };
+    getData();
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleCheckboxChange = (size) => {
+  const handleCheckboxChange = size => {
     if (selectedSizes.includes(size)) {
-      setSelectedSizes(selectedSizes.filter((s) => s !== size));
+      setSelectedSizes(selectedSizes.filter(s => s !== size));
     } else {
       setSelectedSizes([...selectedSizes, size]);
     }
   };
 
-  const handleFileChange = (id) => (event) => {
+  const handleFileChange = id => event => {
     const fileInput = event.target;
     const file = fileInput.files[0];
 
-    setFileInputs((prevInputs) =>
-      prevInputs.map((input) =>
-        input.id === id ? { ...input, selectedFile: file } : input
+    setFileInputs(prevInputs =>
+      prevInputs.map(
+        input => (input.id === id ? { ...input, selectedFile: file } : input)
       )
     );
 
     // Add a new file input when a file is selected
-    setFileInputs((prevInputs) => [
+    setFileInputs(prevInputs => [
       ...prevInputs,
-      { id: prevInputs.length + 1, selectedFile: null },
+      { id: prevInputs.length + 1, selectedFile: null }
     ]);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log('Submit', event.target.name);
+  const handleChange = (event) => {
+    setValue({...value , [event.target.value] : event.target.value})
   }
+
+
+
+  const handleSubmit = event => {
+  console.log(value);
+  
+  
+  };
+
+
+
   return (
     <div className="content-wrapper">
       {/* Content */}
       <div className="container-xxl flex-grow-1 container-p-y">
         <h4 className="py-3 mb-4">
-          <span className="text-muted fw-light">Catalog upload /</span><span> Add Product</span>
+          <span className="text-muted fw-light">Catalog upload /</span>
+          <span> Add Product</span>
         </h4>
         <div className="app-ecommerce">
           {/* Add Product */}
@@ -74,7 +90,13 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
             <div className="d-flex align-content-center flex-wrap gap-3">
               <button className="btn btn-primary">Discard</button>
               <button className="btn btn-primary">Save draft</button>
-              <button type="submit" className="btn btn-primary">Publish product</button>
+              <button
+                type="submit"
+                onClick={e => handleSubmit(e)}
+                className="btn btn-primary"
+              >
+                Publish product
+              </button>
             </div>
           </div>
           <div className="row">
@@ -87,20 +109,66 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                 </div>
                 <div className="card-body">
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="ecommerce-product-name">Name</label>
-                    <input type="text" className="form-control" id="ecommerce-product-name" placeholder="Product title" name="productTitle" aria-label="Product title" />
+                    <label
+                      className="form-label"
+                      htmlFor="ecommerce-product-name"
+                    >
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="ecommerce-product-name getValue"
+                      placeholder="Product title"
+                      name="productName"
+                      aria-label="Product title"
+                      value={value.productName}
+                      onChange = {handleChange}
+                    />
                   </div>
                   <div className="row mb-3">
-                    <div className="col"><label className="form-label" htmlFor="ecommerce-product-sku">SKU</label>
-                      <input type="text" className="form-control" id="ecommerce-product-sku" placeholder="SKU" name="productSku" aria-label="Product SKU" /></div>
-                    <div className="col"><label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
-                      <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="productBarcode" aria-label="Product barcode" /></div>
+                    <div className="col">
+                      <label
+                        className="form-label"
+                        htmlFor="ecommerce-product-sku"
+                      >
+                        SKU
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="ecommerce-product-sku"
+                        placeholder="SKU"
+                        name="productSku"
+                        aria-label="Product SKU"
+                      />
+                    </div>
+                    <div className="col">
+                      <label
+                        className="form-label"
+                        htmlFor="ecommerce-product-barcode"
+                      >
+                        Group id
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="ecommerce-product-barcode"
+                        placeholder="0123-4567"
+                        name="productBarcode"
+                        aria-label="Product barcode"
+                      />
+                    </div>
                   </div>
                   {/* Description */}
                   <div>
                     <label className="form-label">Description</label>
-                    <br></br>
-                    <textarea rows={"10"} cols={"77"} style={{ padding: '15px' }} />
+                    <br />
+                    <textarea
+                      rows={"10"}
+                      cols={"77"}
+                      style={{ padding: "15px" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -111,59 +179,98 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                   <h5 className="card-title mb-0">Variants</h5>
                 </div>
                 <div className="card-body">
-                  <form className="form-repeater" onSubmit={(e) => handleSubmit(e)}>
+                  <form
+                    className="form-repeater"
+                    onSubmit={e => handleSubmit(e)}
+                  >
                     <div data-repeater-list="group-a">
                       <div data-repeater-item>
-                        <label className="form-label" htmlFor="form-repeater-1-1">Images</label>
-                        <div className='addProduct'>
-                          {fileInputs.map((input) => (
+                        <label
+                          className="form-label"
+                          htmlFor="form-repeater-1-1"
+                        >
+                          Images
+                        </label>
+                        <div className="addProduct">
+                          {fileInputs.map(input =>
                             <div key={input.id}>
                               <input
                                 type="file"
                                 id={`fileInput${input.id}`}
                                 onChange={handleFileChange(input.id)}
-                                style={{ display: 'none' }}
+                                style={{ display: "none" }}
                               />
-                              <label htmlFor={`fileInput${input.id}`} className="file-input-label">
-                                {input.selectedFile ? 'Change Image' : 'Choose Image'}
+                              <label
+                                htmlFor={`fileInput${input.id}`}
+                                className="file-input-label"
+                              >
+                                {input.selectedFile
+                                  ? "Change Image"
+                                  : "Choose Image"}
                               </label>
 
-                              {input.selectedFile && (
-                                <div className="image-container" style={{ margin: '0 11px' }}>
-                                  <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
-                                </div>
-
-                              )}
-
+                              {input.selectedFile &&
+                                <div
+                                  className="image-container"
+                                  style={{ margin: "0 11px" }}
+                                >
+                                  <img
+                                    src={URL.createObjectURL(
+                                      input.selectedFile
+                                    )}
+                                    alt="Selected Image"
+                                    id="selected-image"
+                                  />
+                                </div>}
                             </div>
-                          ))}
+                          )}
                         </div>
                         <div className="row">
                           <div className="mb-3 col-4">
-                            <label className="form-label" htmlFor="form-repeater-1-1">Color</label>
-                            <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="productSku" aria-label="Product SKU" />
+                            <label
+                              className="form-label"
+                              htmlFor="form-repeater-1-1"
+                            >
+                              Color
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="ecommerce-product-color"
+                              placeholder="color"
+                              name="productSku"
+                              aria-label="Product SKU"
+                            />
                           </div>
                           <div className="mb-3 col-4">
-                            <label className="form-label" htmlFor="form-repeater-1-1">Sizes</label>
+                            <label
+                              className="form-label"
+                              htmlFor="form-repeater-1-1"
+                            >
+                              Sizes
+                            </label>
                             <div className="dropdown">
-                              <div className="dropdown-toggle" onClick={toggleDropdown}>
+                              <div
+                                className="dropdown-toggle"
+                                onClick={toggleDropdown}
+                              >
                                 Select Sizes
                               </div>
-                              {isOpen && (
+                              {isOpen &&
                                 <div className="dropdown-content">
-                                  {sizes.map((size) => (
-                                    <label key={size} className='labelcheck'>
+                                  {sizes.map(size =>
+                                    <label key={size} className="labelcheck">
                                       <input
                                         type="checkbox"
                                         value={size}
                                         checked={selectedSizes.includes(size)}
-                                        onChange={() => handleCheckboxChange(size)}
+                                        onChange={() =>
+                                          handleCheckboxChange(size)}
                                       />
                                       {size}
                                     </label>
-                                  ))}
-                                </div>
-                              )}
+                                  )}
+                                </div>}
                             </div>
                           </div>
                         </div>
@@ -172,13 +279,37 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                     {/* Pricing Card */}
                     {/* Base Price */}
                     <div className="mb-3">
-                      <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
-                      <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="productPrice" aria-label="Product price" />
+                      <label
+                        className="form-label"
+                        htmlFor="ecommerce-product-price"
+                      >
+                        Price
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="ecommerce-product-price"
+                        placeholder="Price"
+                        name="productPrice"
+                        aria-label="Product price"
+                      />
                     </div>
                     {/* Discounted Price */}
                     <div className="mb-3">
-                      <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
-                      <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="Discounted Price" name="productDiscountedPrice" aria-label="Product discounted price" />
+                      <label
+                        className="form-label"
+                        htmlFor="ecommerce-product-discount-price"
+                      >
+                        MRP
+                      </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="ecommerce-product-discount-price"
+                        placeholder="Discounted Price"
+                        name="productDiscountedPrice"
+                        aria-label="Product discounted price"
+                      />
                     </div>
                     {/* /Pricing Card */}
                     <div>
@@ -186,7 +317,6 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                         Add another option
                       </button>
                     </div>
-
                   </form>
                 </div>
               </div>
@@ -234,33 +364,74 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                           </div>
                         </div> */}
                         {/* Shipping Tab */}
-                        <div className="tab-pane fade" id="shipping" role="tabpanel" style={{display: 'block !important'}}>
+                        <div
+                          className="tab-pane fade"
+                          id="shipping"
+                          role="tabpanel"
+                          style={{ display: "block !important" }}
+                        >
                           <h5 className="mb-4">Shipping Type</h5>
                           <div>
                             <div className="form-check mb-3">
-                              <input className="form-check-input" type="radio" name="shippingType" id="seller" />
-                              <label className="form-check-label" htmlFor="seller">
-                                <span className="mb-1 h6">Fulfilled by Seller</span>
-                                <small className="text-muted">You'll be responsible for product delivery.<br />
-                                  Any damage or delay during shipping may cost you a Damage fee.</small>
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="shippingType"
+                                id="seller"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="seller"
+                              >
+                                <span className="mb-1 h6">
+                                  Fulfilled by Seller
+                                </span>
+                                <small className="text-muted">
+                                  You'll be responsible for product delivery.<br />
+                                  Any damage or delay during shipping may cost
+                                  you a Damage fee.
+                                </small>
                               </label>
                             </div>
                             <div className="form-check mb-5">
-                              <input className="form-check-input" type="radio" name="shippingType" id="companyName" defaultChecked />
-                              <label className="form-check-label" htmlFor="companyName">
-                                <span className="mb-1 h6">Fulfilled by Company name &nbsp;<span className="badge rounded-2 badge-warning bg-label-warning fs-tiny py-1">RECOMMENDED</span></span>
-                                <br /><small className="text-muted">Your product, Our responsibility.<br />
-                                  For a measly fee, we will handle the delivery process for you.</small>
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="shippingType"
+                                id="companyName"
+                                defaultChecked
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="companyName"
+                              >
+                                <span className="mb-1 h6">
+                                  Fulfilled by Company name &nbsp;<span className="badge rounded-2 badge-warning bg-label-warning fs-tiny py-1">
+                                    RECOMMENDED
+                                  </span>
+                                </span>
+                                <br />
+                                <small className="text-muted">
+                                  Your product, Our responsibility.<br />
+                                  For a measly fee, we will handle the delivery
+                                  process for you.
+                                </small>
                               </label>
                             </div>
-                            <p className="mb-0">See our <a href="javascript:void(0);">Delivery terms and conditions</a> for details</p>
+                            <p className="mb-0">
+                              See our{" "}
+                              <a href="javascript:void(0);">
+                                Delivery terms and conditions
+                              </a>{" "}
+                              for details
+                            </p>
                           </div>
                         </div>
                         {/* Global Delivery Tab */}
                         {/* <div className="tab-pane fade" id="global-delivery" role="tabpanel"> */}
-                          {/* <h5 className="mb-4">Global Delivery</h5> */}
-                          {/* Worldwide delivery */}
-                          {/* <div className="form-check mb-3">
+                        {/* <h5 className="mb-4">Global Delivery</h5> */}
+                        {/* Worldwide delivery */}
+                        {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" id="worldwide" />
                             <label className="form-check-label" htmlFor="worldwide">
                               <span className="mb-1 h6">Worldwide delivery</span>
@@ -268,16 +439,16 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 <a href="javascript:void(0);">Fulfilled by Company name</a></small>
                             </label>
                           </div> */}
-                          {/* Global delivery */}
-                          {/* <div className="form-check mb-3">
+                        {/* Global delivery */}
+                        {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" defaultChecked />
                             <label className="form-check-label w-75 pe-5" htmlFor="country-selected">
                               <span className="mb-2 h6">Selected Countries</span>
                               <input type="text" className="form-control" placeholder="Type Country name" id="country-selected" />
                             </label>
                           </div> */}
-                          {/* Local delivery */}
-                          {/* <div className="form-check">
+                        {/* Local delivery */}
+                        {/* <div className="form-check">
                             <input className="form-check-input" type="radio" name="globalDel" id="local" />
                             <label className="form-check-label" htmlFor="local">
                               <span className="mb-1 h6">Local delivery</span>
@@ -287,37 +458,83 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                           </div> */}
                         {/* </div> */}
                         {/* Attributes Tab */}
-                        <div className="tab-pane fade" id="attributes" role="tabpanel">
+                        <div
+                          className="tab-pane fade"
+                          id="attributes"
+                          role="tabpanel"
+                        >
                           <h5 className="mb-4">Attributes</h5>
                           <div>
                             {/* Fragile Product */}
                             <div className="form-check mb-3">
-                              <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" />
-                              <label className="form-check-label" htmlFor="fragile">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                defaultValue="fragile"
+                                id="fragile"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="fragile"
+                              >
                                 <span className="mb-0 h6">Fragile Product</span>
                               </label>
                             </div>
                             {/* Biodegradable */}
                             <div className="form-check mb-3">
-                              <input className="form-check-input" type="checkbox" defaultValue="biodegradable" id="biodegradable" />
-                              <label className="form-check-label" htmlFor="biodegradable">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                defaultValue="biodegradable"
+                                id="biodegradable"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="biodegradable"
+                              >
                                 <span className="mb-0 h6">Biodegradable</span>
                               </label>
                             </div>
                             {/* Frozen Product */}
                             <div className="form-check mb-3">
-                              <input className="form-check-input" type="checkbox" defaultValue="frozen" />
-                              <label className="form-check-label w-75 pe-5" htmlFor="frozen">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                defaultValue="frozen"
+                              />
+                              <label
+                                className="form-check-label w-75 pe-5"
+                                htmlFor="frozen"
+                              >
                                 <span className="mb-1 h6">Frozen Product</span>
-                                <input type="number" className="form-control" placeholder="Max. allowed Temperature" id="frozen" />
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  placeholder="Max. allowed Temperature"
+                                  id="frozen"
+                                />
                               </label>
                             </div>
                             {/* Exp Date */}
                             <div className="form-check mb-4">
-                              <input className="form-check-input" type="checkbox" defaultValue="expDate" id="expDate" />
-                              <label className="form-check-label w-75 pe-5" htmlFor="date-input">
-                                <span className="mb-1 h6">Expiry Date of Product</span>
-                                <input type="date" className="product-date form-control" id="date-input" />
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                defaultValue="expDate"
+                                id="expDate"
+                              />
+                              <label
+                                className="form-check-label w-75 pe-5"
+                                htmlFor="date-input"
+                              >
+                                <span className="mb-1 h6">
+                                  Expiry Date of Product
+                                </span>
+                                <input
+                                  type="date"
+                                  className="product-date form-control"
+                                  id="date-input"
+                                />
                               </label>
                             </div>
                           </div>
@@ -365,41 +582,58 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                     <label className="form-label mb-1" htmlFor="vendor">
                       Category
                     </label>
-                    <select id="vendor" className="select2 form-select" data-placeholder="Select Vendor" onChange={(e) => setCategorys(e.target.value)}>
+                    <select
+                      id="vendor"
+                      className="select2 form-select"
+                      data-placeholder="Select Vendor"
+                      onChange={e => setCategorys(e.target.value)}
+                    >
                       <option value>Select Category</option>
-                      {
-                        category.category.map((v) => {
-                          return (
-                            <option value={v.category}>{v.category}</option>
-                          )
-                        })
-                      }
+                      {category.category.map(v => {
+                        return (
+                          <option value={v.category}>
+                            {v.category}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
 
                   {/* Category */}
                   <div className="mb-3 col ecommerce-select2-dropdown">
-                    <label className="form-label mb-1 d-flex justify-content-between align-items-center" htmlFor="category-org">
+                    <label
+                      className="form-label mb-1 d-flex justify-content-between align-items-center"
+                      htmlFor="category-org"
+                    >
                       <span>Subcategory</span>
                     </label>
-                    <select id="category-org" className="select2 form-select" data-placeholder="Select Category">
+                    <select
+                      id="category-org"
+                      className="select2 form-select"
+                      data-placeholder="Select Category"
+                    >
                       <option value>Select Subcategory</option>
-                      {
-                        subcategory.subcategory.map((v) => {
-                          if (categorys === v.category) {
-                            return (
-                              <option value={v.subcategory}>{v.subcategory}</option>
-                            )
-                          }
-                        })
-                      }
+                      {subcategory.subcategory.map(v => {
+                        if (categorys === v.category) {
+                          return (
+                            <option value={v.subcategory}>
+                              {v.subcategory}
+                            </option>
+                          );
+                        }
+                      })}
                     </select>
                   </div>
                   {/* Status */}
                   <div className="mb-3 col ecommerce-select2-dropdown">
-                    <label className="form-label mb-1" htmlFor="status-org">Status
+                    <label className="form-label mb-1" htmlFor="status-org">
+                      Status
                     </label>
-                    <select id="status-org" className="select2 form-select" data-placeholder="Published">
+                    <select
+                      id="status-org"
+                      className="select2 form-select"
+                      data-placeholder="Published"
+                    >
                       <option value>None</option>
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
@@ -407,8 +641,18 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                   </div>
                   {/* Tags */}
                   <div className="mb-3">
-                    <label htmlFor="ecommerce-product-tags" className="form-label mb-1">Tags</label>
-                    <input id="ecommerce-product-tags" className="form-control" name="ecommerce-product-tags" aria-label="Product Tags" />
+                    <label
+                      htmlFor="ecommerce-product-tags"
+                      className="form-label mb-1"
+                    >
+                      Tags
+                    </label>
+                    <input
+                      id="ecommerce-product-tags"
+                      className="form-control"
+                      name="ecommerce-product-tags"
+                      aria-label="Product Tags"
+                    />
                   </div>
                 </div>
               </div>
@@ -417,11 +661,8 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
             {/* /Second column */}
           </div>
         </div>
-      </div></div>
-
-
-
-
+      </div>
+    </div>
   );
 }
 
