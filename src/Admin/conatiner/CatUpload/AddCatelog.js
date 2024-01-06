@@ -8,11 +8,10 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 
 function AddCatelog({ data, setData, isSelected, imgFile }) {
-  console.log(imgFile);
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
-  const [categorys, setCategorys] = useState(null)
+  // const [categorys, setCategorys] = useState('')
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL']
@@ -30,7 +29,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  console.log(fileInputs);
+
   const handleCheckboxChange = (size) => {
     if (selectedSizes.includes(size)) {
       setSelectedSizes(selectedSizes.filter((s) => s !== size));
@@ -61,25 +60,19 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     sku: yup.string().required(),
     group_id: yup.string().required(),
     description: yup.string().max(1000).required(),
-    Images: yup.array().of(
-      yup.object().shape({
-        url: yup.string().url('Invalid URL').required('Image URL is required'),
-        alt: yup.string().required('Alt text is required'),
-      })
-    ),
+    Images: yup.array(),
     color: yup.string(),
     sizes: yup.array().min(1, 'Please select at least one size'),
     price: yup.number().positive().required(),
     mrp: yup.number().positive().required(),
-    stock: yup.number().integer().min(0).required(),
+    stock: yup.number().min(0).required(),
     category: yup.string().required(),
     subcategory: yup.string().required(),
     status: yup.string().required(),
-    tags: yup.array().of(yup.string()),
+    // // tags: yup.array().of(yup.string()),
     shipping_type: yup.string().required(),
-    attributes: yup.string().required(),
+    fragile: yup.string(),
   });
-
 
   // const obj = {
   //   product_name: '',
@@ -127,10 +120,40 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    watch
   } = useForm({ resolver: yupResolver(productSchema) });
+
+  const categorys = watch('category');
+  const subcategorys = watch('subcategory');
+
+  useEffect(() => {
+    let images = []
+    fileInputs.map((input) => {
+      if (input.selectedFile !== null) {
+        images.push(input.selectedFile)
+      }
+    })
+    setValue('Images',images)
+  },[fileInputs]) 
+
+  useEffect(() => {
+    setValue('sizes',selectedSizes)
+  },[selectedSizes])
+
+  useEffect(() => {
+    // Update subcategory options when category changes
+    setValue('subcategory', ''); // Reset subcategory value
+  }, [categorys, setValue]);
+
+  const handleCategoryChange = (e) => {
+    const selectedValue = e.target.value;
+    setValue('category', selectedValue);
+  };
 
   const onsubmit = (data) => {
     console.log("All Form values", data);
+    console.log('data');
   }
 
   return (
@@ -218,7 +241,6 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 id={`fileInput${input.id}`}
                                 onChange={handleFileChange(input.id)}
                                 style={{ display: 'none' }}
-                                // {...register(`Images[${input.id - 1}].url`)}
                               />
                               <label htmlFor={`fileInput${input.id}`} className="file-input-label">
                                 {input.selectedFile ? 'Change Image' : 'Choose Image'}
@@ -230,14 +252,9 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                 </div>
                               )}
 
-                              {/* <input
-                                type="text"
-                                placeholder="Alt text"
-                                {...register(`Images[${input.id - 1}].alt`)}
-                              />
                               {errors.Images && errors.Images[input.id - 1]?.alt && (
-                                <p>{errors.Images[input.id - 1].alt.message}</p>
-                              )} */}
+                                <p>{errors.Images.message}</p>
+                              )}
                             </div>
                           ))}
                         </div>
@@ -245,7 +262,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                           <div className="mb-3 col-4">
                             <label className="form-label" htmlFor="ecommerce-product-color">Color</label>
                             <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="color" aria-label="Product SKU"
-                              {...register('color', { required: true })}
+                            {...register('color', { required: true })}
                             />
                             {errors.color && <p>{errors.color.message}</p>}
                           </div>
@@ -265,12 +282,11 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                         value={size}
                                         checked={selectedSizes.includes(size)}
                                         onChange={() => handleCheckboxChange(size)}
-                                        // {...register('sizes')}
+                                      // {...register('sizes')}
                                       />
                                       <label htmlFor={`size-${size}`}>{size}</label>
                                     </div>
                                   ))}
-                                  {console.log(selectedSizes)}
                                 </div>
                               )}
                             </div>
@@ -283,16 +299,25 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                     {/* Base Price */}
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
-                      <input type="number" className="form-control" id="ecommerce-product-price" placeholder="Price" name="price" aria-label="Product price"
-                        {...register('price', { required: true })}
+                      <input type="text" className="form-control" id="ecommerce-product-price" placeholder="Price" name="price" aria-label="Product price"
+                      {...register('price', { required: true })}
                       />
+                      {errors.price && <p>{errors.price.message}</p>}
                     </div>
                     {/* Discounted Price */}
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
-                      <input type="number" className="form-control" id="ecommerce-product-discount-price" placeholder="MRP" name="mrp" aria-label="Product discounted price"
-                        {...register('mrp', { required: true })}
+                      <input type="text" className="form-control" id="ecommerce-product-discount-price" placeholder="MRP" name="mrp" aria-label="Product discounted price"
+                      {...register('mrp', { required: true })}
                       />
+                      {errors.mrp && <p>{errors.mrp.message}</p>}
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="stock">Stock</label>
+                      <input type="text" className="form-control" id="stock" placeholder="MRP" name="mrp" aria-label="Stock"
+                      {...register('stock', { required: true })}
+                      />
+                      {errors.mrp && <p>{errors.stock.message}</p>}
                     </div>
                     {/* /Pricing Card */}
                     {/* <div>
@@ -352,7 +377,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               <div className="form-check mb-3">
                                 <input className="form-check-input" type="radio" name="shippingType" id="seller"
                                   value="seller"
-                                  {...register('shipping_type')}
+                                {...register('shipping_type')}
                                 />
                                 <label className="form-check-label" htmlFor="seller">
                                   <span className="mb-1 h6">Fulfilled by Seller</span>
@@ -363,7 +388,8 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               <div className="form-check mb-5">
                                 <input className="form-check-input" type="radio" name="shippingType" id="companyName"
                                   value="companyName"
-                                  {...register('shipping_type')} defaultChecked />
+                                  {...register('shipping_type')}
+                                  defaultChecked />
                                 <label className="form-check-label" htmlFor="companyName">
                                   <span className="mb-1 h6">Fulfilled by Company name &nbsp;<span className="badge rounded-2 badge-warning bg-label-warning fs-tiny py-1">RECOMMENDED</span></span>
                                   <br /><small className="text-muted">Your product, Our responsibility.<br />
@@ -372,6 +398,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               </div>
                               <p className="mb-0">See our <a href="javascript:void(0);">Delivery terms and conditions</a> for details</p>
                             </div>
+                            {errors.shipping_type && <p>{errors.shipping_type.message}</p>}
                           </div>
                           {/* Global Delivery Tab */}
                           {/* <div className="tab-pane fade" id="global-delivery" role="tabpanel"> */}
@@ -409,7 +436,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                             <div>
                               {/* Fragile Product */}
                               <div className="form-check mb-3">
-                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" />
+                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" value='Fragile Product' {...register('fragile')}/>
                                 <label className="form-check-label" htmlFor="fragile">
                                   <span className="mb-0 h6">Fragile Product</span>
                                 </label>
@@ -430,13 +457,13 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               </label>
                             </div> */}
                               {/* Exp Date */}
-                              <div className="form-check mb-4">
+                              {/* <div className="form-check mb-4">
                                 <input className="form-check-input" type="checkbox" defaultValue="expDate" id="expDate" />
                                 <label className="form-check-label w-75 pe-5" htmlFor="date-input">
                                   <span className="mb-1 h6">Expiry Date of Product</span>
                                   <input type="date" className="product-date form-control" id="date-input" />
                                 </label>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                           {/* /Attributes Tab */}
@@ -479,11 +506,13 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                   <div className="card-body">
                     {/* Vendor */}
                     <div className="mb-3 col ecommerce-select2-dropdown">
-                      <label className="form-label mb-1" htmlFor="vendor">
+                      <label className="form-label mb-1" htmlFor="category">
                         Category
                       </label>
-                      <select id="vendor" className="select2 form-select" data-placeholder="Select Vendor" onChange={(e) => setCategorys(e.target.value)}>
-                        <option value>Select Category</option>
+                      <select id="category" className={`form-select ${errors.category ? 'is-invalid' : ''}`} data-placeholder="Select Category" onChange={handleCategoryChange} 
+                      {...register('category')}
+                      >
+                        <option value=''>Select Category</option>
                         {
                           category.category.map((v) => {
                             return (
@@ -492,15 +521,20 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                           })
                         }
                       </select>
+                      {errors.category && (
+                        <div className="invalid-feedback">{errors.category.message}</div>
+                      )}
                     </div>
 
                     {/* Category */}
                     <div className="mb-3 col ecommerce-select2-dropdown">
-                      <label className="form-label mb-1 d-flex justify-content-between align-items-center" htmlFor="category-org">
+                      <label className="form-label mb-1 d-flex justify-content-between align-items-center" htmlFor="subcategory">
                         <span>Subcategory</span>
                       </label>
-                      <select id="category-org" className="select2 form-select" data-placeholder="Select Category">
-                        <option value>Select Subcategory</option>
+                      <select id="subcategory" className={`form-select ${errors.subcategory ? 'is-invalid' : ''}`} data-placeholder="Select Subcategory" 
+                      {...register('subcategory')}
+                      >
+                        <option value=''>Select Subcategory</option>
                         {
                           subcategory.subcategory.map((v) => {
                             if (categorys === v.category) {
@@ -511,22 +545,30 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                           })
                         }
                       </select>
+                      {errors.subcategory && (
+                        <div className="invalid-feedback">{errors.subcategory.message}</div>
+                      )}
                     </div>
                     {/* Status */}
                     <div className="mb-3 col ecommerce-select2-dropdown">
                       <label className="form-label mb-1" htmlFor="status-org">Status
                       </label>
-                      <select id="status-org" className="select2 form-select" data-placeholder="Published">
-                        <option value>None</option>
+                      <select id="status-org" data-placeholder="Published" className={`form-select ${errors.status ? 'is-invalid' : ''}`} 
+                      {...register('status')}
+                      >
+                        <option value=''>None</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                       </select>
+                      {errors.subcategory && (
+                        <div className="invalid-feedback">{errors.subcategory.message}</div>
+                      )}
                     </div>
                     {/* Tags */}
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <label htmlFor="ecommerce-product-tags" className="form-label mb-1">Tags</label>
                       <input id="ecommerce-product-tags" className="form-control" name="ecommerce-product-tags" aria-label="Product Tags" />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* /Organize Card */}
@@ -537,10 +579,6 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
         </div>
       </div>
     </div >
-
-
-
-
   );
 }
 
