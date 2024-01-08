@@ -11,6 +11,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
+import { useNavigate } from 'react-router';
 
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
