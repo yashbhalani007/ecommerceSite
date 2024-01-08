@@ -12,8 +12,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
 
-
-
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
     const [open, setOpen] = React.useState(true);
