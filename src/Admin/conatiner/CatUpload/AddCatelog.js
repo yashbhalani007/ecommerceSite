@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 
-function AddCatelog({ data, setData, isSelected, imgFile }) {
+function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
@@ -71,29 +71,10 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     category: yup.string().required(),
     subcategory: yup.string().required(),
     status: yup.string().required(),
-    // // tags: yup.array().of(yup.string()),
+    // tags: yup.array().of(yup.string()),
     shipping_type: yup.string().required(),
     fragile: yup.string(),
   });
-
-  // const obj = {
-  //   product_name: '',
-  //   sku: '',
-  //   group_id: '',
-  //   description: '',
-  //   Images: '',
-  //   color: '',
-  //   sizes: '',
-  //   price: '',
-  //   mrp: '',
-  //   stock: '',
-  //   category: '',
-  //   subcategory: '',
-  //   status: '',
-  //   tags: '',
-  //   shipping_type: '',
-  //   attributes: ''
-  // }
 
   // const formik = useFormik({
   //   initialValues: obj,
@@ -153,9 +134,13 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     setValue('category', selectedValue);
   };
 
-  const onsubmit = (data) => {
-    console.log("All Form values", data);
+  const onsubmit = (formData) => {
+    console.log("All Form values", formData);
     console.log('data');
+    setData(formData)
+    if (formData) {
+      tabChange(1)
+    }
   }
 
   return (
@@ -303,7 +288,6 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                                         value={size}
                                         checked={selectedSizes.includes(size)}
                                         onChange={() => handleCheckboxChange(size)}
-                                      // {...register('sizes')}
                                       />
                                       <label htmlFor={`size-${size}`}>{size}</label>
                                     </div>
@@ -321,22 +305,22 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                     <div className="mb-3">
                       <label className="form-label" htmlFor="ecommerce-product-price">Price</label>
                       <input type="text" className="form-control" id="ecommerce-product-price" placeholder="Price" name="price" aria-label="Product price"
-                      {...register('price', { required: true })}
+                        {...register('price', { required: true })}
                       />
                       {errors.price && <p>{errors.price.message}</p>}
                     </div>
                     {/* Discounted Price */}
                     <div className="mb-3">
-                      <label className="form-label" htmlFor="ecommerce-product-discount-price">MRP</label>
-                      <input type="text" className="form-control" id="ecommerce-product-discount-price" placeholder="MRP" name="mrp" aria-label="Product discounted price"
-                      {...register('mrp', { required: true })}
+                      <label className="form-label" htmlFor="ecommerce-product-discount-mrp">MRP</label>
+                      <input type="text" className="form-control" id="ecommerce-product-discount-mrp" placeholder="MRP" name="mrp" aria-label="Product discounted price"
+                        {...register('mrp', { required: true })}
                       />
                       {errors.mrp && <p>{errors.mrp.message}</p>}
                     </div>
                     <div className="mb-3">
                       <label className="form-label" htmlFor="stock">Stock</label>
                       <input type="text" className="form-control" id="stock" placeholder="MRP" name="mrp" aria-label="Stock"
-                      {...register('stock', { required: true })}
+                        {...register('stock', { required: true })}
                       />
                       {errors.mrp && <p>{errors.stock.message}</p>}
                     </div>
@@ -398,7 +382,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                               <div className="form-check mb-3">
                                 <input className="form-check-input" type="radio" name="shippingType" id="seller"
                                   value="seller"
-                                {...register('shipping_type')}
+                                  {...register('shipping_type')}
                                 />
                                 <label className="form-check-label" htmlFor="seller">
                                   <span className="mb-1 h6">Fulfilled by Seller</span>
@@ -457,7 +441,9 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                             <div>
                               {/* Fragile Product */}
                               <div className="form-check mb-3">
-                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" value='Fragile Product' {...register('fragile')}/>
+                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" value='Fragile Product' 
+                                {...register('fragile')} 
+                                />
                                 <label className="form-check-label" htmlFor="fragile">
                                   <span className="mb-0 h6">Fragile Product</span>
                                 </label>
@@ -535,8 +521,8 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                       <label className="form-label mb-1" htmlFor="category">
                         Category
                       </label>
-                      <select id="category" className={`form-select ${errors.category ? 'is-invalid' : ''}`} data-placeholder="Select Category" onChange={handleCategoryChange} 
-                      {...register('category')}
+                      <select id="category" className={`form-select ${errors.category ? 'is-invalid' : ''}`} data-placeholder="Select Category" onChange={handleCategoryChange}
+                        {...register('category')}
                       >
                         <option value=''>Select Category</option>
                         {
@@ -557,8 +543,8 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                       <label className="form-label mb-1 d-flex justify-content-between align-items-center" htmlFor="subcategory">
                         <span>Subcategory</span>
                       </label>
-                      <select id="subcategory" className={`form-select ${errors.subcategory ? 'is-invalid' : ''}`} data-placeholder="Select Subcategory" 
-                      {...register('subcategory')}
+                      <select id="subcategory" className={`form-select ${errors.subcategory ? 'is-invalid' : ''}`} data-placeholder="Select Subcategory"
+                        {...register('subcategory')}
                       >
                         <option value=''>Select Subcategory</option>
                         {
@@ -579,15 +565,15 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
                     <div className="mb-3 col ecommerce-select2-dropdown">
                       <label className="form-label mb-1" htmlFor="status-org">Status
                       </label>
-                      <select id="status-org" data-placeholder="Published" className={`form-select ${errors.status ? 'is-invalid' : ''}`} 
-                      {...register('status')}
+                      <select id="status-org" data-placeholder="Published" className={`form-select ${errors.status ? 'is-invalid' : ''}`}
+                        {...register('status')}
                       >
                         <option value=''>None</option>
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                       </select>
-                      {errors.subcategory && (
-                        <div className="invalid-feedback">{errors.subcategory.message}</div>
+                      {errors.status && (
+                        <div className="invalid-feedback">{errors.status.message}</div>
                       )}
                     </div>
                     {/* Tags */}
