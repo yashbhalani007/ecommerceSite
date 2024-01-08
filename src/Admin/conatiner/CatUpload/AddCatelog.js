@@ -14,8 +14,7 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
   // const [categorys, setCategorys] = useState('')
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const [value , setValue] = useState({
-  });
+  
   const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
 
   const dispatch = useDispatch();
@@ -40,11 +39,13 @@ function AddCatelog({ data, setData, isSelected, imgFile }) {
     }
   };
 
+
+
   const handleFileChange = id => event => {
     const fileInput = event.target;
     const file = fileInput.files[0];
 
-    setFileInputs(prevInputs =>
+    setFileInputs(prevInputs => 
       prevInputs.map(
         input => (input.id === id ? { ...input, selectedFile: file } : input)
       )

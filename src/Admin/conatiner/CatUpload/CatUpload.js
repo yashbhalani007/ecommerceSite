@@ -1,49 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-// import { addCategoryData, getCategoryData } from '../../../common/api/category.api';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import CategoryForm from '../Category/CategoryForm';
 import { Link, NavLink } from 'react-router-dom';
-// import TextField from '@mui/material/TextField';
-// import Dialog from '@mui/material/Dialog';
-// import DialogActions from '@mui/material/DialogActions';
-// import DialogContent from '@mui/material/DialogContent';
-// import DialogContentText from '@mui/material/DialogContentText';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import AddCatelog from './AddCatelog';
+
 
 function CatUpload(props) {
     const [data, setData] = useState([])
-    // const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
-    // const [selectedFile, setSelectedFile] = useState(null);
-
-    useEffect(() => {
-        // const data = getCategoryData()
-        // setData(data)
-        // data.then(value => setData(value.data))
-    }, [])
-
-    // const handleFileChange = (id) => (event) => {
-    //     const fileInput = event.target;
-    //     const file = fileInput.files[0];
-
-    //     setFileInputs((prevInputs) =>
-    //         prevInputs.map((input) =>
-    //             input.id === id ? { ...input, selectedFile: file } : input
-    //         )
-    //     );
-
-    //     // Add a new file input when a file is selected
-    //     setFileInputs((prevInputs) => [
-    //         ...prevInputs,
-    //         { id: prevInputs.length + 1, selectedFile: null },
-    //     ]);
-    // };
-
-    
 
     const columns = [
         {
@@ -92,17 +57,15 @@ function CatUpload(props) {
 
     ];
 
-    const handleEdit = (value) => {
-
-    }
-
     const handleDelete = (value) => {
         console.log(value);
     }
 
-    const handleData = (e) => {
-        console.log(e.row);
+    const handleEdit = () => {
+
     }
+
+ 
     return (
         <>
             <br></br>
@@ -122,7 +85,6 @@ function CatUpload(props) {
                 <DataGrid
                     rows={data}
                     columns={columns}
-                    // onCellClick={(e) => handleData(e)}
                     initialState={{
                         pagination: {
                             paginationModel: {
@@ -135,41 +97,6 @@ function CatUpload(props) {
                     disableRowSelectionOnClick
                 />
             </Box>
-
-            {/* <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Subscribe</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
-                    </DialogContentText>
-                    <div className='addProduct'>
-                        {fileInputs.map((input) => (
-                            <div key={input.id}>
-                                <input
-                                    type="file"
-                                    id={`fileInput${input.id}`}
-                                    onChange={handleFileChange(input.id)}
-                                    style={{ display: 'none' }}
-                                />
-                                <label htmlFor={`fileInput${input.id}`} className="file-input-label">
-                                    {input.selectedFile ? 'Change Image' : 'Choose Image'}
-                                </label>
-
-                                {input.selectedFile && (
-                                    <div className="image-container" style={{ margin: '0 11px' }}>
-                                        <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={()=> handleSubmit()}>Subscribe</Button>
-                </DialogActions>
-            </Dialog> */}
         </>
     );
 }

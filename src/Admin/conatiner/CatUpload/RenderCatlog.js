@@ -135,8 +135,8 @@ function RenderCatlog(props) {
                 <DialogTitle>Subscribe</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
+                     Please Choose Product Multiple Image , Front, Back and OtherImages 
+                     Which Your Product More Attractive.
                     </DialogContentText>
                     <div className='addProduct'>
                         {fileInputs.map((input) => (
