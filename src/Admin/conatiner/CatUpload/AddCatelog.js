@@ -14,9 +14,11 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
   // const [categorys, setCategorys] = useState('')
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL']
+  const [value , setValue] = useState({
+  });
+  const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getData = async () => {
@@ -30,28 +32,28 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
     setIsOpen(!isOpen);
   };
 
-  const handleCheckboxChange = (size) => {
+  const handleCheckboxChange = size => {
     if (selectedSizes.includes(size)) {
-      setSelectedSizes(selectedSizes.filter((s) => s !== size));
+      setSelectedSizes(selectedSizes.filter(s => s !== size));
     } else {
       setSelectedSizes([...selectedSizes, size]);
     }
   };
 
-  const handleFileChange = (id) => (event) => {
+  const handleFileChange = id => event => {
     const fileInput = event.target;
     const file = fileInput.files[0];
 
-    setFileInputs((prevInputs) =>
-      prevInputs.map((input) =>
-        input.id === id ? { ...input, selectedFile: file } : input
+    setFileInputs(prevInputs =>
+      prevInputs.map(
+        input => (input.id === id ? { ...input, selectedFile: file } : input)
       )
     );
 
     // Add a new file input when a file is selected
-    setFileInputs((prevInputs) => [
+    setFileInputs(prevInputs => [
       ...prevInputs,
-      { id: prevInputs.length + 1, selectedFile: null },
+      { id: prevInputs.length + 1, selectedFile: null }
     ]);
   };
 
@@ -146,7 +148,8 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
       {/* Content */}
       <div className="container-xxl flex-grow-1 container-p-y">
         <h4 className="py-3 mb-4">
-          <span className="text-muted fw-light">Catalog upload /</span><span> Add Product</span>
+          <span className="text-muted fw-light">Catalog upload /</span>
+          <span> Add Product</span>
         </h4>
         <div className="app-ecommerce">
           {/* Add Product */}
@@ -217,18 +220,28 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                   <div className="card-body">
                     <div data-repeater-list="group-a">
                       <div data-repeater-item>
-                        <label className="form-label" htmlFor="form-repeater-1-1">Images</label>
-                        <div className='addProduct'>
-                          {fileInputs.map((input) => (
+                        <label
+                          className="form-label"
+                          htmlFor="form-repeater-1-1"
+                        >
+                          Images
+                        </label>
+                        <div className="addProduct">
+                          {fileInputs.map(input =>
                             <div key={input.id}>
                               <input
                                 type="file"
                                 id={`fileInput${input.id}`}
                                 onChange={handleFileChange(input.id)}
-                                style={{ display: 'none' }}
+                                style={{ display: "none" }}
                               />
-                              <label htmlFor={`fileInput${input.id}`} className="file-input-label">
-                                {input.selectedFile ? 'Change Image' : 'Choose Image'}
+                              <label
+                                htmlFor={`fileInput${input.id}`}
+                                className="file-input-label"
+                              >
+                                {input.selectedFile
+                                  ? "Change Image"
+                                  : "Choose Image"}
                               </label>
 
                               {input.selectedFile && (
@@ -241,7 +254,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                                 <p>{errors.Images.message}</p>
                               )}
                             </div>
-                          ))}
+                          )}
                         </div>
                         <div className="row">
                           <div className="mb-3 col-4">
@@ -252,12 +265,20 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                             {errors.color && <p>{errors.color.message}</p>}
                           </div>
                           <div className="mb-3 col-4">
-                            <label className="form-label" htmlFor="form-repeater-1-1">Sizes</label>
+                            <label
+                              className="form-label"
+                              htmlFor="form-repeater-1-1"
+                            >
+                              Sizes
+                            </label>
                             <div className="dropdown">
-                              <div className="dropdown-toggle" onClick={toggleDropdown}>
+                              <div
+                                className="dropdown-toggle"
+                                onClick={toggleDropdown}
+                              >
                                 Select Sizes
                               </div>
-                              {isOpen && (
+                              {isOpen &&(
                                 <div className="dropdown-content">
                                   {sizes.map((size) => (
                                     <div key={size} className='checkbox-wrapper'>
@@ -396,16 +417,16 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                                 <a href="javascript:void(0);">Fulfilled by Company name</a></small>
                             </label>
                           </div> */}
-                          {/* Global delivery */}
-                          {/* <div className="form-check mb-3">
+                        {/* Global delivery */}
+                        {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" defaultChecked />
                             <label className="form-check-label w-75 pe-5" htmlFor="country-selected">
                               <span className="mb-2 h6">Selected Countries</span>
                               <input type="text" className="form-control" placeholder="Type Country name" id="country-selected" />
                             </label>
                           </div> */}
-                          {/* Local delivery */}
-                          {/* <div className="form-check">
+                        {/* Local delivery */}
+                        {/* <div className="form-check">
                             <input className="form-check-input" type="radio" name="globalDel" id="local" />
                             <label className="form-check-label" htmlFor="local">
                               <span className="mb-1 h6">Local delivery</span>
@@ -439,7 +460,12 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                               <input className="form-check-input" type="checkbox" defaultValue="frozen" />
                               <label className="form-check-label w-75 pe-5" htmlFor="frozen">
                                 <span className="mb-1 h6">Frozen Product</span>
-                                <input type="number" className="form-control" placeholder="Max. allowed Temperature" id="frozen" />
+                                <input
+                                  type="number"
+                                  className="form-control"
+                                  placeholder="Max. allowed Temperature"
+                                  id="frozen"
+                                />
                               </label>
                             </div> */}
                               {/* Exp Date */}
