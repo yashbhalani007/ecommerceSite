@@ -14,7 +14,7 @@ export const addCategory = createAsyncThunk(
         let nData = []
         const docRef = await addDoc(collection(db, "category"), data);
         nData.push(data)
-        
+
         return nData
     }
 )
@@ -26,11 +26,14 @@ export const getCategoryData = createAsyncThunk(
 
         const querySnapshot = await getDocs(collection(db, "category"));
         querySnapshot.forEach((doc) => {
-            data.push({...doc.data()})
+            data.push({ ...doc.data() })
+            console.log(data);
         });
 
         return data
+
     }
+
 )
 
 export const categorySlice = createSlice({
