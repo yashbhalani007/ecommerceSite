@@ -36,7 +36,9 @@ function RenderCatlog(props) {
         category: '',
         subcategory: '',
         status: '',
-        tags: ''
+        tags: '',
+        shipping_type: '',
+        attributes: ''
     }
 
     const handleToggle = () => {
