@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 
-function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
+function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);

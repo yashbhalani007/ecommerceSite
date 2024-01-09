@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router';
 
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
+    console.log(fileInputs);
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [tabData, setTabData] = useState({});
@@ -61,10 +62,14 @@ function RenderCatlog(props) {
 
 
     const handleTabChange = (newValue) => {
+        console.log(newValue);
         setTabIndex((prev) => {
-            if (fileInputs.length - 1 !== prev) {
-                console.log(fileInputs.length - 1 !== prev);
+            console.log(prev);
+            if (fileInputs.length - 1 !== newValue) {
                 return prev + newValue
+            }else if(fileInputs.length - 2 !== newValue) {
+                console.log('Products');
+                navigate('/');
             }
         });
     };
