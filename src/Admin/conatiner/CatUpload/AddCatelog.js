@@ -140,7 +140,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
     console.log('data');
     setData(formData)
     if (formData) {
-      tabChange(1)
+      tabChange()
     }
   }
 
