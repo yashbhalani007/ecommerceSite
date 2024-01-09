@@ -20,6 +20,7 @@ import Shop from '../user/container/Shop/Shop';
 import TrackOrder from '../user/container/TrackOrder/TrackOrder';
 import Conformation from '../user/container/Conformation/Conformation';
 import NewArrival from '../user/container/NewArrival/NewArrival';
+import Category from '../user/container/Category/Category';
 
 function UserRoutes(props) {
     return (
@@ -30,6 +31,7 @@ function UserRoutes(props) {
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/category/:categoryName" element={<Category />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
