@@ -118,7 +118,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
 
     setData(formData)
     if (formData) {
-      tabChange(1)
+      tabChange()
     }
     dispatch(addProduct(formData))
 

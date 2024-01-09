@@ -12,13 +12,17 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
 import { useNavigate } from 'react-router';
+import { setAlert } from "../../../redux/slice/alert.slice";
+
 
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
     console.log(fileInputs);
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
+    console.log(tabIndex);
     const [tabData, setTabData] = useState({});
+    console.log(tabData);
     const [tabs, setTabs] = useState([]);
     const navigate = useNavigate()
     let data = localStorage.getItem('addProduct')
@@ -60,19 +64,17 @@ function RenderCatlog(props) {
         localStorage.setItem('addProduct', data)
     };
 
-
-    const handleTabChange = (newValue) => {
-        console.log(newValue);
-        setTabIndex((prev) => {
-            console.log(prev);
-            if (fileInputs.length - 1 !== newValue) {
-                return prev + newValue
-            }else if(fileInputs.length - 2 !== newValue) {
-                console.log('Products');
-                navigate('/');
-            }
-        });
+    
+    const handleTabChange = () => {
+        if (fileInputs.length - 1 !== tabIndex + 1) {
+            console.log("Your Tab is Changed");
+            setTabIndex((prev) => prev + 1);
+        } else if(fileInputs.length - 1 == tabIndex + 1) {
+            setAlert({text : 'Product Uploaded Succesfully', color : 'success'})
+            navigate('/admin/catlogupload');
+        }
     };
+    
 
     const handleTabDataChange = (tabId, newData) => {
         setTabData((prevData) => ({
