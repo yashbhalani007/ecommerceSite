@@ -14,11 +14,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
   // const [categorys, setCategorys] = useState('')
   const [isOpen, setIsOpen] = useState(false);
   const [selectedSizes, setSelectedSizes] = useState([]);
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> main
   const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
 
   const dispatch = useDispatch();
