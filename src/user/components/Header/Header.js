@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { userLogoutRequest } from "../../../redux/action/adminauth.action";
 import { getCategoryData } from "../../../redux/slice/category.slice";
 import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
+import Category from "../../container/Category/Category";
 
 
 function Header(props) {
@@ -45,17 +46,27 @@ function Header(props) {
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-
+    console.log(selectedCategory);
     // Check if a category is selected before navigating
     if (selectedCategory) {
-      // Use navigate to navigate to the category page
-      navigate(`/category/${selectedCategory}`);
+      if (selectedCategory === 'All') {
+        navigate(`/`);
+      }else  {
+        navigate(`/category/${selectedCategory}`);
+      }
+      
     }
+
+    // <Category subCat = {selectedCategory} />
   };
+
+
 
   return (
     <div id="app">
+
       <header>
+
         {/* Top-Header */}
         <div className="full-layer-outer-header">
           <div className="container clearfix">
@@ -188,10 +199,14 @@ function Header(props) {
                       <label className="sr-only" htmlFor="select-category">
                         Choose category for search
                       </label>
+
                       <select className="select-box" id="select-category" onChange={handleCategoryChange}>
-                        <option selected="selected" value>
-                          All
-                        </option>
+                        
+                          <option selected="selected" value = 'All'>
+                            All
+                          </option>
+                        
+
                         {category.category.map((v) => {
                           return (
 
@@ -473,7 +488,10 @@ function Header(props) {
         {/* Bottom-Header /- */}
       </header>
     </div>
+
   );
+
+
 }
 
 export default Header;

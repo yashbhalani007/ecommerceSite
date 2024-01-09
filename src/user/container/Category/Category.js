@@ -1,6 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategoryData } from '../../../redux/slice/category.slice';
+import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 
-function Category(props) {
+function Category( {  } ) {
+    const dispatch = useDispatch()
+
+    const category = useSelector(state => state.category)
+    console.log(category.category);
+
+    const subcategory = useSelector(state => state.subcategory)
+
+    const subCategories = subcategory.subcategory;
+    let uniqueCategories = [];
+    subCategories.forEach((v) => {
+        if (!uniqueCategories.includes(v.category)) {
+            uniqueCategories.push(v.category);
+        }
+    });
+    console.log(uniqueCategories);
+
+
+    const namesList = subcategory.subcategory.map((obj) => obj.subcategory);
+    console.log(namesList);
+
+    useEffect(() => {
+        dispatch(getCategoryData())
+        dispatch(getSubCategoryData())
+    }, []);
+
     return (
         <div id='app'>
             <div>
@@ -35,15 +63,38 @@ function Category(props) {
                                 {/* Fetch-Categories-from-Root-Category  */}
                                 <div className="fetch-categories">
                                     <h3 className="title-name">Browse Categories</h3>
-                                    {/* Level-2 */}
-                                    <h3 className="fetch-mark-category">
+
+
+                                    {uniqueCategories.map((category) => (
+                                        <>
+                                            {subcategory.subcategory.map((item) => {
+                                                if (item.category === category) {
+                                                    console.log(item.subcategory);
+
+                                                    return (
+                                                        <h3 className="fetch-mark-category">
+                                                            <a href="shop-v2-sub-category.html">{item.subcategory}
+                                                                <span className="total-fetch-items">(5)</span>
+                                                            </a>
+                                                        </h3>
+                                                    );
+                                                }
+
+                                            })}
+
+                                        </>
+                                    ))}
+
+
+
+                                    {/* <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Tops
                                             <span className="total-fetch-items">(5)</span>
                                         </a>
-                                    </h3>
+                                    </h3> */}
                                     {/* Level-2 /- */}
                                     {/* Level-3 */}
-                                    <ul>
+                                    {/* <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">T-Shirts
                                                 <span className="total-fetch-items">(2)</span>
@@ -65,15 +116,13 @@ function Category(props) {
                                             </a>
                                         </li>
                                     </ul>
-                                    {/* Level-3 /- */}
-                                    {/* Level-2 */}
+
                                     <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Outwear
                                             <span className="total-fetch-items">(3)</span>
                                         </a>
                                     </h3>
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
+
                                     <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">Jackets
@@ -96,15 +145,13 @@ function Category(props) {
                                             </a>
                                         </li>
                                     </ul>
-                                    {/* Level-3 /- */}
-                                    {/* Level-2 */}
+
                                     <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Accessories
                                             <span className="total-fetch-items">(1)</span>
                                         </a>
                                     </h3>
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
+
                                     <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">Watches
@@ -127,15 +174,13 @@ function Category(props) {
                                             </a>
                                         </li>
                                     </ul>
-                                    {/* Level-3 /- */}
-                                    {/* Level-2 */}
+
                                     <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Bottoms
                                             <span className="total-fetch-items">(2)</span>
                                         </a>
                                     </h3>
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
+
                                     <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">Casual Pants
@@ -158,15 +203,13 @@ function Category(props) {
                                             </a>
                                         </li>
                                     </ul>
-                                    {/* Level-3 /- */}
-                                    {/* Level-2 */}
+
                                     <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Underwear
                                             <span className="total-fetch-items">(0)</span>
                                         </a>
                                     </h3>
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
+
                                     <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">Boxers
@@ -189,15 +232,13 @@ function Category(props) {
                                             </a>
                                         </li>
                                     </ul>
-                                    {/* Level-3 /- */}
-                                    {/* Level-2 */}
+
                                     <h3 className="fetch-mark-category">
                                         <a href="shop-v2-sub-category.html">Sunglasses
                                             <span className="total-fetch-items">(2)</span>
                                         </a>
                                     </h3>
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
+
                                     <ul>
                                         <li>
                                             <a href="shop-v3-sub-sub-category.html">Pilot
@@ -219,8 +260,8 @@ function Category(props) {
                                                 <span className="total-fetch-items">(2)</span>
                                             </a>
                                         </li>
-                                    </ul>
-                                    {/* Level-3 /- */}
+                                    </ul> */}
+
                                 </div>
                                 {/* Fetch-Categories-from-Root-Category  /- */}
                             </div>
