@@ -1,17 +1,58 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userLogoutRequest } from "../../../redux/action/adminauth.action";
+import { getCategoryData } from "../../../redux/slice/category.slice";
+import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
+
 
 function Header(props) {
-  const userauth = useSelector(state =>state.userauth);
+  const userauth = useSelector(state => state.userauth);
   const dispatch = useDispatch()
   console.log(userauth.userAuth);
 
- const handleLogout = () => {
+  const navigate = useNavigate();
+
+  const category = useSelector(state => state.category)
+  console.log(category.category);
+
+  const subcategory = useSelector(state => state.subcategory)
+
+  const subCategories = subcategory.subcategory;
+  let uniqueCategories = [];
+  subCategories.forEach((v) => {
+    if (!uniqueCategories.includes(v.category)) {
+      uniqueCategories.push(v.category);
+    }
+  });
+  console.log(uniqueCategories);
+
+
+
+  const namesList = subcategory.subcategory.map((obj) => obj.subcategory);
+  console.log(namesList);
+
+  useEffect(() => {
+    dispatch(getCategoryData())
+    dispatch(getSubCategoryData())
+  }, []);
+
+  const handleLogout = () => {
     console.log('kkk');
     dispatch(userLogoutRequest())
- }
+  }
+
+  const handleCategoryChange = (event) => {
+    const selectedCategory = event.target.value;
+
+    // Check if a category is selected before navigating
+    if (selectedCategory) {
+      // Use navigate to navigate to the category page
+      navigate(`/category/${selectedCategory}`);
+    }
+  };
+
   return (
     <div id="app">
       <header>
@@ -64,19 +105,19 @@ function Header(props) {
                     </li>
 
                     {userauth.userAuth
-                    
+
                       ? <li>
-                          <NavLink to={"/"} onClick={handleLogout}>
-                            <i className="fas fa-sign-in-alt u-s-m-r-9" />
-                            Logout
-                          </NavLink>
-                        </li>
+                        <NavLink to={"/"} onClick={handleLogout}>
+                          <i className="fas fa-sign-in-alt u-s-m-r-9" />
+                          Logout
+                        </NavLink>
+                      </li>
                       : <li>
-                          <NavLink to={"/auth"}>
-                            <i className="fas fa-sign-in-alt u-s-m-r-9" />
-                            Login/Signup
-                          </NavLink>
-                        </li>}
+                        <NavLink to={"/auth"}>
+                          <i className="fas fa-sign-in-alt u-s-m-r-9" />
+                          Login/Signup
+                        </NavLink>
+                      </li>}
                   </ul>
                 </li>
                 <li>
@@ -147,18 +188,20 @@ function Header(props) {
                       <label className="sr-only" htmlFor="select-category">
                         Choose category for search
                       </label>
-                      <select className="select-box" id="select-category">
+                      <select className="select-box" id="select-category" onChange={handleCategoryChange}>
                         <option selected="selected" value>
                           All
                         </option>
-                        <option value>Men's Clothing</option>
-                        <option value>Women's Clothing</option>
-                        <option value>Toys Hobbies &amp; Robots</option>
-                        <option value>Mobiles &amp; Tablets</option>
-                        <option value>Consumer Electronics</option>
-                        <option value>Books &amp; Audible</option>
-                        <option value>Beauty &amp; Health</option>
-                        <option value>Furniture Home &amp; Office</option>
+                        {category.category.map((v) => {
+                          return (
+
+                            <option key={v.category} value={v.category}>
+                              {v.category}
+                            </option>
+
+
+                          )
+                        })}
                       </select>
                     </div>
                   </div>

@@ -11,13 +11,16 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
+import { useNavigate } from 'react-router';
 
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
+    console.log(fileInputs);
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [tabData, setTabData] = useState({});
     const [tabs, setTabs] = useState([]);
+    const navigate = useNavigate()
     let data = localStorage.getItem('addProduct')
 
     const obj = {
@@ -26,7 +29,7 @@ function RenderCatlog(props) {
         group_id: '',
         description: '',
         Images: '',
-        color:'',
+        color: '',
         sizes: '',
         price: '',
         mrp: '',
@@ -58,8 +61,17 @@ function RenderCatlog(props) {
     };
 
 
-    const handleTabChange = (event, newValue) => {
-        setTabIndex(newValue);
+    const handleTabChange = (newValue) => {
+        console.log(newValue);
+        setTabIndex((prev) => {
+            console.log(prev);
+            if (fileInputs.length - 1 !== newValue) {
+                return prev + newValue
+            }else if(fileInputs.length - 2 !== newValue) {
+                console.log('Products');
+                navigate('/');
+            }
+        });
     };
 
     const handleTabDataChange = (tabId, newData) => {
@@ -111,7 +123,7 @@ function RenderCatlog(props) {
             <br></br>
             <br></br>
             <br></br>
-            <Tabs value={tabIndex} onChange={handleTabChange}>
+            <Tabs value={tabIndex}>
                 {tabs.map((tab, index) => (
                     <Tab key={index} label={tab.label} />
                 ))}
@@ -123,10 +135,11 @@ function RenderCatlog(props) {
                 <TabPanel key={index} value={tabIndex} index={index}>
                     <AddCatelog
                         key={index}
-                        data={tabData[tab.id] || obj }
+                        data={tabData[tab.id] || obj}
                         setData={(newData) => handleTabDataChange(tab.id, newData)}
                         isSelected={tabIndex === index}
                         imgFile={tab.imgFile}
+                        tabChange={handleTabChange}
                     />
                 </TabPanel>
             ))}
