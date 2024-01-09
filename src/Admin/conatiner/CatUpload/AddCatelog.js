@@ -6,6 +6,7 @@ import { useFormik, ErrorMessage } from 'formik';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { addProduct } from '../../../redux/slice/product.slice';
 
 function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
   const category = useSelector(state => state.category)
@@ -74,29 +75,6 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
     fragile: yup.string(),
   });
 
-  // const formik = useFormik({
-  //   initialValues: obj,
-  //   validationSchema: productSchema,
-  //   validateOnChange: false,
-  //   validateOnBlur: false,
-  //   onSubmit: values => {
-  //     alert(JSON.stringify(values, null, 2));
-  //   },
-  // });
-
-  // const { handleBlur, handleChange, handleReset, handleSubmit, errors, values, setValues, touched } = formik
-
-  // useEffect(() => {
-  //   const productNameInput = document.getElementById('ecommerce-product-name');
-  //   if (productNameInput) {
-  //     productNameInput.focus();
-  //   }
-  // }, [values.product_name]);
-
-  // const productSchema = yup.object({
-  //   product_name: yup.string().min(2).required("Name is required")
-  // })
-
   const {
     register,
     handleSubmit,
@@ -134,11 +112,13 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
 
   const onsubmit = (formData) => {
     console.log("All Form values", formData);
-    console.log('data');
+
     setData(formData)
     if (formData) {
       tabChange(1)
     }
+    dispatch(addProduct(formData))
+
   }
 
   return (
