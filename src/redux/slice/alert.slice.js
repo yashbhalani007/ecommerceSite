@@ -10,6 +10,7 @@ const alertSlice = createSlice({
     initialState,
     reducers: {
         setAlert: (state, action) => {
+            console.log("Product Uploaded");
             state.text = action.payload.text;
             state.color = action.payload.color;
         },
