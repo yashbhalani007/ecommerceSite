@@ -17,13 +17,11 @@ import { setAlert } from "../../../redux/slice/alert.slice";
 
 function RenderCatlog(props) {
     const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: null }]);
-    console.log(fileInputs);
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
-    console.log(tabIndex);
     const [tabData, setTabData] = useState({});
-    console.log(tabData);
     const [tabs, setTabs] = useState([]);
+    const [submit, setSubmit] = useState(false)
     const navigate = useNavigate()
     let data = localStorage.getItem('addProduct')
 
@@ -64,17 +62,17 @@ function RenderCatlog(props) {
         localStorage.setItem('addProduct', data)
     };
 
-    
+
     const handleTabChange = () => {
         if (fileInputs.length - 1 !== tabIndex + 1) {
             console.log("Your Tab is Changed");
             setTabIndex((prev) => prev + 1);
-        } else if(fileInputs.length - 1 == tabIndex + 1) {
+        } else if (fileInputs.length - 1 == tabIndex + 1) {
             setAlert({text : 'Product Uploaded Succesfully', color : 'success'})
             navigate('/admin/catlogupload');
         }
     };
-    
+
 
     const handleTabDataChange = (tabId, newData) => {
         setTabData((prevData) => ({
@@ -131,8 +129,6 @@ function RenderCatlog(props) {
                 ))}
             </Tabs>
 
-            {/* Render content based on the selected tab */}
-
             {tabs.map((tab, index) => (
                 <TabPanel key={index} value={tabIndex} index={index}>
                     <AddCatelog
@@ -150,8 +146,8 @@ function RenderCatlog(props) {
                 <DialogTitle>Subscribe</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                     Please Choose Product Multiple Image , Front, Back and OtherImages 
-                     Which Your Product More Attractive.
+                        Please Choose Product Multiple Image , Front, Back and OtherImages
+                        Which Your Product More Attractive.
                     </DialogContentText>
                     <div className='addProduct'>
                         {fileInputs.map((input) => (
