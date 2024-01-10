@@ -13,6 +13,7 @@ import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
 import { useNavigate } from 'react-router';
 import { setAlert } from "../../../redux/slice/alert.slice";
+import { useDispatch } from 'react-redux';
 
 
 function RenderCatlog(props) {
@@ -24,6 +25,7 @@ function RenderCatlog(props) {
     const [submit, setSubmit] = useState(false)
     const navigate = useNavigate()
     let data = localStorage.getItem('addProduct')
+    const dispatch = useDispatch();
 
     const obj = {
         product_name: '',
@@ -67,8 +69,8 @@ function RenderCatlog(props) {
         if (fileInputs.length - 1 !== tabIndex + 1) {
             console.log("Your Tab is Changed");
             setTabIndex((prev) => prev + 1);
-        } else if (fileInputs.length - 1 == tabIndex + 1) {
-            setAlert({text : 'Product Uploaded Succesfully', color : 'success'})
+        } else if(fileInputs.length - 1 == tabIndex + 1) {
+            dispatch(setAlert({text : 'Product Uploaded Succesfully', color : 'success'}))
             navigate('/admin/catlogupload');
         }
     };
