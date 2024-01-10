@@ -3,26 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 
-function Category( {  } ) {
+function Category({ subCategoryvalue }) {
+    console.log(subCategoryvalue);
     const dispatch = useDispatch()
-
-    const category = useSelector(state => state.category)
-    console.log(category.category);
 
     const subcategory = useSelector(state => state.subcategory)
 
-    const subCategories = subcategory.subcategory;
-    let uniqueCategories = [];
-    subCategories.forEach((v) => {
-        if (!uniqueCategories.includes(v.category)) {
-            uniqueCategories.push(v.category);
-        }
-    });
-    console.log(uniqueCategories);
-
-
-    const namesList = subcategory.subcategory.map((obj) => obj.subcategory);
-    console.log(namesList);
+    // const subCategories = subcategory.subcategory;
+    // let uniqueCategories = [];
+    // subCategories.forEach((v) => {
+    //     if (!uniqueCategories.includes(v.category)) {
+    //         uniqueCategories.push(v.category);
+    //     }
+    // });
+    // console.log(uniqueCategories);
 
     useEffect(() => {
         dispatch(getCategoryData())
@@ -54,7 +48,7 @@ function Category( {  } ) {
                     <div className="container">
                         {/* Shop-Intro */}
                         <div className="shop-intro">
-                            <h3>Men's Clothing</h3>
+                            <h3>{subCategoryvalue}</h3>
                         </div>
                         {/* Shop-Intro /- */}
                         <div className="row">
@@ -64,26 +58,26 @@ function Category( {  } ) {
                                 <div className="fetch-categories">
                                     <h3 className="title-name">Browse Categories</h3>
 
-
+                                    {/* 
                                     {uniqueCategories.map((category) => (
                                         <>
-                                            {subcategory.subcategory.map((item) => {
-                                                if (item.category === category) {
-                                                    console.log(item.subcategory);
-
-                                                    return (
-                                                        <h3 className="fetch-mark-category">
-                                                            <a href="shop-v2-sub-category.html">{item.subcategory}
-                                                                <span className="total-fetch-items">(5)</span>
-                                                            </a>
-                                                        </h3>
-                                                    );
-                                                }
-
-                                            })}
+                                            
 
                                         </>
-                                    ))}
+                                    ))} */}
+
+                                    {subcategory.subcategory.map((item) => {
+                                        if (item.category === subCategoryvalue) {
+    
+                                            return (
+                                                <h3 className="fetch-mark-category">
+                                                    <a href="shop-v2-sub-category.html">{item.subcategory}
+                                                    </a>
+                                                </h3>
+                                            );
+                                        }
+
+                                    })}
 
 
 

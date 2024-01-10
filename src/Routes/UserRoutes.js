@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../user/components/Header/Header';
 import Footer from '../user/components/Footer/Footer';
 import { Route, Routes } from 'react-router-dom';
@@ -23,15 +23,20 @@ import NewArrival from '../user/container/NewArrival/NewArrival';
 import Category from '../user/container/Category/Category';
 
 function UserRoutes(props) {
+
+
+    const [subCategoryvalue, setsubCategory] = useState([])
+    
+
     return (
         <>
-            <Header />
+            <Header setsubCategory={setsubCategory} />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/checkout" element={<Checkout />} />
-                <Route path="/category/:categoryName" element={<Category />} />
+                <Route path="/category/:categoryName" element={<Category subCategoryvalue={subCategoryvalue} />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
