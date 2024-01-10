@@ -5,42 +5,45 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../../redux/slice/product.slice';
 
 
 function CatUpload(props) {
     const [data, setData] = useState([])
+    const productData = useSelector(state => state.products);
+    console.log(productData.product);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getProduct());
+    }, [])
 
     const columns = [
         {
-            field: 'category',
-            headerName: 'Category Name',
+            field: 'fileurl',
+            headerName: 'Product-Images',
+            type: 'file',
             width: 150,
             editable: true,
         },
         {
-            field: 'description',
-            headerName: 'Description',
-            width: 300,
+            field: 'product_name',
+            headerName: 'Product Name',
+            width: 150,
             editable: true,
         },
         {
-            field: 'artical',
-            headerName: 'Artical',
+            field: 'color',
+            headerName: 'Color',
+            width: 80,
+            editable: true,
+        },
+        {
+            field: 'status',
+            headerName: 'Status',
             type: 'number',
-            width: 110,
-            editable: true,
-        },
-        {
-            field: 'icon',
-            headerName: 'Icon',
-            type: 'file',
-            width: 110,
-            editable: true,
-        },
-        {
-            field: 'poster',
-            headerName: 'Poster',
-            type: 'file',
             width: 110,
             editable: true,
         },

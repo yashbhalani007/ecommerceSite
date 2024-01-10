@@ -85,7 +85,7 @@ export const productSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(addProduct.fulfilled, (state, action) => {
             state.isLoading = false
-            state.product = action.payload
+            state.product = [...state.product, action.payload]
             state.errorMessage = null
         })
     }
