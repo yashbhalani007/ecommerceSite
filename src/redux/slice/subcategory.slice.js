@@ -19,7 +19,7 @@ export const addSubCategory = createAsyncThunk(
         const querySnapshot = await getDocs(q);
 
         let document = null
-        console.log(data);
+        // console.log(data);
         querySnapshot.forEach((doc) => {
             if (doc.data().category === data.categorys) {
                 document = {...doc.data(),subcategory: data.newSubCategory,cateId: doc.id}

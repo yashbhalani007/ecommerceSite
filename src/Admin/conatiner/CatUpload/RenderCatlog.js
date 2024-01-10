@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,7 +13,8 @@ import Box from '@mui/material/Box';
 import AddCatelog from './AddCatelog';
 import { useNavigate } from 'react-router';
 import { setAlert } from "../../../redux/slice/alert.slice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUsersData } from '../../../redux/slice/user.slice';
 
 
 function RenderCatlog(props) {
@@ -24,8 +25,8 @@ function RenderCatlog(props) {
     const [tabs, setTabs] = useState([]);
     const [submit, setSubmit] = useState(false)
     const navigate = useNavigate()
-    let data = localStorage.getItem('addProduct')
     const dispatch = useDispatch();
+
 
     const obj = {
         product_name: '',

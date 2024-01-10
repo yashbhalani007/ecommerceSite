@@ -15,7 +15,7 @@ export const signupAPI = (data) => {
                         .then(() => {
                             // Email verification sent!
                             // A confirmation email has been sent to ${user.email}.
-                            resolve({ message: `Email verification sent!`, user: user});
+                            resolve({ message: `Email verification sent!`, user: user });
                         })
                         .catch(() => {
                             reject({ message: 'Failed to send email verification' })
@@ -42,7 +42,7 @@ export const signupAPI = (data) => {
 export const loginAPI = async (data) => {
     console.log(data);
     try {
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             await signInWithEmailAndPassword(auth, data.email, data.password)
                 .then(async (userCredential) => {
                     // Signed in 
@@ -55,19 +55,25 @@ export const loginAPI = async (data) => {
                         data.push({ ...doc.data() })
                     });
 
-                    data.map((v) => {
-                        if (user.email === v.email && user.emailVerified) {
+                    for (const v of data) {
+                        console.log("Checking:", user.email, v.email, user.emailVerified, v.type);
+                
+                        // Trim whitespace and convert to lowercase for case-insensitive comparison
+                        const userEmail = user.email.trim().toLowerCase();
+                        const vEmail = v.email.trim().toLowerCase();
+                
+                        if (userEmail === vEmail && user.emailVerified) {
                             if (v.type === 'supplier' && v.emailVerified === true) {
-                                console.log(v.type === 'supplier' && v.emailVerified === true);
-                                return resolve({ message: 'Signed in successfully', user: user})
+                                console.log("Conditions met:", v.type === 'supplier' && v.emailVerified === true);
+                                return resolve({ message: 'Signed in successfully', user: user });
                             } else {
-                                return reject({message: 'Your seller account is not Approved by super Admin'})
+                                console.log("Seller account not approved:", v.type, v.emailVerified);
+                                return reject({ message: 'Your seller account is not approved by the super admin' });
                             }
-                        } else {
-                            console.log('no');
-                            return reject({ message: 'Email is not verified' }) 
                         }
-                    })
+                    }
+                    
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -110,7 +116,7 @@ export const userloginAPI = (data) => {
                         console.log('no');
                         return reject({ message: 'Email is not verified' })
                     }
-                
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;

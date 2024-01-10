@@ -14,6 +14,7 @@ export const getUsersData = createAsyncThunk(
     async () => {
         await new Promise((resolve, reject) => setTimeout(resolve, 1000))
 
+        console.log('userdata');
         let data = []
 
         const querySnapshot = await getDocs(collection(db, "users"));

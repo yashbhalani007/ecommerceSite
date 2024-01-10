@@ -7,8 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { addProduct } from '../../../redux/slice/product.slice';
+import { getUsersData } from '../../../redux/slice/user.slice';
 
-function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
+function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
@@ -46,7 +47,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
     const fileInput = event.target;
     const file = fileInput.files[0];
 
-    setFileInputs(prevInputs => 
+    setFileInputs(prevInputs =>
       prevInputs.map(
         input => (input.id === id ? { ...input, selectedFile: file } : input)
       )
@@ -96,12 +97,12 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
         images.push(input.selectedFile)
       }
     })
-    setValue('Images',images)
-  },[fileInputs]) 
+    setValue('Images', images)
+  }, [fileInputs])
 
   useEffect(() => {
-    setValue('sizes',selectedSizes)
-  },[selectedSizes])
+    setValue('sizes', selectedSizes)
+  }, [selectedSizes])
 
   useEffect(() => {
     // Update subcategory options when category changes
@@ -241,7 +242,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
                           <div className="mb-3 col-4">
                             <label className="form-label" htmlFor="ecommerce-product-color">Color</label>
                             <input type="text" className="form-control" id="ecommerce-product-color" placeholder="color" name="color" aria-label="Product SKU"
-                            {...register('color', { required: true })}
+                              {...register('color', { required: true })}
                             />
                             {errors.color && <p>{errors.color.message}</p>}
                           </div>
@@ -259,7 +260,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
                               >
                                 Select Sizes
                               </div>
-                              {isOpen &&(
+                              {isOpen && (
                                 <div className="dropdown-content">
                                   {sizes.map((size) => (
                                     <div key={size} className='checkbox-wrapper'>
@@ -398,16 +399,16 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
                                 <a href="javascript:void(0);">Fulfilled by Company name</a></small>
                             </label>
                           </div> */}
-                        {/* Global delivery */}
-                        {/* <div className="form-check mb-3">
+                          {/* Global delivery */}
+                          {/* <div className="form-check mb-3">
                             <input className="form-check-input" type="radio" name="globalDel" defaultChecked />
                             <label className="form-check-label w-75 pe-5" htmlFor="country-selected">
                               <span className="mb-2 h6">Selected Countries</span>
                               <input type="text" className="form-control" placeholder="Type Country name" id="country-selected" />
                             </label>
                           </div> */}
-                        {/* Local delivery */}
-                        {/* <div className="form-check">
+                          {/* Local delivery */}
+                          {/* <div className="form-check">
                             <input className="form-check-input" type="radio" name="globalDel" id="local" />
                             <label className="form-check-label" htmlFor="local">
                               <span className="mb-1 h6">Local delivery</span>
@@ -422,8 +423,8 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange}) {
                             <div>
                               {/* Fragile Product */}
                               <div className="form-check mb-3">
-                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" value='Fragile Product' 
-                                {...register('fragile')} 
+                                <input className="form-check-input" type="checkbox" defaultValue="fragile" id="fragile" value='Fragile Product'
+                                  {...register('fragile')}
                                 />
                                 <label className="form-check-label" htmlFor="fragile">
                                   <span className="mb-0 h6">Fragile Product</span>

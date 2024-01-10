@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { collection, addDoc } from "firebase/firestore";
-import { db, storage } from "../../firebase";
+import { auth, db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { onAuthStateChanged } from "firebase/auth";
 
 const initialState = {
     isLoading: false,
@@ -15,6 +16,22 @@ export const addProduct = createAsyncThunk(
         let imgname = []
         let fileurl = []
         let productData = { ...data }
+        let uid
+        let email
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                uid = user.uid;
+                email = user.email
+                // ...
+            } else {
+                // User is signed out
+                console.log('User is signed out');
+                // ...
+            }
+        });
 
         data.Images.map(async (value, index) => {
             const number = Math.floor(Math.random() * 10000);
@@ -23,8 +40,6 @@ export const addProduct = createAsyncThunk(
             // console.log(number);
 
             const storageRef = ref(storage, "products/" + number + "_" + data.Images[index].name);
-
-            console.log(storageRef);
 
             uploadBytes(storageRef, data.Images[index]).then(async (snapshot) => {
                 await getDownloadURL(ref(storage, snapshot.ref)).then(async url => {
@@ -39,14 +54,20 @@ export const addProduct = createAsyncThunk(
                     const productdoc = await addDoc(collection(db, "products"), {
                         ...data,
                         imgname,
-                        fileurl
+                        fileurl,
+                        supplier_id: uid,
+                        supplier_email: email,
+                        status: 'pending'
                     });
 
                     productData = {
                         id: productdoc.id,
                         ...data,
                         imgname,
-                        fileurl
+                        fileurl,
+                        supplier_id: uid,
+                        supplier_email: email,
+                        status: 'pending'
                     };
                 }
             });
@@ -69,3 +90,5 @@ export const productSlice = createSlice({
         })
     }
 })
+
+export default productSlice.reducer
