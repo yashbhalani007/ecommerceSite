@@ -5,6 +5,7 @@ import SuperCategory from '../SuperAdmin/Containers/SuperCategory/SuperCategory'
 import SuperDashboard from '../SuperAdmin/Containers/SuperDashboard/SuperDashboard';
 import Supplier from '../SuperAdmin/Containers/supplier/Supplier';
 import Consumer from '../SuperAdmin/Containers/consumer/Consumer';
+import ProductRequest from '../SuperAdmin/Containers/productRequest/ProductRequest';
 
 function SuperAdminRoutes(props) {
     return (
@@ -14,6 +15,7 @@ function SuperAdminRoutes(props) {
                 <Route path="supercategory" element={<SuperCategory />} />
                 <Route path='supplier' element={<Supplier />}/>
                 <Route path='consumer' element={<Consumer />}/>
+                <Route path='pro-requests' element={<ProductRequest />}/>
             </Routes>
         </SuperLayOut>
     );

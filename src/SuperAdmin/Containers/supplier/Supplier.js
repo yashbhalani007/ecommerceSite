@@ -27,14 +27,12 @@ function Supplier(props) {
     const [fData, setFdata] = useState([])
     const [showData, setShowData] = useState('')
     const usersData = useSelector(state => state.users)
-    // const adminLogin = useSelector(state => state.adminauth)
 
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getUsersData())
         setData(usersData.users)
-    // console.log(adminLogin.adminAuth);
     }, [usersData.users])
 
     function stringToColor(string) {
