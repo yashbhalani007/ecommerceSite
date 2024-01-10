@@ -46,6 +46,11 @@ function SuperLayOut({ children }) {
                             <SupervisedUserCircleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Supplier</span>
                         </NavLink></li>
+                        <li><NavLink to="/super/pro-requests">
+                            {/* <i className="uil uil-files-landscapes" /> */}
+                            <InventoryIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
+                            <span className="link-name">Product Requests</span>
+                        </NavLink></li>
                         <li><NavLink to="/super/consumer">
                             {/* <i className="uil uil-files-landscapes" /> */}
                             <PeopleIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>

@@ -1,14 +1,29 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { auth, db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
 
 const initialState = {
     isLoading: false,
-    product: [],
+    products: [],
     errorMessage: null
 }
+
+export const getProduct = createAsyncThunk(
+    'product/get',
+    async () => {
+        let data = []
+
+        const querySnapshot = await getDocs(collection(db, "products"));
+        querySnapshot.forEach((doc) => {
+            data.push({...doc.data()})
+            console.log(data);
+        });
+
+        return data
+    }
+)
 
 export const addProduct = createAsyncThunk(
     'product/add',
@@ -85,7 +100,13 @@ export const productSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(addProduct.fulfilled, (state, action) => {
             state.isLoading = false
-            state.product = action.payload
+            state.products = action.payload
+            state.errorMessage = null
+        })
+
+        builder.addCase(getProduct.fulfilled,(state,action) => {
+            state.isLoading = false
+            state.products = action.payload
             state.errorMessage = null
         })
     }
