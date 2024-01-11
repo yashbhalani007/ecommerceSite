@@ -13,16 +13,16 @@ import { getUsersData } from '../../../redux/slice/user.slice';
 
 function ProductRequest(props) {
     const [data, setData] = useState([])
-
+    const [userData, setUserData] = useState([])
     const products = useSelector(state => state.products)
     const users = useSelector(state => state.users)
     const dispatch = useDispatch()
-    console.log(users.users);
-    console.log(products.products);
+    const number = Math.floor(Math.random() * 100000)
 
     useEffect(() => {
         dispatch(getProduct())
         dispatch(getUsersData())
+        setUserData(users.users)
         setData(products.products)
     }, [])
 
@@ -42,60 +42,73 @@ function ProductRequest(props) {
             <div style={{ marginTop: '35px' }}>
                 {
                     data.map((v) => {
-                        return users.users.map((user) => {
-                            return (
-                                <List sx={{ width: '90%', bgcolor: 'background.paper' }} >
-                                    <ListItem alignItems="flex-start">
-                                        <ListItemAvatar>
-                                            {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
-                                            {/* <Avatar {...stringAvatar(v.full_name)} /> */}
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            style={{ cursor: 'pointer' }}
-                                            // onClick={() => handleClickOpen(v.email)}
-                                            primary={v.product_name}
-                                            secondary={
-                                                <React.Fragment>
-                                                    <Typography
-                                                        sx={{ display: 'inline' }}
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                    >
-                                                        DID:
-                                                    </Typography>
-                                                    {v.email === user.email ? user.id : null}
-                                                    <br></br>
-                                                    <Typography
-                                                        sx={{ display: 'inline' }}
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="text.primary"
-                                                    >
-                                                        Supplier id:
-                                                    </Typography>
-                                                    {" " + v.supplier_id}
-                                                </React.Fragment>
+                        return userData.map((user) => {
+                            if (user.email === v.supplier_email) {
+                                return (
+                                    <List key={`product_request_${number}`} sx={{ width: '90%', bgcolor: 'background.paper' }} >
+                                        <ListItem alignItems="flex-start">
+                                            <ListItemAvatar id='avatarProduct'>
+                                                {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
+                                                {/* <Avatar {...stringAvatar(v.full_name)} /> */}
+                                                <img src={ v.fileurl[0] } style={{width: '100%',height: '100%',borderRadius: '5px',backgroundSize: 'cover'}}/>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                style={{ cursor: 'pointer',marginLeft: '10px' }}
+                                                // onClick={() => handleClickOpen(v.email)}
+                                                primary={v.product_name}
+                                                secondary={
+                                                    <React.Fragment>
+                                                        <Typography
+                                                            sx={{ display: 'inline' }}
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="text.primary"
+                                                        >
+                                                            DID:
+                                                        </Typography>
+                                                        {user.email == v.supplier_email ? " " + user.id : 'not Available'}
+                                                        <br></br>
+                                                        <Typography
+                                                            sx={{ display: 'inline' }}
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="text.primary"
+                                                        >
+                                                            Supplier id:
+                                                        </Typography>
+                                                        {" " + v.supplier_id}
+                                                        <br></br>
+                                                        <Typography
+                                                            sx={{ display: 'inline' }}
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="text.primary"
+                                                        >
+                                                            Categorys:
+                                                        </Typography>
+                                                        {" " + v.category + '/' + v.subcategory}
+                                                    </React.Fragment>
+                                                }
+                                            />
+
+
+                                            {
+                                                v.emailVerified ?
+                                                    <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> :
+                                                    <>
+                                                        <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} >
+                                                            Approve
+                                                        </Button>
+                                                        <Button variant="outlined" color="error" style={{ margin: 'auto 5px' }} >
+                                                            Refuse
+                                                        </Button>
+                                                    </>
                                             }
-                                        />
-
-
-                                        {
-                                            v.emailVerified ?
-                                                <Button color="secondary" style={{ margin: '10px 7px 0 7px', color: 'green', fontSize: '15px' }}>Approved</Button> :
-                                                <>
-                                                    <Button variant="outlined" color="success" style={{ margin: '10px 7px 0 7px' }} >
-                                                        Approve
-                                                    </Button>
-                                                    <Button variant="outlined" color="error" style={{ margin: '10px 7px 0 7px' }} >
-                                                        Refuse
-                                                    </Button>
-                                                </>
-                                        }
-                                    </ListItem>
-                                    <Divider variant="inset" component="li" />
-                                </List>
-                            )
+                                        </ListItem>
+                                        <Divider variant="inset" component="li" />
+                                    </List>
+                                )
+                            }
                         })
                     })
                 }

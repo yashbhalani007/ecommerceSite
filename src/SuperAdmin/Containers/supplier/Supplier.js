@@ -55,14 +55,14 @@ function Supplier(props) {
         return color;
     }
 
-    // function stringAvatar(name) {
-    //     return {
-    //         sx: {
-    //             bgcolor: stringToColor(name),
-    //         },
-    //         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-    //     };
-    // }
+    function stringAvatar(name) {
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        };
+    }
 
     const handleClickOpen = (value) => {
         setOpen(true);
@@ -117,7 +117,7 @@ function Supplier(props) {
                                             <ListItem alignItems="flex-start">
                                                 <ListItemAvatar>
                                                     {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
-                                                    {/* <Avatar {...stringAvatar(v.full_name)} /> */}
+                                                    <Avatar {...stringAvatar(v.full_name)} />
                                                 </ListItemAvatar>
                                                 <ListItemText
                                                     style={{cursor: 'pointer'}}
