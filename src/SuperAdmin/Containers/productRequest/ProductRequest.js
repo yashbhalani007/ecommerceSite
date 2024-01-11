@@ -24,7 +24,15 @@ function ProductRequest(props) {
         dispatch(getUsersData())
         setUserData(users.users)
         setData(products.products)
-    }, [])
+    }, [products.products])
+
+    const handleApprove = async (data) => {
+        // const docRef = doc(db, "users", data.uid);
+
+        // Set the "capital" field of the city 'DC'
+        // await updateDoc(docRef, {...data,emailVerified: true});
+        // dispatch(updateUserData(data))
+    }
 
     return (
         <div>
@@ -96,7 +104,7 @@ function ProductRequest(props) {
                                                 v.emailVerified ?
                                                     <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> :
                                                     <>
-                                                        <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} >
+                                                        <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} onClick={() => handleApprove(v)}>
                                                             Approve
                                                         </Button>
                                                         <Button variant="outlined" color="error" style={{ margin: 'auto 5px' }} >

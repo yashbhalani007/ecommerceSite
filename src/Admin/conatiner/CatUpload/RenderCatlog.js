@@ -22,9 +22,10 @@ function RenderCatlog(props) {
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [tabData, setTabData] = useState({});
+    console.log(tabData);
     const [tabs, setTabs] = useState([]);
     const [submit, setSubmit] = useState(false)
-    const navigate = useNavigate()
+    const navigate = useNavigate()  
     const dispatch = useDispatch();
 
 
