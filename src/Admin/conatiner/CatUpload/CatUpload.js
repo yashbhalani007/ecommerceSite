@@ -11,10 +11,10 @@ import { getProduct } from '../../../redux/slice/product.slice';
 
 function CatUpload(props) {
     const [data, setData] = useState([])
-    const productData = useSelector(state => state.products);
-    console.log(productData.product);
-
     const dispatch = useDispatch();
+
+    const productData = useSelector(state => state.products)
+    console.log(productData.products.id);
 
     useEffect(() => {
         dispatch(getProduct());
@@ -85,8 +85,8 @@ function CatUpload(props) {
                 </Link>
             </div>
             <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
-                <DataGrid
-                    rows={data}
+                {/* <DataGrid
+                    rows={productData.products}
                     columns={columns}
                     initialState={{
                         pagination: {
@@ -98,7 +98,7 @@ function CatUpload(props) {
                     pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
-                />
+                /> */}
             </Box>
         </>
     );
