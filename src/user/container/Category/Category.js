@@ -17,21 +17,6 @@ function Category({ subCategoryvalue }) {
 
     console.log(allproduct);
 
-    // remove duplicate object from products
-
-    const uniqueProductSet = new Set();
-
-    const uniqueProducts = allproduct.filter(item => {
-        if (!uniqueProductSet.has(item.group_id)) {
-            uniqueProductSet.add(item.group_id);
-            return true;
-        }
-        return false;
-    });
-
-    // Now uniqueProducts contains the array with unique objects based on group_id
-    console.log(uniqueProducts);
-
 
     useEffect(() => {
         dispatch(getCategoryData())
@@ -323,7 +308,7 @@ function Category({ subCategoryvalue }) {
 
                                     <div className="product-item col-lg-4 col-md-6 col-sm-6">
 
-                                        {
+                                        {/* {
                                             uniqueProducts.map((v) => {
                                                 if (v.category === subCategoryvalue) {
                                                     return (
@@ -382,7 +367,7 @@ function Category({ subCategoryvalue }) {
 
 
                                             })
-                                        }
+                                        } */}
 
 
                                     </div>

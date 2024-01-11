@@ -74,7 +74,7 @@ export const addProduct = createAsyncThunk(
                         supplier_email: email,
                         status: 'pending'
                     });
-
+                    console.log(uid);
                     productData = {
                         id: productdoc.id,
                         ...data,
