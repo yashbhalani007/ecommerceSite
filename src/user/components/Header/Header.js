@@ -19,16 +19,16 @@ function Header({ setsubCategory }) {
   const category = useSelector(state => state.category)
 
 
+
   const subcategory = useSelector(state => state.subcategory)
 
   const subCategories = subcategory.subcategory;
   let uniqueCategories = [];
   subCategories.forEach((v) => {
     if (!uniqueCategories.includes(v.category)) {
-      uniqueCategories.push(v.category);
+      uniqueCategories.push(v.category,v.id);
     }
   });
-  // console.log(uniqueCategories);
 
 
   // const namesList = subcategory.subcategory.map((obj) => obj.subcategory);
@@ -46,7 +46,9 @@ function Header({ setsubCategory }) {
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-    // console.log(selectedCategory);
+    console.log(event);
+
+    console.log(selectedCategory);
     setsubCategory(selectedCategory);
     // Check if a category is selected before navigating
     if (selectedCategory) {

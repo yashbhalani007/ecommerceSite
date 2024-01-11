@@ -632,3 +632,9 @@ nav.close~.dashboard .top {
   .labelcheck {
     display: block;
   }
+
+  #avatarProduct {
+    width: 100px;
+    height: 80px;
+    border-radius: 5px;
+  }

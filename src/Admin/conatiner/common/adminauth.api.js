@@ -65,6 +65,7 @@ export const loginAPI = async (data) => {
                         if (userEmail === vEmail && user.emailVerified) {
                             if (v.type === 'supplier' && v.emailVerified === true) {
                                 console.log("Conditions met:", v.type === 'supplier' && v.emailVerified === true);
+                                sessionStorage.setItem('adminAuth', JSON.stringify({ isAuthenticated: true }));
                                 return resolve({ message: 'Signed in successfully', user: user });
                             } else {
                                 console.log("Seller account not approved:", v.type, v.emailVerified);
@@ -167,6 +168,7 @@ export const logoutAPI = () => {
         return new Promise((resolve, reject) => {
             signOut(auth).then(() => {
                 // Sign-out successful.
+                sessionStorage.removeItem('adminAuth');
                 resolve({ message: "Logout successful!" })
             }).catch((error) => {
                 // An error happened.
