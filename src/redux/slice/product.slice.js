@@ -18,7 +18,6 @@ export const getProduct = createAsyncThunk(
         const querySnapshot = await getDocs(collection(db, "products"));
         querySnapshot.forEach((doc) => {
             data.push({...doc.data()})
-            console.log(data);
         });
 
         return data
