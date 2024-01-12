@@ -68,24 +68,12 @@ export const addProduct = createAsyncThunk(
                     status: 'pending',
                 });
 
-<<<<<<< HEAD
-                    delete data.Images
-                    const productdoc = await addDoc(collection(db, "products"), {
-                        ...data,
-                        imgname,
-                        fileurl,
-                        supplier_id: uid,
-                        supplier_email: email,
-                        status: 'pending'
-                    });
-                    console.log(uid);
-=======
                 const productDocSnapshot = await getDoc(productDocRef);
 
                 // Make sure to check if the productDocSnapshot has an id property
                 if (productDocSnapshot.exists()) {
                     const { id } = productDocSnapshot;
->>>>>>> 4399d206aad56effcdb321e4076a3cc404d2a23d
+                    console.log(id);
                     productData = {
                         id,
                         ...data,
