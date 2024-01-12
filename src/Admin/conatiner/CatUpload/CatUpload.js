@@ -7,7 +7,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../../redux/slice/product.slice';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 
 function CatUpload(props) {
     const [data, setData] = useState([])
@@ -18,7 +20,7 @@ function CatUpload(props) {
 
     useEffect(() => {
         dispatch(getProduct());
-    }, [])
+    }, [productData.products])
 
     const columns = [
         {
@@ -27,11 +29,16 @@ function CatUpload(props) {
             type: 'file',
             width: 150,
             editable: true,
+            renderCell: (params) => (
+                <strong style={{width : '100px', height : '100px'}}>
+                    <img src={params.row.fileurl} style={{backgroundSize : 'contain' , height : '100%' ,width : '100%'}}/>
+                </strong>
+            )
         },
         {
             field: 'product_name',
             headerName: 'Product Name',
-            width: 150,
+            width: 300,
             editable: true,
         },
         {
@@ -40,20 +47,36 @@ function CatUpload(props) {
             width: 80,
             editable: true,
         },
-        {
-            field: 'status',
+        {   
+            field : 'status',
             headerName: 'Status',
-            type: 'number',
             width: 110,
             editable: true,
+            renderCell: (params) => {
+                return(
+                    <strong>
+                    {
+                        params.row.status == 'pending' ? 
+                    <PendingIcon style={{width : 50, color : 'orange'}}/> 
+                        :
+                        params.row.status == 'approve' ?
+                       <CheckCircleIcon style={{width : 50, color : 'green'}}/> :
+                        <ReportProblemIcon style={{width : 50, color : 'red'}}/>
+                    }
+                    </strong>
+                )
+              
+            }
         },
         {
             field: 'action',
             headerName: 'Action',
+            width : 250,
             renderCell: (params) => (
                 <strong>
-                    <EditIcon id='editico' style={{ color: 'blue' }} onCellClick={(e) => handleEdit(e.row)} />
-                    <DeleteIcon id='deleteico' style={{ color: 'red' }} onClick={(e) => handleDelete(e.data)} />
+                      <Button variant="contained" color="success">
+                         View Catelog
+                      </Button>
                 </strong>
             )
         }
@@ -85,7 +108,7 @@ function CatUpload(props) {
                 </Link>
             </div>
             <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
-                {/* <DataGrid
+                 <DataGrid
                     rows={productData.products}
                     columns={columns}
                     initialState={{
@@ -95,10 +118,11 @@ function CatUpload(props) {
                             },
                         },
                     }}
+                    rowHeight={80}
                     pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
-                /> */}
+                /> 
             </Box>
         </>
     );
