@@ -218,14 +218,7 @@ function SuperCategory(props) {
           </Box>
         </form>
 
-        <div class="card">
-          <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
-              <div class="col-md-4 product_status"></div>
-              <div class="col-md-4 product_category"></div>
-              <div class="col-md-4 product_stock"></div>
-            </div>
-          </div>
+        <div class="card" style={{marginTop: '20px'}}>
           <div class="card-datatable table-responsive">
             <table class="datatables-products table border-top">
               <thead>
@@ -238,34 +231,31 @@ function SuperCategory(props) {
           </div>
         </div>
 
-  <div>
-  <div>
+        <div>
+          <div style={{width: '43%'}}>
 
-   
-    {uniqueCategories && uniqueCategories.map((category) => (
-      <div key={category} style={{display: 'flex',columnGap: '270px' ,marginBottom : '20px'}}>
-        <p style={{width : '200px'}}>{category}</p>
 
-        <select style={{paddingTop : '5px',marginRight : '60px', paddingBottom : '5px'}}>
-        <option>--subcategories--</option>
-        {subCategory.subcategory && subCategory.subcategory.map((item) => {
-          if (item.category === category) {
-            console.log(item.subcategory);
-            
-            return (
-                <option>{item.subcategory}</option>  
-            );
-          }
-          return null;
-        })}
-        </select>
-      </div>
-    ))}
-  </div>
-  <div>
-    {/* Additional content or another section */}
-  </div>
-</div>
+            {uniqueCategories && uniqueCategories.map((category) => (
+              <div key={category} style={{ display: 'flex', columnGap: '270px', marginBottom: '20px' }}>
+                <p style={{ width: '200px' }}>{category}</p>
+
+                <select style={{ margin: '0 auto', padding: '5px 7px' ,borderColor: '#cdd7e1',borderRadius: '5px' }} aria-readonly>
+                  <option>See All Categorys</option>
+                  {subCategory.subcategory && subCategory.subcategory.map((item) => {
+                    if (item.category === category) {
+                      console.log(item.subcategory);
+
+                      return (
+                        <option>{item.subcategory}</option>
+                      );
+                    }
+                    return null;
+                  })}
+                </select>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
     </>

@@ -13,6 +13,7 @@ import { getUsersData } from '../../../redux/slice/user.slice';
 
 function ProductRequest(props) {
     const [data, setData] = useState([])
+    const [filteredData, setFilteredData] = useState([])
     const products = useSelector(state => state.products)
     const users = useSelector(state => state.users)
     const dispatch = useDispatch()
@@ -24,35 +25,50 @@ function ProductRequest(props) {
     }, [])
 
     useEffect(() => {
-        // setUserData(users.users)
         setData(products.products)
-    },[products.products])
+    }, [products.products])
 
-    const handleApprove = async (data) => {
+
+    const handleAction = async (data, action) => {
         // const docRef = doc(db, "users", data.uid);
 
         // Set the "capital" field of the city 'DC'
         // await updateDoc(docRef, {...data,emailVerified: true});
         // dispatch(updateUserData(data))
-        dispatch(updateProduct(data))
+        dispatch(updateProduct({ ...data, status: action }))
     }
 
+    const handleFilter = (value) => {
+        console.log(value);
+        let filterData = products.products.filter((product) => product.product_name.toLowerCase().includes(value.toLowerCase()) || product.supplier_id.toLowerCase().includes(value.toLowerCase()) || product.category.toLowerCase().includes(value.toLowerCase()) || product.subcategory.toLowerCase().includes(value.toLowerCase()) || product.status.toLowerCase().includes(value.toLowerCase()))
+
+        setFilteredData(filterData)
+    }
+
+    const FinalData = filteredData.length > 0 ? filteredData : data
+
     return (
-        <div>
+        <div >
+            {/* <br></br>
             <br></br>
-            <br></br>
-            <br></br>
-            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '5px auto' }}>
+            <br></br> */}
+            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '50px auto'}}>
                 <TextField
                     label="Search input"
                     id='searchB'
-                    style={{ width: '100%' }}
-                // onChange={(e) => handleSearch(e.target.value)}
+                    style={{ width: '80%' }}
+                    onChange={(e) => handleFilter(e.target.value)}
                 />
+                <select style={{ height: '42px', padding: '7px', marginLeft: '7px', borderColor: 'grey', borderRadius: '3px' }} onChange={(e) => handleFilter(e.target.value)}>
+                    <option value='0'>All</option>
+                    <option value='approve'>Approved</option>
+                    <option value='pending'>Requests</option>
+                    <option value='error'>Error</option>
+                </select>
             </div>
             <div style={{ marginTop: '35px' }}>
                 {
-                    data.map((v) => {
+                    FinalData.map((v) => {
                         return users.users.map((user) => {
                             if (user.email === v.supplier_email) {
                                 return (
@@ -61,10 +77,10 @@ function ProductRequest(props) {
                                             <ListItemAvatar id='avatarProduct'>
                                                 {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
                                                 {/* <Avatar {...stringAvatar(v.full_name)} /> */}
-                                                <img src={ v.fileurl[0] } style={{width: '100%',height: '100%',borderRadius: '5px',backgroundSize: 'cover'}}/>
+                                                <img src={v.fileurl[0]} style={{ width: '100%', height: '100%', borderRadius: '5px', backgroundSize: 'cover' }} />
                                             </ListItemAvatar>
                                             <ListItemText
-                                                style={{ cursor: 'pointer',marginLeft: '10px' }}
+                                                style={{ cursor: 'pointer', marginLeft: '10px' }}
                                                 // onClick={() => handleClickOpen(v.email)}
                                                 primary={v.product_name}
                                                 secondary={
@@ -105,15 +121,15 @@ function ProductRequest(props) {
 
                                             {
                                                 v.status === 'approve' ?
-                                                    <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> :
-                                                    <>
-                                                        <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} onClick={() => handleApprove(v)}>
-                                                            Approve
-                                                        </Button>
-                                                        <Button variant="outlined" color="error" style={{ margin: 'auto 5px' }} >
-                                                            Refuse
-                                                        </Button>
-                                                    </>
+                                                    <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> : v.status !== 'error' ?
+                                                        <>
+                                                            <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} onClick={() => handleAction(v, 'approve')}>
+                                                                Approve
+                                                            </Button>
+                                                            <Button variant="outlined" color="error" style={{ margin: 'auto 5px' }} onClick={() => handleAction(v, 'error')}>
+                                                                Refuse
+                                                            </Button>
+                                                        </> : <Button color="secondary" style={{ margin: 'auto 5px', color: 'red', fontSize: '15px' }}>Refused</Button>
                                             }
                                         </ListItem>
                                         <Divider variant="inset" component="li" />

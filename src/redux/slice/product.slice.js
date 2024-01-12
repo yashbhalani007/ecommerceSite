@@ -23,7 +23,6 @@ export const getProduct = createAsyncThunk(
             })
         });
 
-        console.log(data.id);
         return data;
     }
 )
@@ -108,8 +107,9 @@ export const updateProduct = createAsyncThunk(
     'product/update',
     async (data) => {
         const productsRef = doc(db, "products",data.id);
-        let nData = { ...data, status: 'approve' }
-        await updateDoc(productsRef, nData);    
+        await updateDoc(productsRef, data);  
+        
+        return data
     }
 )
 
@@ -132,6 +132,14 @@ export const productSlice = createSlice({
         builder.addCase(getProduct.fulfilled, (state, action) => {
             state.isLoading = false
             state.products = action.payload
+            state.errorMessage = null
+        })
+
+        builder.addCase(updateProduct.fulfilled, (state,action) => {
+            let index = state.products.findIndex((v) => v.id === action.payload.id)
+
+            state.isLoading = false
+            state.products[index] = action.payload
             state.errorMessage = null
         })
     }
