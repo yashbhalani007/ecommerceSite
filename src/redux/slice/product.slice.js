@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { collection, addDoc, getDocs, getDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, getDoc, updateDoc, doc } from "firebase/firestore";
 import { auth, db, storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
@@ -17,10 +17,13 @@ export const getProduct = createAsyncThunk(
 
         const querySnapshot = await getDocs(collection(db, "products"));
         querySnapshot.forEach((doc) => {
-            data.push({...doc.data()})
-
+            data.push({
+                id: doc.id,
+                ...doc.data()
+            })
         });
 
+        console.log(data.id);
         return data;
     }
 )
@@ -73,7 +76,7 @@ export const addProduct = createAsyncThunk(
                 // Make sure to check if the productDocSnapshot has an id property
                 if (productDocSnapshot.exists()) {
                     const { id } = productDocSnapshot;
-                    console.log(id);
+
                     productData = {
                         id,
                         ...data,
@@ -101,6 +104,15 @@ export const addProduct = createAsyncThunk(
     }
 );
 
+export const updateProduct = createAsyncThunk(
+    'product/update',
+    async (data) => {
+        const productsRef = doc(db, "products",data.id);
+        let nData = { ...data, status: 'approve' }
+        await updateDoc(productsRef, nData);    
+    }
+)
+
 
 
 export const productSlice = createSlice({
@@ -111,13 +123,13 @@ export const productSlice = createSlice({
         builder.addCase(addProduct.fulfilled, (state, action) => {
             console.log('Fulfilled case executed');
             console.log(action.payload);  // Make sure this line is here
-        
+
             state.isLoading = false;
             state.products = action.payload;
             state.errorMessage = null;
         });
 
-        builder.addCase(getProduct.fulfilled,(state,action) => {
+        builder.addCase(getProduct.fulfilled, (state, action) => {
             state.isLoading = false
             state.products = action.payload
             state.errorMessage = null

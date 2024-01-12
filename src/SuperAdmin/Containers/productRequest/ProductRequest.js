@@ -8,12 +8,11 @@ import Typography from '@mui/material/Typography';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from '../../../redux/slice/product.slice';
+import { getProduct, updateProduct } from '../../../redux/slice/product.slice';
 import { getUsersData } from '../../../redux/slice/user.slice';
 
 function ProductRequest(props) {
     const [data, setData] = useState([])
-    const [userData, setUserData] = useState([])
     const products = useSelector(state => state.products)
     const users = useSelector(state => state.users)
     const dispatch = useDispatch()
@@ -22,9 +21,12 @@ function ProductRequest(props) {
     useEffect(() => {
         dispatch(getProduct())
         dispatch(getUsersData())
-        setUserData(users.users)
+    }, [])
+
+    useEffect(() => {
+        // setUserData(users.users)
         setData(products.products)
-    }, [products.products])
+    },[products.products])
 
     const handleApprove = async (data) => {
         // const docRef = doc(db, "users", data.uid);
@@ -32,6 +34,7 @@ function ProductRequest(props) {
         // Set the "capital" field of the city 'DC'
         // await updateDoc(docRef, {...data,emailVerified: true});
         // dispatch(updateUserData(data))
+        dispatch(updateProduct(data))
     }
 
     return (
@@ -39,7 +42,7 @@ function ProductRequest(props) {
             <br></br>
             <br></br>
             <br></br>
-            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '0 auto' }}>
+            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '5px auto' }}>
                 <TextField
                     label="Search input"
                     id='searchB'
@@ -50,7 +53,7 @@ function ProductRequest(props) {
             <div style={{ marginTop: '35px' }}>
                 {
                     data.map((v) => {
-                        return userData.map((user) => {
+                        return users.users.map((user) => {
                             if (user.email === v.supplier_email) {
                                 return (
                                     <List key={`product_request_${number}`} sx={{ width: '90%', bgcolor: 'background.paper' }} >
@@ -101,7 +104,7 @@ function ProductRequest(props) {
 
 
                                             {
-                                                v.emailVerified ?
+                                                v.status === 'approve' ?
                                                     <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> :
                                                     <>
                                                         <Button variant="outlined" color="success" style={{ margin: 'auto 5px' }} onClick={() => handleApprove(v)}>

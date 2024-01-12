@@ -32,6 +32,9 @@ function Supplier(props) {
 
     useEffect(() => {
         dispatch(getUsersData())
+    }, [])
+
+    useEffect(() => {
         setData(usersData.users)
     }, [usersData.users])
 
