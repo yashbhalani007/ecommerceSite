@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
+import { useDispatch, useSelector } from "react-redux";
+import { getProduct } from "../../../redux/slice/product.slice";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,6 +50,17 @@ function Inventory(props) {
   const [value, setValue] = React.useState(0);
   console.log(value);
   const [data, setData] = React.useState(0);
+  const dispatch = useDispatch();
+  const productData = useSelector(state => state.products)
+  console.log(productData.products);
+
+  const fData = productData.products.filter((v) => v.status == 'approve');
+  console.log(fData);
+
+  useEffect(() => {
+      dispatch(getProduct());
+  }, [productData.products])
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -71,8 +84,8 @@ const handleCustomTabPannel = () =>{
   return (
       <> 
     <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
-    <DataGrid
-        rows={data}
+    {/* <DataGrid
+        rows={fData}
         columns={ [
             {
                 field: 'category',
@@ -130,7 +143,7 @@ const handleCustomTabPannel = () =>{
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
-    />
+    /> */}
 
 
 </Box>
@@ -168,11 +181,6 @@ const handleCustomTabPannel = () =>{
         {handleCustomTabPannel()}
         </CustomTabPanel>
       </Box>
-
-
-
-      
-    
 
       <div className="contentTop col-4"></div>
      
