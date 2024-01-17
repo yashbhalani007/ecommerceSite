@@ -50,16 +50,18 @@ function RenderCatlog(props) {
 
     const handleToggle = () => {
         setOpen(!open);
+        let group_id = Math.floor(Math.random() * 10000000)
+        console.log(group_id);
         let data = []
         let newTabs = []
         fileInputs.map((v, i) => {
             if (v.selectedFile !== null) {
                 data.push(v.selectedFile)
-                newTabs.push({ label: `Tab ${i + 1}`, id: `tab${i + 1}`, imgFile: v.selectedFile })
-                console.log(v.selectedFile);
+                newTabs.push({ label: `Tab ${i + 1}`, id: `tab${i + 1}`, imgFile: v.selectedFile, group_id})
             }
         })
 
+        console.log(newTabs);
         setTabs(newTabs)
 
         localStorage.setItem('tabs', JSON.stringify(newTabs));
@@ -141,6 +143,7 @@ function RenderCatlog(props) {
                         setData={(newData) => handleTabDataChange(tab.id, newData)}
                         isSelected={tabIndex === index}
                         imgFile={tab.imgFile}
+                        group_id={tab.group_id}
                         tabChange={handleTabChange}
                     />
                 </TabPanel>

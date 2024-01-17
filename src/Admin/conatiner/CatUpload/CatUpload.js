@@ -16,7 +16,6 @@ function CatUpload(props) {
     const dispatch = useDispatch();
 
     const productData = useSelector(state => state.products)
-    console.log(productData.products.id);
 
     useEffect(() => {
         dispatch(getProduct());
