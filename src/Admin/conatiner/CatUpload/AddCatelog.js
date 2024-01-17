@@ -117,12 +117,12 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
 
   const onsubmit = (formData) => {
     // console.log("All Form values", formData);
-    
-    setData({...formData, group_id})
-    if (formData) {
+    const DataForm = {...formData, group_id}
+    setData(DataForm)
+    if (DataForm) {
       tabChange()
     }
-    dispatch(addProduct(formData))
+    dispatch(addProduct(DataForm))
 
   }
 
