@@ -12,6 +12,7 @@ import AdminAuth from "../Admin/conatiner/AdminAuth/AdminAuth";
 import Register from "../Admin/conatiner/AdminAuth/Register";
 import RenderCatlog from "../Admin/conatiner/CatUpload/RenderCatlog";
 import DynamicTabsComponent from "../Admin/conatiner/CatUpload/DynamicTab";
+import Support from "../Admin/conatiner/Support/Support";
 
 function AdminRoutes(props) {
   return (
@@ -23,10 +24,11 @@ function AdminRoutes(props) {
         <Route>
           <Route path="/catlogupload" element={<CatUpload />} />
           <Route path="/catlogupload/addcatelog" element={<RenderCatlog />} />
-          <Route path="/catlogupload/dynamic" element={<DynamicTabsComponent />} />
+          <Route path="/catlogupload/dynamic" element={<DynamicTabsComponent />}/>
         </Route>
         <Route path="/order" element={<Order />} />
         <Route path="/category" element={<Category />} />
+        <Route path="/support" element={<Support/>} />
 
       </Routes>
     </LayOut>
