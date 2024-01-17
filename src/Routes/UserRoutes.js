@@ -21,6 +21,7 @@ import TrackOrder from '../user/container/TrackOrder/TrackOrder';
 import Conformation from '../user/container/Conformation/Conformation';
 import NewArrival from '../user/container/NewArrival/NewArrival';
 import Category from '../user/container/Category/Category';
+import Error from '../Error';
 
 function UserRoutes(props) {
 
@@ -51,6 +52,7 @@ function UserRoutes(props) {
                 <Route path="/trackorder" element={<TrackOrder />} />
                 <Route path="/conformation" element={<Conformation/>} />
                 <Route path="/newarrival" element={<NewArrival/>} />
+                <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
         </>
