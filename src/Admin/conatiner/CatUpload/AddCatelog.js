@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { addProduct } from '../../../redux/slice/product.slice';
 import { getUsersData } from '../../../redux/slice/user.slice';
 
-function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
+function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id }) {
   const category = useSelector(state => state.category)
   const subcategory = useSelector(state => state.subcategory)
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
@@ -176,8 +176,9 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange }) {
                       </div>
                       <div className="col">
                         <label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
-                        <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode"
+                        <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode" value={group_id}
                           {...register('group_id', { required: true })}
+                          readOnly
                         />
                         {errors.group_id && <p>{errors.group_id.message}</p>}
                       </div>
