@@ -577,7 +577,7 @@ nav.close~.dashboard .top {
     margin: 5px 10px;
 }
 
-.image-container {
+.img-container {
     width: 152px;
     height: 152px;
     border: 1px dashed #3498db;
@@ -586,7 +586,7 @@ nav.close~.dashboard .top {
 }
 
 #selected-image {
-    max-width: 100%;
+    width: 100%;
     height: 100%;
     border-radius: 5px;
 }
