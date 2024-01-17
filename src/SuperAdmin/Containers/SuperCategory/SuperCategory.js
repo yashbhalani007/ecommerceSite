@@ -243,7 +243,6 @@ function SuperCategory(props) {
                   <option>See All Categorys</option>
                   {subCategory.subcategory && subCategory.subcategory.map((item) => {
                     if (item.category === category) {
-                      console.log(item.subcategory);
 
                       return (
                         <option>{item.subcategory}</option>
