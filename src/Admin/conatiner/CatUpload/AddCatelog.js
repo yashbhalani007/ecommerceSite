@@ -177,7 +177,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                       <div className="col">
                         <label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
                         <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode" value={group_id}
-                          {...register('group_id', { required: true })}
+                          {...register('group_id')} 
                           readOnly
                           disabled
                         />
