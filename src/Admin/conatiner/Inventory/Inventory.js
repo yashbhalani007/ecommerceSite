@@ -62,17 +62,12 @@ function Inventory(props) {
   }, [productData.products])
 
 
-  const handleChange = (event, newValue) => {
+const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
+};
 
-  
-  const handleFormSubmit = (data) => {
+const handleFormSubmit = (data) => {
     // addCategoryData(data)
-}
-
-const handleEdit = (value) => {
-
 }
 
 const handleDelete = (value) => {
@@ -144,8 +139,6 @@ const handleCustomTabPannel = () =>{
         checkboxSelection
         disableRowSelectionOnClick
     /> */}
-
-
 </Box>
 
 </>
