@@ -109,6 +109,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
     setValue('subcategory', ''); // Reset subcategory value
   }, [categorys, setValue]);
 
+
   const handleCategoryChange = (e) => {
     const selectedValue = e.target.value;
     setValue('category', selectedValue);
@@ -116,8 +117,8 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
 
   const onsubmit = (formData) => {
     console.log("All Form values", formData);
-
-    setData(formData)
+    console.log({...formData, group_id});
+    setData({...formData, group_id})
     if (formData) {
       tabChange()
     }
