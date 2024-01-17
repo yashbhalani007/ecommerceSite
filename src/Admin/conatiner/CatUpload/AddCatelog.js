@@ -63,7 +63,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
   const productSchema = yup.object({
     product_name: yup.string().required("Name is required"),
     sku: yup.string().required(),
-    group_id: yup.string().required(),
+    group_id: yup.string(),
     description: yup.string().max(1000).required(),
     Images: yup.array(),
     color: yup.string(),
