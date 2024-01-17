@@ -167,7 +167,7 @@ function RenderCatlog(props) {
                                 </label>
 
                                 {input.selectedFile && (
-                                    <div className="image-container" style={{ margin: '0 11px' }}>
+                                    <div className="img-container" style={{ margin: '0 11px' }}>
                                         <img src={URL.createObjectURL(input.selectedFile)} alt="Selected Image" id='selected-image' />
                                     </div>
                                 )}

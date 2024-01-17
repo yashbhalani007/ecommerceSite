@@ -38,15 +38,7 @@ function Home(props) {
             </section>
             {/* Main-Slider /- */}
             {/* Banner-Layer */}
-            <section className="banner-layer">
-                <div className="container">
-                    <div className="image-banner">
-                        <a href="shop-v1-root-category.html" className="mx-auto banner-hover effect-dark-opacity">
-                            <img className="img-fluid" src="../assets/images/banners/b1.jpg" alt="Winter Season Banner" />
-                        </a>
-                    </div>
-                </div>
-            </section>
+
             {/* Banner-Layer /- */}
             {/* Men-Clothing */}
             <section className="section-maker">
@@ -457,16 +449,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="men-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                              
                                 <div className="tab-pane fade" id="men-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -662,16 +645,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="men-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -1342,16 +1316,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="women-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                               
                                 <div className="tab-pane fade" id="women-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -1547,16 +1512,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="women-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -1979,16 +1935,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="toys-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                                
                                 <div className="tab-pane fade" id="toys-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -2185,16 +2132,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="toys-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -2459,16 +2397,7 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="tab-pane fade" id="tablets">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
+                                                
                                                 <div className="tab-pane fade" id="smart-watches">
                                                     <div className="specific-category-slider owl-carousel" data-item={3}>
                                                         <div className="item">
@@ -2670,60 +2599,15 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="tab-pane fade" id="device-accessories">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
-                                                <div className="tab-pane fade" id="power-banks">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
+                                                
+                                               
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="mobiles-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="mobiles-top-rating-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="mobiles-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                            
+                            
+                            
                             </div>
                         </div>
                     </div>
@@ -2987,16 +2871,7 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="tab-pane fade" id="pc-and-accessories">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
+                                                
                                                 <div className="tab-pane fade" id="tv">
                                                     <div className="specific-category-slider owl-carousel" data-item={3}>
                                                         <div className="item">
@@ -3195,60 +3070,15 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="tab-pane fade" id="cam-corder">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
-                                                <div className="tab-pane fade" id="audio-amplifiers">
-                                                    {/* Product Not Found */}
-                                                    <div className="product-not-found">
-                                                        <div className="not-found">
-                                                            <h1>SORRY!</h1>
-                                                            <h6>There is not any product in specific catalogue.</h6>
-                                                        </div>
-                                                    </div>
-                                                    {/* Product Not Found /- */}
-                                                </div>
+                                                
+                                                
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="consumer-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="consumer-top-rating-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="consumer-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                                
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -3457,36 +3287,8 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tab-pane fade" id="books-best-selling-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="books-top-rating-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
-                                <div className="tab-pane fade" id="books-featured-products">
-                                    {/* Product Not Found */}
-                                    <div className="product-not-found">
-                                        <div className="not-found">
-                                            <h1>SORRY!</h1>
-                                            <h6>There is not any product in specific catalogue.</h6>
-                                        </div>
-                                    </div>
-                                    {/* Product Not Found /- */}
-                                </div>
+                                
+                                
                             </div>
                         </div>
                     </div>
