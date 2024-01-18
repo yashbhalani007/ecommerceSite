@@ -306,71 +306,58 @@ function Category({ subCategoryvalue }) {
 
 
 
-                                    <div className="product-item col-lg-4 col-md-6 col-sm-6">
+                                    {/* <div className="product-item col-lg-4 col-md-6 col-sm-6">
 
-                                        {/* {
-                                            uniqueProducts.map((v) => {
-                                                if (v.category === subCategoryvalue) {
-                                                    return (
-                                                        <div className="item">
-                                                            <div className="image-container">
-                                                                <a className="item-img-wrapper-link" href="single-product.html">
-                                                                    <img className="img-fluid" src={v.fileurl} alt="Product" />
-                                                                </a>
-                                                                <div className="item-action-behaviors">
-                                                                    <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
-                                                                    <a className="item-mail" href="javascript:void(0)">Mail</a>
-                                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
-                                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
-                                                                </div>
-                                                            </div>
-                                                            <div className="item-content">
-                                                                <div className="what-product-is">
-                                                                    <ul className="bread-crumb">
-                                                                        <li className="has-separator">
-                                                                            <a href="shop-v1-root-category.html">{v.category}</a>
-                                                                        </li>
-                                                                        <li>
-                                                                            <a href="shop-v3-sub-sub-category.html">{v.subcategory}</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                    <h6 className="item-title">
-                                                                        <a href="single-product.html">{v.product_name}</a>
-                                                                    </h6>
-                                                                    <div className="item-description">
-                                                                        <p>{v.description}</p>
-                                                                    </div>
-                                                                    <div className="item-stars">
-                                                                        <div className="star" title="4.5 out of 5 - based on 23 Reviews">
-                                                                            <span style={{ width: 67 }} />
-                                                                        </div>
-                                                                        <span>(23)</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="price-template">
-                                                                    <div className="item-new-price">
-                                                                        ${v.price}
-                                                                    </div>
-                                                                    <div className="item-old-price">
-                                                                        $60.00
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div className="tag new">
-                                                                <span>NEW</span>
-                                                            </div>
+                                        <div className="item">
+                                            <div className="image-container">
+                                                <a className="item-img-wrapper-link" href="single-product.html">
+                                                    <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                </a>
+                                                <div className="item-action-behaviors">
+                                                    <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
+                                                    <a className="item-mail" href="javascript:void(0)">Mail</a>
+                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
+                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
+                                                </div>
+                                            </div>
+                                            <div className="item-content">
+                                                <div className="what-product-is">
+                                                    <ul className="bread-crumb">
+                                                        <li className="has-separator">
+                                                            <a href="shop-v1-root-category.html">{v.category}</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="shop-v3-sub-sub-category.html">{v.subcategory}</a>
+                                                        </li>
+                                                    </ul>
+                                                    <h6 className="item-title">
+                                                        <a href="single-product.html">{v.product_name}</a>
+                                                    </h6>
+                                                    <div className="item-description">
+                                                        <p>{v.description}</p>
+                                                    </div>
+                                                    <div className="item-stars">
+                                                        <div className="star" title="4.5 out of 5 - based on 23 Reviews">
+                                                            <span style={{ width: 67 }} />
                                                         </div>
+                                                        <span>(23)</span>
+                                                    </div>
+                                                </div>
+                                                <div className="price-template">
+                                                    <div className="item-new-price">
+                                                        ${v.price}
+                                                    </div>
+                                                    <div className="item-old-price">
+                                                        $60.00
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="tag new">
+                                                <span>NEW</span>
+                                            </div>
+                                        </div>
 
-                                                    )
-
-                                                }
-
-
-                                            })
-                                        } */}
-
-
-                                    </div>
+                                    </div> */}
 
                                 </div>
                                 {/* Row-of-Product-Container /- */}
