@@ -3425,7 +3425,7 @@ body {
       border-color: #d90429; }
   .list-style .item-content {
     display: table-cell;
-    vertical-align: middle; }
+    vertical-align: baseline; }
   .list-style .item-description {
     font-size: 13px; }
     .list-style .item-description p {

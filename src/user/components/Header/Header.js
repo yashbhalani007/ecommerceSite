@@ -52,12 +52,7 @@ function Header({ setsubCategory }) {
     setsubCategory(selectedCategory);
     // Check if a category is selected before navigating
     if (selectedCategory) {
-      if (selectedCategory === 'All') {
-        navigate(`/`);
-      } else {
         navigate(`/category/${selectedCategory}`);
-      }
-    
     }
     // <Category subCat = {selectedCategory} />
   };
