@@ -23,6 +23,7 @@ import NewArrival from '../user/container/NewArrival/NewArrival';
 import Category from '../user/container/Category/Category';
 import Error from '../Error';
 
+
 function UserRoutes(props) {
 
 
@@ -38,6 +39,7 @@ function UserRoutes(props) {
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/category/:categoryName" element={<Category subCategoryvalue={subCategoryvalue} />} />
+                <Route path="/product_Details/:id" element={<Singlepage />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
