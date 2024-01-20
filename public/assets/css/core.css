@@ -677,6 +677,11 @@ progress {
   height: auto;
 }
 
+.new-img-fluid{
+  width: 130px;
+  height: 175px;
+}
+
 .img-thumbnail {
   padding: 0;
   background-color: transparent;
