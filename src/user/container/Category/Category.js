@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 import { getProduct } from '../../../redux/slice/product.slice';
+import { Link } from 'react-router-dom';
 
 function Category({ subCategoryvalue }) {
     console.log(subCategoryvalue);
     const dispatch = useDispatch()
+
+    const [selectedSubcategory, setSelectedSubcategory] = useState('All');
 
     const subcategory = useSelector(state => state.subcategory)
 
@@ -24,7 +27,7 @@ function Category({ subCategoryvalue }) {
         );
 
         // If not found, add the current product to the accumulator
-        if (!existingProduct) {
+        if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
             accumulator.push(currentProduct);
         }
 
@@ -38,6 +41,13 @@ function Category({ subCategoryvalue }) {
         dispatch(getSubCategoryData())
         dispatch(getProduct())
     }, []);
+
+
+    const handleClick = (event, subcategoryValue) => {
+        event.preventDefault();
+        console.log(subcategoryValue);
+        setSelectedSubcategory(subcategoryValue);
+    }
 
     return (
         <div id='app'>
@@ -73,28 +83,25 @@ function Category({ subCategoryvalue }) {
                                 {/* Fetch-Categories-from-Root-Category  */}
                                 <div className="fetch-categories">
                                     <h3 className="title-name">Browse Categories</h3>
-
-                                    {/* 
-                                    {uniqueCategories.map((category) => (
-                                        <>
-                                            
-
-                                        </>
-                                    ))} */}
+                                    <h3 className="fetch-mark-category">
+                                        <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, 'All')}>
+                                            All
+                                        </a>
+                                    </h3>
 
                                     {subcategory.subcategory.map((item) => {
-                                        
+
                                         if (subCategoryvalue === 'All') {
                                             return (
-                                                <h3 className="fetch-mark-category">
-                                                    <a href="shop-v2-sub-category.html">{item.subcategory}
+                                                <h3 className="fetch-mark-category" key={item.subcategory}>
+                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
                                                     </a>
                                                 </h3>
                                             );
-                                        }else if(item.category === subCategoryvalue) {
+                                        } else if (item.category === subCategoryvalue) {
                                             return (
                                                 <h3 className="fetch-mark-category">
-                                                    <a href="shop-v2-sub-category.html">{item.subcategory}
+                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
                                                     </a>
                                                 </h3>
                                             );
@@ -334,13 +341,16 @@ function Category({ subCategoryvalue }) {
 
                                             if (subCategoryvalue === 'All' && v.status === 'approve') {
                                                 return (
+
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6">
 
                                                         <div className="item">
                                                             <div className="image-container">
-                                                                <a className="item-img-wrapper-link" href="single-product.html">
-                                                                    <img className="img-fluid" src={v.fileurl} alt="Product" />
-                                                                </a>
+                                                                <Link to={"/product_Details/" + v.id}>
+                                                                    <a className="item-img-wrapper-link" href="single-product.html">
+                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                    </a>
+                                                                </Link>
                                                                 <div className="item-action-behaviors">
                                                                     <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
                                                                     <a className="item-mail" href="javascript:void(0)">Mail</a>
@@ -393,9 +403,11 @@ function Category({ subCategoryvalue }) {
 
                                                         <div className="item">
                                                             <div className="image-container">
-                                                                <a className="item-img-wrapper-link" href="single-product.html">
-                                                                    <img className="img-fluid" src={v.fileurl} alt="Product" />
-                                                                </a>
+                                                                <Link to={"/product_Details/" + v.id}>
+                                                                    <a className="item-img-wrapper-link" href="single-product.html">
+                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                    </a>
+                                                                </Link>
                                                                 <div className="item-action-behaviors">
                                                                     <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
                                                                     <a className="item-mail" href="javascript:void(0)">Mail</a>
