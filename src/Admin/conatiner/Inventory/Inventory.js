@@ -96,10 +96,10 @@ function Inventory(props) {
   }
 
 
-
-      </>
-    )
-  }
+ const handleCustomTabPannel = () => {
+  
+ }
+ 
 
 
 
