@@ -76,7 +76,7 @@ function Lay_out({ children }) {
                             <ThumbUpAltIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Like</span>
                         </NavLink></li> */}
-                        <li><NavLink to="#">
+                        <li><NavLink to="/admin/support">
                             {/* <i className="uil uil-comments" /> */}
                             <CommentIcon style={{marginRight: '18px', fontSize: '28px',color: '#707070'}}/>
                             <span className="link-name">Support</span>
