@@ -8,6 +8,7 @@ function Singlepage(props) {
 
     const [quantity, setQuantity] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [activeTab, setActiveTab] = useState('description');
 
     const dispatch = useDispatch()
 
@@ -59,6 +60,7 @@ function Singlepage(props) {
 
                     {
                         fdata.map((v) => {
+                            console.log(v);
                             return (
                                 <>
                                     <div className="row">
@@ -72,24 +74,6 @@ function Singlepage(props) {
                                                 </div>
 
                                                 <div id="gallery" className="u-s-m-t-10">
-                                                    {/* <a className="active" data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a>
-                                                    <a data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a>
-                                                    <a data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a>
-                                                    <a data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a>
-                                                    <a data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a>
-                                                    <a data-image="../assets/images/product/product@4x.jpg" data-zoom-image="../assets/images/product/product@4x.jpg">
-                                                        <img src="../assets/images/product/product@2x.jpg" alt="Product" />
-                                                    </a> */}
 
                                                     {fileUrls.map((image, i) => (
                                                         <a
@@ -142,26 +126,29 @@ function Singlepage(props) {
                                                     </div>
                                                     <div className="original-price">
                                                         <span>Original Price:</span>
-                                                        <span>$60.00</span>
+                                                        <span>${v.mrp}</span>
                                                     </div>
                                                     <div className="discount-price">
                                                         <span>Discount:</span>
-                                                        <span>8%</span>
+                                                        <span>{Math.round((v.mrp - v.price) * 100 / v.mrp)}%</span>
                                                     </div>
                                                     <div className="total-save">
                                                         <span>Save:</span>
-                                                        <span>$5</span>
+                                                        <span>${v.mrp - v.price}</span>
                                                     </div>
                                                 </div>
                                                 <div className="section-4-sku-information u-s-p-y-14">
                                                     <h6 className="information-heading u-s-m-b-8">Sku Information:</h6>
                                                     <div className="availability">
                                                         <span>Availability:</span>
-                                                        <span>In Stock</span>
+                                                        {
+                                                            v.stock > 0 ? <span>In Stock</span> : <span>Out of Stock</span>
+                                                        }
+
                                                     </div>
                                                     <div className="left">
                                                         <span>Only:</span>
-                                                        <span>50 left</span>
+                                                        <span>{v.stock} left</span>
                                                     </div>
                                                 </div>
                                                 <div className="section-5-product-variants u-s-p-y-14">
@@ -266,340 +253,660 @@ function Singlepage(props) {
 
             {/* Product-Detail /- */}
             {/* Detail-Tabs */}
-            <div className="row">
-                <div className="col-lg-12 col-md-12 col-sm-12">
-                    <div className="detail-tabs-wrapper u-s-p-t-80">
-                        <div className="detail-nav-wrapper u-s-m-b-30">
-                            <ul className="nav single-product-nav justify-content-center">
-                                <li className="nav-item">
-                                    <a className="nav-link active" data-toggle="tab" href="#description">Description</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" data-toggle="tab" href="#specification">Specifications</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" data-toggle="tab" href="#review">Reviews (15)</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="tab-content">
-                            {/* Description-Tab */}
-                            <div className="tab-pane fade active show" id="description">
-                                <div className="description-whole-container">
-                                    <p className="desc-p u-s-m-b-26">This hoodie is full cotton. It includes a muff sewn onto the lower front, and (usually) a drawstring to adjust the hood opening. Throughout the U.S., it is common for middle-school, high-school, and college students to wear this sweatshirts—with or without hoods—that display their respective school names or mascots across the chest, either as part of a uniform or personal preference.
-                                    </p>
-                                    <img className="desc-img img-fluid u-s-m-b-26" src="../assets/images/product/product@3x.jpg" alt="Product" />
-                                    <iframe className="desc-iframe u-s-m-b-45" width={710} height={400} src="../assets/images/product/iframe-youtube.jpg" allowFullScreen />
-                                </div>
-                            </div>
-                            {/* Description-Tab /- */}
-                            {/* Specifications-Tab */}
-                            <div className="tab-pane fade" id="specification">
-                                <div className="specification-whole-container">
-                                    <div className="spec-ul u-s-m-b-50">
-                                        <h4 className="spec-heading">Key Features</h4>
-                                        <ul>
-                                            <li>Heather Grey</li>
-                                            <li>Black</li>
-                                            <li>White</li>
+
+            {
+                fdata.map((v) => {
+                    return (
+                        <div className="row">
+                            <div className="col-lg-12 col-md-12 col-sm-12">
+                                <div className="detail-tabs-wrapper u-s-p-t-80">
+                                    <div className="detail-nav-wrapper u-s-m-b-30">
+                                        <ul className="nav single-product-nav justify-content-center">
+
+                                            {/* <li className="nav-item">
+                                                <a className="nav-link active" data-toggle="tab" href="#description">Description</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" data-toggle="tab" href="#specification">Specifications</a>
+                                            </li>
+                                            <li className="nav-item">
+                                                <a className="nav-link" data-toggle="tab" href="#review">Reviews (15)</a>
+                                            </li> */}
+
+                                            <li className={`nav-item ${activeTab === 'description' ? 'active' : ''}`}>
+                                                <a className="nav-link" onClick={() => setActiveTab('description')} href="#description">Description</a>
+                                            </li>
+                                            <li className={`nav-item ${activeTab === 'specification' ? 'active' : ''}`}>
+                                                <a className="nav-link" onClick={() => setActiveTab('specification')} href="#specification">Specifications</a>
+                                            </li>
+                                            <li className={`nav-item ${activeTab === 'review' ? 'active' : ''}`}>
+                                                <a className="nav-link" onClick={() => setActiveTab('review')} href="#review">Reviews (15)</a>
+                                            </li>
                                         </ul>
                                     </div>
-                                    <div className="u-s-m-b-50">
-                                        <h4 className="spec-heading">What's in the Box?</h4>
-                                        <h3 className="spec-answer">1 x hoodie</h3>
-                                    </div>
-                                    <div className="spec-table u-s-m-b-50">
-                                        <h4 className="spec-heading">General Information</h4>
-                                        <table>
-                                            <tbody><tr>
-                                                <td>Sku</td>
-                                                <td>AY536FA08JT86NAFAMZ</td>
-                                            </tr>
-                                            </tbody></table>
-                                    </div>
-                                    <div className="spec-table u-s-m-b-50">
-                                        <h4 className="spec-heading">Product Information</h4>
-                                        <table>
-                                            <tbody><tr>
-                                                <td>Main Material</td>
-                                                <td>Cotton</td>
-                                            </tr>
-                                                <tr>
-                                                    <td>Color</td>
-                                                    <td>Heather Grey, Black, White</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sleeves</td>
-                                                    <td>Long Sleeve</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Top Fit</td>
-                                                    <td>Regular</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Print</td>
-                                                    <td>Not Printed</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Neck</td>
-                                                    <td>Round Neck</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Pieces Count</td>
-                                                    <td>1 piece</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Occasion</td>
-                                                    <td>Casual</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Shipping Weight (kg)</td>
-                                                    <td>0.5</td>
-                                                </tr>
-                                            </tbody></table>
+                                    <div className="tab-content">
+                                        {/* Description-Tab */}
+                                        {/* <div className="tab-pane fade active show" id="description">
+                                            <div className="description-whole-container">
+                                                <p className="desc-p u-s-m-b-26">{v.description}</p>
+                                            </div>
+                                        </div> */}
+                                        <div className={`tab-pane fade ${activeTab === 'description' ? 'active show' : ''}`} id="description">
+                                            <div className="description-whole-container">
+                                                <p className="desc-p u-s-m-b-26">{v.description}</p>
+                                            </div>
+                                        </div>
+                                        {/* Description-Tab /- */}
+                                        {/* Specifications-Tab */}
+                                        {/* <div className="tab-pane fade" id="specification">
+                                            <div className="specification-whole-container">
+                                                <div className="spec-ul u-s-m-b-50">
+                                                    <h4 className="spec-heading">Key Features</h4>
+                                                    <ul>
+                                                        <li>Heather Grey</li>
+                                                        <li>Black</li>
+                                                        <li>White</li>
+                                                    </ul>
+                                                </div>
+                                                <div className="u-s-m-b-50">
+                                                    <h4 className="spec-heading">What's in the Box?</h4>
+                                                    <h3 className="spec-answer">1 x hoodie</h3>
+                                                </div>
+                                                <div className="spec-table u-s-m-b-50">
+                                                    <h4 className="spec-heading">General Information</h4>
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>Sku</td>
+                                                            <td>AY536FA08JT86NAFAMZ</td>
+                                                        </tr>
+                                                        </tbody></table>
+                                                </div>
+                                                <div className="spec-table u-s-m-b-50">
+                                                    <h4 className="spec-heading">Product Information</h4>
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>Main Material</td>
+                                                            <td>Cotton</td>
+                                                        </tr>
+                                                            <tr>
+                                                                <td>Color</td>
+                                                                <td>Heather Grey, Black, White</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sleeves</td>
+                                                                <td>Long Sleeve</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Top Fit</td>
+                                                                <td>Regular</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Print</td>
+                                                                <td>Not Printed</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Neck</td>
+                                                                <td>Round Neck</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Pieces Count</td>
+                                                                <td>1 piece</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Occasion</td>
+                                                                <td>Casual</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shipping Weight (kg)</td>
+                                                                <td>0.5</td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                </div>
+                                            </div>
+                                        </div> */}
+
+                                        <div className={`tab-pane fade ${activeTab === 'specification' ? 'active show' : ''}`} id="specification">
+                                            <div className="specification-whole-container">
+                                                <div className="spec-ul u-s-m-b-50">
+                                                    <h4 className="spec-heading">Key Features</h4>
+                                                    <ul>
+                                                        <li>Heather Grey</li>
+                                                        <li>Black</li>
+                                                        <li>White</li>
+                                                    </ul>
+                                                </div>
+                                                <div className="u-s-m-b-50">
+                                                    <h4 className="spec-heading">What's in the Box?</h4>
+                                                    <h3 className="spec-answer">1 x hoodie</h3>
+                                                </div>
+                                                <div className="spec-table u-s-m-b-50">
+                                                    <h4 className="spec-heading">General Information</h4>
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>Sku</td>
+                                                            <td>AY536FA08JT86NAFAMZ</td>
+                                                        </tr>
+                                                        </tbody></table>
+                                                </div>
+                                                <div className="spec-table u-s-m-b-50">
+                                                    <h4 className="spec-heading">Product Information</h4>
+                                                    <table>
+                                                        <tbody><tr>
+                                                            <td>Main Material</td>
+                                                            <td>Cotton</td>
+                                                        </tr>
+                                                            <tr>
+                                                                <td>Color</td>
+                                                                <td>Heather Grey, Black, White</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sleeves</td>
+                                                                <td>Long Sleeve</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Top Fit</td>
+                                                                <td>Regular</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Print</td>
+                                                                <td>Not Printed</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Neck</td>
+                                                                <td>Round Neck</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Pieces Count</td>
+                                                                <td>1 piece</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Occasion</td>
+                                                                <td>Casual</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Shipping Weight (kg)</td>
+                                                                <td>0.5</td>
+                                                            </tr>
+                                                        </tbody></table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {/* Specifications-Tab /- */}
+                                        {/* Reviews-Tab */}
+                                        {/* <div className="tab-pane fade" id="review">
+                                            <div className="review-whole-container">
+                                                <div className="row r-1 u-s-m-b-26 u-s-p-b-22">
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="total-score-wrapper">
+                                                            <h6 className="review-h6">Average Rating</h6>
+                                                            <div className="circle-wrapper">
+                                                                <h1>4.5</h1>
+                                                            </div>
+                                                            <h6 className="review-h6">Based on 23 Reviews</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="total-star-meter">
+                                                            <div className="star-wrapper">
+                                                                <span>5 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>4 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 67 }} />
+                                                                </div>
+                                                                <span>(23)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>3 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>2 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>1 Star</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row r-2 u-s-m-b-26 u-s-p-b-22">
+                                                    <div className="col-lg-12">
+                                                        <div className="your-rating-wrapper">
+                                                            <h6 className="review-h6">Your Review is matter.</h6>
+                                                            <h6 className="review-h6">Have you used this product before?</h6>
+                                                            <div className="star-wrapper u-s-m-b-8">
+                                                                <div className="star">
+                                                                    <span id="your-stars" style={{ width: 0 }} />
+                                                                </div>
+                                                                <label htmlFor="your-rating-value" />
+                                                                <input id="your-rating-value" type="text" className="text-field" placeholder={0.0} />
+                                                                <span id="star-comment" />
+                                                            </div>
+                                                            <form>
+                                                                <label htmlFor="your-name">Name
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="your-name" type="text" className="text-field" placeholder="Your Name" />
+                                                                <label htmlFor="your-email">Email
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="your-email" type="text" className="text-field" placeholder="Your Email" />
+                                                                <label htmlFor="review-title">Review Title
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="review-title" type="text" className="text-field" placeholder="Review Title" />
+                                                                <label htmlFor="review-text-area">Review
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <textarea className="text-area u-s-m-b-8" id="review-text-area" placeholder="Review" defaultValue={""} />
+                                                                <button className="button button-outline-secondary">Submit Review</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                       
+                                                <div className="get-reviews u-s-p-b-22">
+                                               
+                                                    <div className="review-options u-s-m-b-16">
+                                                        <div className="review-option-heading">
+                                                            <h6>Reviews
+                                                                <span> (15) </span>
+                                                            </h6>
+                                                        </div>
+                                                        <div className="review-option-box">
+                                                            <div className="select-box-wrapper">
+                                                                <label className="sr-only" htmlFor="review-sort">Review Sorter</label>
+                                                                <select className="select-box" id="review-sort">
+                                                                    <option value>Sort by: Best Rating</option>
+                                                                    <option value>Sort by: Worst Rating</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                    <div className="reviewers">
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">John</h6>
+                                                                <h6 className="review-posted-date">10 May 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Good!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Good Quality...!
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Doe</h6>
+                                                                <h6 className="review-posted-date">10 June 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Cotton is good.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Tim</h6>
+                                                                <h6 className="review-posted-date">10 July 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Excellent condition
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Johnny</h6>
+                                                                <h6 className="review-posted-date">10 March 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Bright!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Cotton
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Alexia C. Marshall</h6>
+                                                                <h6 className="review-posted-date">12 May 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Good polyester Cotton
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="pagination-review-area">
+                                                        <div className="pagination-review-number">
+                                                            <ul>
+                                                                <li style={{ display: 'none' }}>
+                                                                    <a href="single-product.html" title="Previous">
+                                                                        <i className="fas fa-angle-left" />
+                                                                    </a>
+                                                                </li>
+                                                                <li className="active">
+                                                                    <a href="single-product.html">1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">2</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">3</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">...</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">10</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html" title="Next">
+                                                                        <i className="fas fa-angle-right" />
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                               
+                                            </div>
+                                        </div> */}
+
+                                        <div className={`tab-pane fade ${activeTab === 'review' ? 'active show' : ''}`} id="review">
+                                            <div className="review-whole-container">
+                                                <div className="row r-1 u-s-m-b-26 u-s-p-b-22">
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="total-score-wrapper">
+                                                            <h6 className="review-h6">Average Rating</h6>
+                                                            <div className="circle-wrapper">
+                                                                <h1>4.5</h1>
+                                                            </div>
+                                                            <h6 className="review-h6">Based on 23 Reviews</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-lg-6 col-md-6">
+                                                        <div className="total-star-meter">
+                                                            <div className="star-wrapper">
+                                                                <span>5 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>4 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 67 }} />
+                                                                </div>
+                                                                <span>(23)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>3 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>2 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>1 Star</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="row r-2 u-s-m-b-26 u-s-p-b-22">
+                                                    <div className="col-lg-12">
+                                                        <div className="your-rating-wrapper">
+                                                            <h6 className="review-h6">Your Review is matter.</h6>
+                                                            <h6 className="review-h6">Have you used this product before?</h6>
+                                                            <div className="star-wrapper u-s-m-b-8">
+                                                                <div className="star">
+                                                                    <span id="your-stars" style={{ width: 0 }} />
+                                                                </div>
+                                                                <label htmlFor="your-rating-value" />
+                                                                <input id="your-rating-value" type="text" className="text-field" placeholder={0.0} />
+                                                                <span id="star-comment" />
+                                                            </div>
+                                                            <form>
+                                                                <label htmlFor="your-name">Name
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="your-name" type="text" className="text-field" placeholder="Your Name" />
+                                                                <label htmlFor="your-email">Email
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="your-email" type="text" className="text-field" placeholder="Your Email" />
+                                                                <label htmlFor="review-title">Review Title
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <input id="review-title" type="text" className="text-field" placeholder="Review Title" />
+                                                                <label htmlFor="review-text-area">Review
+                                                                    <span className="astk"> *</span>
+                                                                </label>
+                                                                <textarea className="text-area u-s-m-b-8" id="review-text-area" placeholder="Review" defaultValue={""} />
+                                                                <button className="button button-outline-secondary">Submit Review</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/* Get-Reviews */}
+                                                <div className="get-reviews u-s-p-b-22">
+                                                    {/* Review-Options */}
+                                                    <div className="review-options u-s-m-b-16">
+                                                        <div className="review-option-heading">
+                                                            <h6>Reviews
+                                                                <span> (15) </span>
+                                                            </h6>
+                                                        </div>
+                                                        <div className="review-option-box">
+                                                            <div className="select-box-wrapper">
+                                                                <label className="sr-only" htmlFor="review-sort">Review Sorter</label>
+                                                                <select className="select-box" id="review-sort">
+                                                                    <option value>Sort by: Best Rating</option>
+                                                                    <option value>Sort by: Worst Rating</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/* Review-Options /- */}
+                                                    {/* All-Reviews */}
+                                                    <div className="reviewers">
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">John</h6>
+                                                                <h6 className="review-posted-date">10 May 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Good!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Good Quality...!
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Doe</h6>
+                                                                <h6 className="review-posted-date">10 June 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Cotton is good.
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Tim</h6>
+                                                                <h6 className="review-posted-date">10 July 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Excellent condition
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Johnny</h6>
+                                                                <h6 className="review-posted-date">10 March 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Bright!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Cotton
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="review-data">
+                                                            <div className="reviewer-name-and-date">
+                                                                <h6 className="reviewer-name">Alexia C. Marshall</h6>
+                                                                <h6 className="review-posted-date">12 May 2018</h6>
+                                                            </div>
+                                                            <div className="reviewer-stars-title-body">
+                                                                <div className="reviewer-stars">
+                                                                    <div className="star">
+                                                                        <span style={{ width: 67 }} />
+                                                                    </div>
+                                                                    <span className="review-title">Well done!</span>
+                                                                </div>
+                                                                <p className="review-body">
+                                                                    Good polyester Cotton
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {/* All-Reviews /- */}
+                                                    {/* Pagination-Review */}
+                                                    <div className="pagination-review-area">
+                                                        <div className="pagination-review-number">
+                                                            <ul>
+                                                                <li style={{ display: 'none' }}>
+                                                                    <a href="single-product.html" title="Previous">
+                                                                        <i className="fas fa-angle-left" />
+                                                                    </a>
+                                                                </li>
+                                                                <li className="active">
+                                                                    <a href="single-product.html">1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">2</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">3</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">...</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html">10</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="single-product.html" title="Next">
+                                                                        <i className="fas fa-angle-right" />
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {/* Pagination-Review /- */}
+                                                </div>
+                                                {/* Get-Reviews /- */}
+                                            </div>
+                                        </div>
+                                        {/* Reviews-Tab /- */}
                                     </div>
                                 </div>
                             </div>
-                            {/* Specifications-Tab /- */}
-                            {/* Reviews-Tab */}
-                            <div className="tab-pane fade" id="review">
-                                <div className="review-whole-container">
-                                    <div className="row r-1 u-s-m-b-26 u-s-p-b-22">
-                                        <div className="col-lg-6 col-md-6">
-                                            <div className="total-score-wrapper">
-                                                <h6 className="review-h6">Average Rating</h6>
-                                                <div className="circle-wrapper">
-                                                    <h1>4.5</h1>
-                                                </div>
-                                                <h6 className="review-h6">Based on 23 Reviews</h6>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-md-6">
-                                            <div className="total-star-meter">
-                                                <div className="star-wrapper">
-                                                    <span>5 Stars</span>
-                                                    <div className="star">
-                                                        <span style={{ width: 0 }} />
-                                                    </div>
-                                                    <span>(0)</span>
-                                                </div>
-                                                <div className="star-wrapper">
-                                                    <span>4 Stars</span>
-                                                    <div className="star">
-                                                        <span style={{ width: 67 }} />
-                                                    </div>
-                                                    <span>(23)</span>
-                                                </div>
-                                                <div className="star-wrapper">
-                                                    <span>3 Stars</span>
-                                                    <div className="star">
-                                                        <span style={{ width: 0 }} />
-                                                    </div>
-                                                    <span>(0)</span>
-                                                </div>
-                                                <div className="star-wrapper">
-                                                    <span>2 Stars</span>
-                                                    <div className="star">
-                                                        <span style={{ width: 0 }} />
-                                                    </div>
-                                                    <span>(0)</span>
-                                                </div>
-                                                <div className="star-wrapper">
-                                                    <span>1 Star</span>
-                                                    <div className="star">
-                                                        <span style={{ width: 0 }} />
-                                                    </div>
-                                                    <span>(0)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row r-2 u-s-m-b-26 u-s-p-b-22">
-                                        <div className="col-lg-12">
-                                            <div className="your-rating-wrapper">
-                                                <h6 className="review-h6">Your Review is matter.</h6>
-                                                <h6 className="review-h6">Have you used this product before?</h6>
-                                                <div className="star-wrapper u-s-m-b-8">
-                                                    <div className="star">
-                                                        <span id="your-stars" style={{ width: 0 }} />
-                                                    </div>
-                                                    <label htmlFor="your-rating-value" />
-                                                    <input id="your-rating-value" type="text" className="text-field" placeholder={0.0} />
-                                                    <span id="star-comment" />
-                                                </div>
-                                                <form>
-                                                    <label htmlFor="your-name">Name
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <input id="your-name" type="text" className="text-field" placeholder="Your Name" />
-                                                    <label htmlFor="your-email">Email
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <input id="your-email" type="text" className="text-field" placeholder="Your Email" />
-                                                    <label htmlFor="review-title">Review Title
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <input id="review-title" type="text" className="text-field" placeholder="Review Title" />
-                                                    <label htmlFor="review-text-area">Review
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <textarea className="text-area u-s-m-b-8" id="review-text-area" placeholder="Review" defaultValue={""} />
-                                                    <button className="button button-outline-secondary">Submit Review</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* Get-Reviews */}
-                                    <div className="get-reviews u-s-p-b-22">
-                                        {/* Review-Options */}
-                                        <div className="review-options u-s-m-b-16">
-                                            <div className="review-option-heading">
-                                                <h6>Reviews
-                                                    <span> (15) </span>
-                                                </h6>
-                                            </div>
-                                            <div className="review-option-box">
-                                                <div className="select-box-wrapper">
-                                                    <label className="sr-only" htmlFor="review-sort">Review Sorter</label>
-                                                    <select className="select-box" id="review-sort">
-                                                        <option value>Sort by: Best Rating</option>
-                                                        <option value>Sort by: Worst Rating</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* Review-Options /- */}
-                                        {/* All-Reviews */}
-                                        <div className="reviewers">
-                                            <div className="review-data">
-                                                <div className="reviewer-name-and-date">
-                                                    <h6 className="reviewer-name">John</h6>
-                                                    <h6 className="review-posted-date">10 May 2018</h6>
-                                                </div>
-                                                <div className="reviewer-stars-title-body">
-                                                    <div className="reviewer-stars">
-                                                        <div className="star">
-                                                            <span style={{ width: 67 }} />
-                                                        </div>
-                                                        <span className="review-title">Good!</span>
-                                                    </div>
-                                                    <p className="review-body">
-                                                        Good Quality...!
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="review-data">
-                                                <div className="reviewer-name-and-date">
-                                                    <h6 className="reviewer-name">Doe</h6>
-                                                    <h6 className="review-posted-date">10 June 2018</h6>
-                                                </div>
-                                                <div className="reviewer-stars-title-body">
-                                                    <div className="reviewer-stars">
-                                                        <div className="star">
-                                                            <span style={{ width: 67 }} />
-                                                        </div>
-                                                        <span className="review-title">Well done!</span>
-                                                    </div>
-                                                    <p className="review-body">
-                                                        Cotton is good.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="review-data">
-                                                <div className="reviewer-name-and-date">
-                                                    <h6 className="reviewer-name">Tim</h6>
-                                                    <h6 className="review-posted-date">10 July 2018</h6>
-                                                </div>
-                                                <div className="reviewer-stars-title-body">
-                                                    <div className="reviewer-stars">
-                                                        <div className="star">
-                                                            <span style={{ width: 67 }} />
-                                                        </div>
-                                                        <span className="review-title">Well done!</span>
-                                                    </div>
-                                                    <p className="review-body">
-                                                        Excellent condition
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="review-data">
-                                                <div className="reviewer-name-and-date">
-                                                    <h6 className="reviewer-name">Johnny</h6>
-                                                    <h6 className="review-posted-date">10 March 2018</h6>
-                                                </div>
-                                                <div className="reviewer-stars-title-body">
-                                                    <div className="reviewer-stars">
-                                                        <div className="star">
-                                                            <span style={{ width: 67 }} />
-                                                        </div>
-                                                        <span className="review-title">Bright!</span>
-                                                    </div>
-                                                    <p className="review-body">
-                                                        Cotton
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="review-data">
-                                                <div className="reviewer-name-and-date">
-                                                    <h6 className="reviewer-name">Alexia C. Marshall</h6>
-                                                    <h6 className="review-posted-date">12 May 2018</h6>
-                                                </div>
-                                                <div className="reviewer-stars-title-body">
-                                                    <div className="reviewer-stars">
-                                                        <div className="star">
-                                                            <span style={{ width: 67 }} />
-                                                        </div>
-                                                        <span className="review-title">Well done!</span>
-                                                    </div>
-                                                    <p className="review-body">
-                                                        Good polyester Cotton
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {/* All-Reviews /- */}
-                                        {/* Pagination-Review */}
-                                        <div className="pagination-review-area">
-                                            <div className="pagination-review-number">
-                                                <ul>
-                                                    <li style={{ display: 'none' }}>
-                                                        <a href="single-product.html" title="Previous">
-                                                            <i className="fas fa-angle-left" />
-                                                        </a>
-                                                    </li>
-                                                    <li className="active">
-                                                        <a href="single-product.html">1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product.html">2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product.html">3</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product.html">...</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product.html">10</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="single-product.html" title="Next">
-                                                            <i className="fas fa-angle-right" />
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        {/* Pagination-Review /- */}
-                                    </div>
-                                    {/* Get-Reviews /- */}
-                                </div>
-                            </div>
-                            {/* Reviews-Tab /- */}
                         </div>
-                    </div>
-                </div>
-            </div>
+                    )
+                })
+            }
+
             {/* Detail-Tabs /- */}
             {/* Different-Product-Section */}
             <div className="detail-different-product-section u-s-p-t-80">
