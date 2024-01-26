@@ -4580,6 +4580,7 @@ body {
   border-spacing: 20px;
   margin: 0 0 30px;
   width: 900px;
+  cursor: pointer;
 }
 
 .list-style .image-container {
@@ -4630,6 +4631,7 @@ body {
 
 .list-style .item-description {
   font-size: 13px;
+  cursor: text;
 }
 
 .list-style .item-description p {
