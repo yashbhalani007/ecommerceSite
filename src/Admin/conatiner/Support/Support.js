@@ -20,6 +20,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PersonIcon from '@mui/icons-material/Person';
 import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 import PendingIcon from '@mui/icons-material/Pending';
+import { Link } from "react-router-dom";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -115,10 +116,10 @@ const handleCustomTabPannel = () => {
       </Box>
 
     
-        <h5 style={{color : "black"}}>Select Issue Category</h5>
+        <h5 style={{color : "black", fontSize : "17px"}}>Select Issue Category</h5>
         <div class="content-item row border">
             <div class="col-4" style={{ padding : "10px"}}>
-                <div class="border" style={{ borderRadius: "7px", padding : "10px"}}>
+                <div class="border" style={{ borderRadius: "7px", padding : "10px", height : "250px"}}>
                   <div class = "row" >
                     <div class = "col-2">
                       <ReplayRoundedIcon style= {{color : "#3c29b7"}}/>
@@ -134,7 +135,6 @@ const handleCustomTabPannel = () => {
                       <div class = "col-10">
                         <p style={{fontSize : "13px"}}>I have received wrong return</p>
                       </div>
-
 
 
                       <div class = "col-2">
@@ -164,13 +164,12 @@ const handleCustomTabPannel = () => {
 
                       <div class = "col-2">
                       <ArrowForwardIosIcon  style= {{color : "#3c29b7" , fontSize : "15px"}}/>
-
                       </div>
-
                       </div>  
-                     
 
-
+                      <Link to="1">
+                      <Button style = {{color : "#3c29b7" ,width : "100%"}}>View All</Button>
+                      </Link>
 
                       <div>
                       </div>
@@ -180,7 +179,7 @@ const handleCustomTabPannel = () => {
             </div>
 
             <div class="col-4" style={{ padding : "10px"}}>
-                <div class="border" style={{ borderRadius: "7px", padding : "10px"}}>
+                <div class="border" style={{ borderRadius: "7px", padding : "10px", height : "250px"}}>
                   <div class = "row" >
                     <div class = "col-2">
                       <ReplayRoundedIcon style= {{color : "#3c29b7"}}/>
@@ -210,6 +209,8 @@ const handleCustomTabPannel = () => {
                       <ArrowForwardIosIcon  style= {{color : "#3c29b7" ,fontSize : "15px"}}/>
                       </div>
 
+
+
                       </div>
 
 
@@ -222,6 +223,9 @@ const handleCustomTabPannel = () => {
                       <ArrowForwardIosIcon  style= {{color : "#3c29b7" , fontSize : "15px"}}/>
 
                       </div>
+                      <Link to ="2">
+                      <Button style = {{color : "#3c29b7" ,width : "100%" , marginTop : "20px"}}>View All</Button>
+                      </Link>
 
                       </div>  
                      
@@ -236,7 +240,7 @@ const handleCustomTabPannel = () => {
             </div>
 
             <div class="col-4" style={{ padding : "10px"}}>
-                <div class="border" style={{ borderRadius: "7px", padding : "10px"}}>
+                <div class="border" style={{ borderRadius: "7px", padding : "10px" , height : "300px"}}>
                   <div class = "row" >
                     <div class = "col-2">
                       <ReplayRoundedIcon style= {{color : "#3c29b7"}}/>
@@ -278,6 +282,9 @@ const handleCustomTabPannel = () => {
                       <ArrowForwardIosIcon  style= {{color : "#3c29b7" , fontSize : "15px"}}/>
 
                       </div>
+                      <Link to= "3">
+                      <Button style = {{color : "#3c29b7" ,width : "100%", marginTop : "20px"}}>View All</Button>
+                      </Link>
 
                       </div>  
                      
