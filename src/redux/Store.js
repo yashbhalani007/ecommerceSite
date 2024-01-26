@@ -11,7 +11,7 @@ import rootSaga from "./saga/rootsaga"
 const persistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['adminauth','userauth']
+    whitelist: ['adminauth','userauth','cart']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootreducer)
@@ -28,3 +28,4 @@ export const configureStore = () => {
 
 export let store = configureStore()
 export let persistor= persistStore(store)
+

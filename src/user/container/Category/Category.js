@@ -4,8 +4,9 @@ import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 import { getProduct } from '../../../redux/slice/product.slice';
 import { Link } from 'react-router-dom';
+import { addtocart } from '../../../redux/slice/cart.slice';
 
-function Category({ subCategoryvalue }) {
+function Category({ subCategoryvalue , CartIncDec }) {
     console.log(subCategoryvalue);
     const dispatch = useDispatch()
 
@@ -49,25 +50,18 @@ function Category({ subCategoryvalue }) {
         setSelectedSubcategory(subcategoryValue);
     }
 
+    const HandleAddtocart = (event ,id) => {
+        event.preventDefault();
+
+        dispatch(addtocart({id: id, qty: 1}))
+        
+        CartIncDec((prev) => prev + 1)
+
+    }
+
     return (
         <div id='app'>
             <div>
-                {/* <div className="page-style-a">
-                    <div className="container">
-                        <div className="page-intro">
-                            <h2>Shop</h2>
-                            <ul className="bread-crumb">
-                                <li className="has-separator">
-                                    <i className="ion ion-md-home" />
-                                    <a href="home.html">Home</a>
-                                </li>
-                                <li className="is-marked">
-                                    <a href="shop-v1-root-category.html">Shop</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> */}
                 {/* Page Introduction Wrapper /- */}
                 {/* Shop-Page */}
                 <div className="page-shop u-s-p-t-80">
@@ -412,7 +406,7 @@ function Category({ subCategoryvalue }) {
                                                                     <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
                                                                     <a className="item-mail" href="javascript:void(0)">Mail</a>
                                                                     <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
-                                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
+                                                                    <a onClick={(event) => HandleAddtocart(event,v.id)} className="item-addCart" href="javascript:void(0)">Add to Cart</a>
                                                                 </div>
                                                             </div>
                                                             <div className="item-content">

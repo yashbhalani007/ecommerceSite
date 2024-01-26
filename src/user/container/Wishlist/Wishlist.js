@@ -4,22 +4,6 @@ function Wishlist(props) {
     return (
         <div id='app'>
             <div>
-                <div className="page-style-a">
-                    <div className="container">
-                        <div className="page-intro">
-                            <h2>Wishlist</h2>
-                            <ul className="bread-crumb">
-                                <li className="has-separator">
-                                    <i className="ion ion-md-home" />
-                                    <a href="home.html">Home</a>
-                                </li>
-                                <li className="is-marked">
-                                    <a href="wishlist.html">Wishlist</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 {/* Page Introduction Wrapper /- */}
                 {/* Wishlist-Page */}
                 <div className="page-wishlist u-s-p-t-80">

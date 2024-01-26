@@ -4579,6 +4579,7 @@ body {
   display: table;
   border-spacing: 20px;
   margin: 0 0 30px;
+  width: 900px;
 }
 
 .list-style .image-container {
