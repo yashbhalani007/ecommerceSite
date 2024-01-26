@@ -22,10 +22,9 @@ function RenderCatlog(props) {
     const [open, setOpen] = React.useState(true);
     const [tabIndex, setTabIndex] = useState(0);
     const [tabData, setTabData] = useState({});
-    console.log(tabData);
     const [tabs, setTabs] = useState([]);
     const [submit, setSubmit] = useState(false)
-    const navigate = useNavigate()  
+    const navigate = useNavigate()
     const dispatch = useDispatch();
 
 
@@ -57,7 +56,7 @@ function RenderCatlog(props) {
         fileInputs.map((v, i) => {
             if (v.selectedFile !== null) {
                 data.push(v.selectedFile)
-                newTabs.push({ label: `Tab ${i + 1}`, id: `tab${i + 1}`, imgFile: v.selectedFile, group_id})
+                newTabs.push({ label: `Tab ${i + 1}`, id: `tab${i + 1}`, imgFile: v.selectedFile, group_id })
             }
         })
 
@@ -73,8 +72,8 @@ function RenderCatlog(props) {
         if (fileInputs.length - 1 !== tabIndex + 1) {
             console.log("Your Tab is Changed");
             setTabIndex((prev) => prev + 1);
-        } else if(fileInputs.length - 1 == tabIndex + 1) {
-            dispatch(setAlert({text : 'Product Uploaded Succesfully', color : 'success'}))
+        } else if (fileInputs.length - 1 == tabIndex + 1) {
+            dispatch(setAlert({ text: 'Product Uploaded Succesfully', color: 'success' }))
             navigate('/admin/catlogupload');
         }
     };
@@ -153,8 +152,7 @@ function RenderCatlog(props) {
                 <DialogTitle>Subscribe</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Please Choose Product Multiple Image , Front, Back and OtherImages
-                        Which Your Product More Attractive.
+                        Select all products' front images from only one catalog.
                     </DialogContentText>
                     <div className='addProduct'>
                         {fileInputs.map((input) => (

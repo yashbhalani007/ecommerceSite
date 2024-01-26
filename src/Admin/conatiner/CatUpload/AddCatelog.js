@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
-import { useFormik, ErrorMessage } from 'formik';
+import { useFormik, ErrorMessage, Formik } from 'formik';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { addProduct } from '../../../redux/slice/product.slice';
 import { getUsersData } from '../../../redux/slice/user.slice';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id }) {
   const category = useSelector(state => state.category)
@@ -15,9 +16,11 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
   const [fileInputs, setFileInputs] = useState([{ id: 1, selectedFile: imgFile }, { id: 2, selectedFile: null }]);
   // const [categorys, setCategorys] = useState('')
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedSizes, setSelectedSizes] = useState([]);
+  // const [selectedSizes, setSelectedSizes] = useState([]);
+  const [dataArray, setDataArray] = useState([{ id: 1, measurment: null, size: null, stock: null, status: true }]);
 
-  const sizes = ["XS", "S", "M", "L", "XL", "XXL", "3XL"];
+  const measurmentUnit = ["size", "meter", "centimeter", "inch", "foot"];
+  const weightUnit = ["kilogram", "gram", "leter", "milileter", "miligram"];
 
   const dispatch = useDispatch();
 
@@ -33,15 +36,19 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
     setIsOpen(!isOpen);
   };
 
-  const handleCheckboxChange = size => {
-    if (selectedSizes.includes(size)) {
-      setSelectedSizes(selectedSizes.filter(s => s !== size));
-    } else {
-      setSelectedSizes([...selectedSizes, size]);
-    }
-  };
+  // const handleCheckboxChange = size => {
+  //   if (selectedSizes.includes(size)) {
+  //     setSelectedSizes(selectedSizes.filter(s => s !== size));
+  //   } else {
+  //     setSelectedSizes([...selectedSizes, size]);
+  //   }
+  // };
 
-
+  const sizeSchema = yup.object({
+    measurment: yup.string().required(),
+    size: yup.string().required(),
+    stock: yup.number().required(),
+  })
 
   const handleFileChange = id => event => {
     const fileInput = event.target;
@@ -66,15 +73,12 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
     group_id: yup.string(),
     description: yup.string().max(1000).required(),
     Images: yup.array(),
-    color: yup.string(),
-    sizes: yup.array().min(1, 'Please select at least one size'),
+    color: yup.string().required(),
     price: yup.number().positive().required(),
     mrp: yup.number().positive().required(),
-    stock: yup.number().min(0).required(),
     category: yup.string().required(),
     subcategory: yup.string().required(),
     status: yup.string().required(),
-    // tags: yup.array().of(yup.string()),
     shipping_type: yup.string().required(),
     fragile: yup.string(),
   });
@@ -100,9 +104,9 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
     setValue('Images', images)
   }, [fileInputs])
 
-  useEffect(() => {
-    setValue('sizes', selectedSizes)
-  }, [selectedSizes])
+  // useEffect(() => {
+  //   setValue('sizes', selectedSizes)
+  // }, [selectedSizes])
 
   useEffect(() => {
     // Update subcategory options when category changes
@@ -117,14 +121,34 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
 
   const onsubmit = (formData) => {
     // console.log("All Form values", formData);
-    const DataForm = {...formData, group_id}
-    console.log();
+
+    const sizeData = dataArray.filter((v) => v.status === false)
+
+    const DataForm = { ...formData, group_id, sizes: sizeData }
+    console.log(DataForm);
+
     setData(DataForm)
     if (DataForm) {
       tabChange()
     }
     dispatch(addProduct(DataForm))
 
+  }
+  console.log(fileInputs);
+  console.log(dataArray);
+
+  // Sizes and stock
+  const handleAddClick = (values, id) => {
+    setDataArray(prevInputs =>
+      prevInputs.map(
+        input => (input.id === id ? {...values, id, status: false} : input)
+      )
+    );
+
+    setDataArray(prevInputs => [
+      ...prevInputs,
+      { id: prevInputs.length + 1, measurment:null, size: null, stock: null, status: true }
+    ])
   }
 
   return (
@@ -179,7 +203,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                       <div className="col">
                         <label className="form-label" htmlFor="ecommerce-product-barcode">Group id</label>
                         <input type="text" className="form-control" id="ecommerce-product-barcode" placeholder="0123-4567" name="group_id" aria-label="Product barcode" value={group_id}
-                          {...register('group_id')} 
+                          {...register('group_id')}
                           readOnly
                           disabled
                         />
@@ -250,8 +274,134 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                             />
                             {errors.color && <p>{errors.color.message}</p>}
                           </div>
-                          <div className="mb-3 col-4">
-                            <label
+                          <div className="mb-3 col-8">
+                            <div className="mb-3 col ecommerce-select2-dropdown" >
+                              <label className="form-label mb-1" htmlFor="category">
+                                Sizes
+                              </label>
+                              {/* {
+                                selectedSizes.map((input) => {
+                                  return (
+                                    <div style={{ display: 'flex' }} key={input.id}>
+                                      <div style={{ width: "127px", margin: "0 5px" }}>
+                                        <select id="measurment" className={`form-select ${errors.measurment ? 'is-invalid' : ''}`} data-placeholder="Select measurment" >
+                                          <option value=''>Select Unit</option>
+                                          {
+                                            measurmentUnit.map((v) => {
+                                              return (
+                                                <option value={v}>{v}</option>
+                                              )
+                                            })
+                                          }
+                                        </select>
+                                        {errors.category && (
+                                          <div className="invalid-feedback">{errors.measurment.message}</div>
+                                        )}
+                                      </div>
+                                      <div style={{ margin: "0 5px", width: '175px' }}>
+                                        <input type="text" className="form-control" id="ecommerce-product-sizes" placeholder="sizes" name="sizes" aria-label="Product sizes" />
+                                      </div>
+                                      <div style={{ margin: "0 5px", width: '100px' }}>
+                                        <input type="number" className="form-control" id="ecommerce-product-stock" placeholder="stock" name="stock" aria-label="Product stock" />
+                                      </div>
+                                    </div>
+                                  )
+                                })
+                              } */}
+                              {dataArray.map((input, index) => (
+                                <Formik
+                                  initialValues={{ measurment: '', size: '', stock: '' }}
+                                  validationSchema={sizeSchema}
+                                  onSubmit={(values, { setSubmitting }) => {
+                                    // Your form submission logic
+
+                                    // Prevent the default form submission
+                                    // 'e' is the event object passed to onSubmit
+                                    console.log(values);
+                                    handleAddClick(values, input.id)
+                                    return false
+                                  }}
+                                >
+                                  {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleChange,
+                                    handleBlur,
+                                    handleSubmit,
+                                    isSubmitting,
+                                    /* and other goodies */
+                                  }) => (
+                                    <form onSubmit={handleSubmit}>
+                                      <div style={{ display: 'flex', margin: '5px 0', height: '39px' }} key={input.id}>
+                                        <div style={{ width: "127px", margin: "0 5px" }}>
+                                          <select
+                                            id={`measurment-${input.id}`}
+                                            className={`form-select ${errors.measurment ? 'is-invalid' : ''}`}
+                                            data-placeholder="Select measurement"
+                                            value={values.measurment}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            name='measurment'
+                                          >
+                                            <option value=''>Select Unit</option>
+                                            {measurmentUnit.map((v) => (
+                                              <option key={v} value={v}>{v}</option>
+                                            ))}
+                                          </select>
+                                          {errors.measurment && (
+                                            <div className="invalid-feedback">{errors.measurment.message}</div>
+                                          )}
+                                        </div>
+                                        {/* Sizes */}
+                                        <div style={{ margin: "0 5px", width: '140px' }}>
+                                          <input
+                                            type="text"
+                                            className="form-control"
+                                            id={`ecommerce-product-size-${input.id}`}
+                                            placeholder="size"
+                                            name="size"
+                                            aria-label="Product size"
+                                            value={values.size}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                          {errors.size && <p>{errors.size.message}</p>}
+                                        </div>
+                                        {/* Stock */}
+                                        <div style={{ margin: "0 5px", width: '100px' }}>
+                                          <input
+                                            type="number"
+                                            className="form-control"
+                                            id={`ecommerce-product-stock-${input.id}`}
+                                            placeholder="stock"
+                                            name="stock"
+                                            aria-label="Product stock"
+                                            value={values.stock}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                          />
+                                          {errors.stock && <p>{errors.stock.message}</p>}
+                                        </div>
+
+                                        {
+                                          ! input.status ? <button type="button" onClick={handleSubmit} disabled={isSubmitting} id='add' key={input.id} disabled>
+                                            <ArrowForwardIcon />
+                                          </button> :
+                                            <button type="button" onClick={handleSubmit} disabled={isSubmitting} id='add' key={input.id}>
+                                              <ArrowForwardIcon />
+                                            </button>
+                                        }
+
+                                      </div>
+                                    </form>
+                                  )}
+                                </Formik>
+                              ))}
+                            </div>
+
+
+                            {/* <label
                               className="form-label"
                               htmlFor="form-repeater-1-1"
                             >
@@ -280,10 +430,10 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                                   ))}
                                 </div>
                               )}
-                            </div>
+                            </div> */}
                           </div>
                         </div>
-                        {errors.sizes && <p>{errors.sizes.message}</p>}
+                        {/* {errors.sizes && <p>{errors.sizes.message}</p>} */}
                       </div>
                     </div>
                     {/* Pricing Card */}
@@ -303,13 +453,13 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                       />
                       {errors.mrp && <p>{errors.mrp.message}</p>}
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <label className="form-label" htmlFor="stock">Stock</label>
                       <input type="text" className="form-control" id="stock" placeholder="MRP" name="mrp" aria-label="Stock"
                         {...register('stock', { required: true })}
                       />
                       {errors.mrp && <p>{errors.stock.message}</p>}
-                    </div>
+                    </div> */}
                     {/* /Pricing Card */}
                     {/* <div>
                       <button className="btn btn-primary" data-repeater-create>
