@@ -14,6 +14,9 @@ import RenderCatlog from "../Admin/conatiner/CatUpload/RenderCatlog";
 import DynamicTabsComponent from "../Admin/conatiner/CatUpload/DynamicTab";
 import Support from "../Admin/conatiner/Support/Support";
 import Error from "../Error";
+import Support1 from "../Admin/conatiner/Support/Support1";
+import Support2 from "../Admin/conatiner/Support/Support2";
+import Support3 from "../Admin/conatiner/Support/Support3";
 
 function AdminRoutes(props) {
   return (
@@ -29,7 +32,10 @@ function AdminRoutes(props) {
         </Route>
         <Route path="/order" element={<Order />} />
         <Route path="/category" element={<Category />} />
-        <Route path="/support" element={<Support />} />
+        <Route path="/support" element={<Support/>} />
+        <Route path="/support/1" element={<Support1/>} />
+        <Route path="/support/2" element={<Support2/>} />
+        <Route path="/support/3" element={<Support3/>} />
         <Route path="*" element={<Error />} />
       </Routes>
     </LayOut>
