@@ -11,21 +11,21 @@ import rootSaga from "./saga/rootsaga"
 const persistConfig = {
     key: 'root',
     storage: storage,
-    whitelist: ['adminauth', 'userauth', 'cart']
+    whitelist: ['adminauth','userauth','cart']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootreducer)
-
+const sagaMiddleware = createSagaMiddleware() 
+let middlewares = [thunk, sagaMiddleware]
 
 export const configureStore = () => {
-
-    const sagaMiddleware = createSagaMiddleware()
-    let middlewares = [thunk, sagaMiddleware]
-
     let store = createStore(persistedReducer, applyMiddleware(...middlewares))
-    let persistor = persistStore(store)
+
     sagaMiddleware.run(rootSaga)
 
-    return { store, persistor };
+    return store;
 }
+
+export let store = configureStore()
+export let persistor= persistStore(store)
 

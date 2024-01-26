@@ -14,8 +14,6 @@ import PrivateRoutes from './Routes/PrivateRoutes';
 
 function App() {
 
-  let { store, persistor } = configureStore();
-
   return (
     <>
       <SnackbarProvider
