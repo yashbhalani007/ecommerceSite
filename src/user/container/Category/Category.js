@@ -1,12 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategoryData } from '../../../redux/slice/category.slice';
 import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 import { getProduct } from '../../../redux/slice/product.slice';
+import { Link } from 'react-router-dom';
+import { addtocart } from '../../../redux/slice/cart.slice';
 
-function Category({ subCategoryvalue }) {
+function Category({ subCategoryvalue , CartIncDec }) {
     console.log(subCategoryvalue);
     const dispatch = useDispatch()
+
+    const [selectedSubcategory, setSelectedSubcategory] = useState('All');
 
     const subcategory = useSelector(state => state.subcategory)
 
@@ -17,6 +21,21 @@ function Category({ subCategoryvalue }) {
 
     console.log(allproduct);
 
+    const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
+        // Check if the current product's group_id is already in the accumulator
+        const existingProduct = accumulator.find(
+            (product) => product.group_id === currentProduct.group_id
+        );
+
+        // If not found, add the current product to the accumulator
+        if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
+            accumulator.push(currentProduct);
+        }
+
+        return accumulator;
+    }, []);
+
+    console.log(uniqueProducts);
 
     useEffect(() => {
         dispatch(getCategoryData())
@@ -24,25 +43,25 @@ function Category({ subCategoryvalue }) {
         dispatch(getProduct())
     }, []);
 
+
+    const handleClick = (event, subcategoryValue) => {
+        event.preventDefault();
+        console.log(subcategoryValue);
+        setSelectedSubcategory(subcategoryValue);
+    }
+
+    const HandleAddtocart = (event ,id) => {
+        event.preventDefault();
+
+        dispatch(addtocart({id: id, qty: 1}))
+        
+        CartIncDec((prev) => prev + 1)
+
+    }
+
     return (
         <div id='app'>
             <div>
-                {/* <div className="page-style-a">
-                    <div className="container">
-                        <div className="page-intro">
-                            <h2>Shop</h2>
-                            <ul className="bread-crumb">
-                                <li className="has-separator">
-                                    <i className="ion ion-md-home" />
-                                    <a href="home.html">Home</a>
-                                </li>
-                                <li className="is-marked">
-                                    <a href="shop-v1-root-category.html">Shop</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> */}
                 {/* Page Introduction Wrapper /- */}
                 {/* Shop-Page */}
                 <div className="page-shop u-s-p-t-80">
@@ -58,21 +77,25 @@ function Category({ subCategoryvalue }) {
                                 {/* Fetch-Categories-from-Root-Category  */}
                                 <div className="fetch-categories">
                                     <h3 className="title-name">Browse Categories</h3>
-
-                                    {/* 
-                                    {uniqueCategories.map((category) => (
-                                        <>
-                                            
-
-                                        </>
-                                    ))} */}
+                                    <h3 className="fetch-mark-category">
+                                        <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, 'All')}>
+                                            All
+                                        </a>
+                                    </h3>
 
                                     {subcategory.subcategory.map((item) => {
-                                        if (item.category === subCategoryvalue) {
 
+                                        if (subCategoryvalue === 'All') {
+                                            return (
+                                                <h3 className="fetch-mark-category" key={item.subcategory}>
+                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
+                                                    </a>
+                                                </h3>
+                                            );
+                                        } else if (item.category === subCategoryvalue) {
                                             return (
                                                 <h3 className="fetch-mark-category">
-                                                    <a href="shop-v2-sub-category.html">{item.subcategory}
+                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
                                                     </a>
                                                 </h3>
                                             );
@@ -305,18 +328,23 @@ function Category({ subCategoryvalue }) {
                                 <div className="row product-container list-style">
 
 
+                                    {
 
-                                    <div className="product-item col-lg-4 col-md-6 col-sm-6">
 
-                                        {/* {
-                                            uniqueProducts.map((v) => {
-                                                if (v.category === subCategoryvalue) {
-                                                    return (
+                                        uniqueProducts.map((v) => {
+
+                                            if (subCategoryvalue === 'All' && v.status === 'approve') {
+                                                return (
+
+                                                    <div className="product-item col-lg-4 col-md-6 col-sm-6">
+
                                                         <div className="item">
                                                             <div className="image-container">
-                                                                <a className="item-img-wrapper-link" href="single-product.html">
-                                                                    <img className="img-fluid" src={v.fileurl} alt="Product" />
-                                                                </a>
+                                                                <Link to={"/product_Details/" + v.id}>
+                                                                    <a className="item-img-wrapper-link" href="single-product.html">
+                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                    </a>
+                                                                </Link>
                                                                 <div className="item-action-behaviors">
                                                                     <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
                                                                     <a className="item-mail" href="javascript:void(0)">Mail</a>
@@ -361,16 +389,73 @@ function Category({ subCategoryvalue }) {
                                                             </div>
                                                         </div>
 
-                                                    )
+                                                    </div>
+                                                )
+                                            } else if (v.category === subCategoryvalue && v.status === 'approve') {
+                                                return (
+                                                    <div className="product-item col-lg-4 col-md-6 col-sm-6">
 
-                                                }
+                                                        <div className="item">
+                                                            <div className="image-container">
+                                                                <Link to={"/product_Details/" + v.id}>
+                                                                    <a className="item-img-wrapper-link" href="single-product.html">
+                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                    </a>
+                                                                </Link>
+                                                                <div className="item-action-behaviors">
+                                                                    <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
+                                                                    <a className="item-mail" href="javascript:void(0)">Mail</a>
+                                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
+                                                                    <a onClick={(event) => HandleAddtocart(event,v.id)} className="item-addCart" href="javascript:void(0)">Add to Cart</a>
+                                                                </div>
+                                                            </div>
+                                                            <div className="item-content">
+                                                                <div className="what-product-is">
+                                                                    <ul className="bread-crumb">
+                                                                        <li className="has-separator">
+                                                                            <a href="shop-v1-root-category.html">{v.category}</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a href="shop-v3-sub-sub-category.html">{v.subcategory}</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <h6 className="item-title">
+                                                                        <a href="single-product.html">{v.product_name}</a>
+                                                                    </h6>
+                                                                    <div className="item-description">
+                                                                        <p>{v.description}</p>
+                                                                    </div>
+                                                                    <div className="item-stars">
+                                                                        <div className="star" title="4.5 out of 5 - based on 23 Reviews">
+                                                                            <span style={{ width: 67 }} />
+                                                                        </div>
+                                                                        <span>(23)</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="price-template">
+                                                                    <div className="item-new-price">
+                                                                        ${v.price}
+                                                                    </div>
+                                                                    <div className="item-old-price">
+                                                                        $60.00
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="tag new">
+                                                                <span>NEW</span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                )
+                                            }
 
 
-                                            })
-                                        } */}
+                                        })
+                                    }
 
 
-                                    </div>
+
 
                                 </div>
                                 {/* Row-of-Product-Container /- */}

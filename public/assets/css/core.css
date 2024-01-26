@@ -673,8 +673,13 @@ progress {
 }
 
 .img-fluid {
-  max-width: 100%;
+  width: 450px;
   height: auto;
+}
+
+.new-img-fluid{
+  width: 130px;
+  height: 175px;
 }
 
 .img-thumbnail {

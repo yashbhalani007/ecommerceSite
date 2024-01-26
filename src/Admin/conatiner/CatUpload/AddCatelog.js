@@ -121,10 +121,12 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
 
   const onsubmit = (formData) => {
     // console.log("All Form values", formData);
+
     const sizeData = dataArray.filter((v) => v.status === false)
 
     const DataForm = { ...formData, group_id, sizes: sizeData }
     console.log(DataForm);
+
     setData(DataForm)
     if (DataForm) {
       tabChange()
