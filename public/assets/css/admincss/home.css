@@ -23,15 +23,15 @@ body {
     margin: auto;
 }
 
-body::before,
+/* body::before,
 body::after {
     width: 500px;
     content: "";
     z-index: 1;
     position: absolute;
-}
+} 
 
-/* body::after {
+body::after {
     height: 800px;
     background: url('svg/shadow-blue.svg') no-repeat 100% 0;
     left: 0;

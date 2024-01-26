@@ -10,8 +10,11 @@ import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct, updateProduct } from '../../../redux/slice/product.slice';
 import { getUsersData } from '../../../redux/slice/user.slice';
+import { ButtonGroup, Drawer } from '@mui/joy';
+import ModalClose from '@mui/joy/ModalClose';
 
 function ProductRequest(props) {
+    const [state, setState] = React.useState(false);
     const [data, setData] = useState([])
     const [filteredData, setFilteredData] = useState([])
     const products = useSelector(state => state.products)
@@ -28,6 +31,16 @@ function ProductRequest(props) {
         setData(products.products)
     }, [products.products])
 
+
+    const toggleDrawer = (open, data) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setState(open);
+        console.log(data);
+
+    };
 
     const handleAction = async (data, action) => {
         // const docRef = doc(db, "users", data.uid);
@@ -52,7 +65,7 @@ function ProductRequest(props) {
             {/* <br></br>
             <br></br>
             <br></br> */}
-            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '50px auto'}}>
+            <div style={{ width: '50%', height: '12px !important', textAlign: 'center', margin: '50px auto' }}>
                 <TextField
                     label="Search input"
                     id='searchB'
@@ -75,13 +88,12 @@ function ProductRequest(props) {
                                     <List key={`product_request_${number}`} sx={{ width: '90%', bgcolor: 'background.paper' }} >
                                         <ListItem alignItems="flex-start">
                                             <ListItemAvatar id='avatarProduct'>
-                                                {/* <Avatar alt={v.full_name} src="/static/images/avatar/1.jpg" /> */}
-                                                {/* <Avatar {...stringAvatar(v.full_name)} /> */}
                                                 <img src={v.fileurl[0]} style={{ width: '100%', height: '100%', borderRadius: '5px', backgroundSize: 'cover' }} />
                                             </ListItemAvatar>
                                             <ListItemText
-                                                style={{ cursor: 'pointer', marginLeft: '10px' }}
                                                 // onClick={() => handleClickOpen(v.email)}
+                                                style={{ cursor: 'pointer', marginLeft: '10px', textAlign: 'left' }}
+                                                onClick={toggleDrawer(true, v)}
                                                 primary={v.product_name}
                                                 secondary={
                                                     <React.Fragment>
@@ -140,6 +152,14 @@ function ProductRequest(props) {
                     })
                 }
             </div>
+            <Drawer
+                size="lg"
+                open={state}
+                anchor='right'
+            >
+                <ModalClose onClick={() => setState(false)} />
+                <h1>Hello</h1>
+            </Drawer>
         </div>
     );
 }

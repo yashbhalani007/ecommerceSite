@@ -29,6 +29,12 @@
     --tran-03: all 0.2s ease;
 }
 
+#measurment:disabled {
+    background-color: gray;
+    color: linen;
+    opacity: 1;
+}
+
 body {
     min-height: 100vh;
     background-color: var(--primary-color);
@@ -806,4 +812,21 @@ a.more-link {
     text-decoration: none;
     margin-top: 50px;
     letter-spacing: 1px;
+}
+
+#add {
+    border-radius: 50%;
+    padding: 7px;
+    border: none;
+    background-color: #696cff;
+    color: white;
+    transition: all 0.7s;
+}
+
+#add:hover {
+    background-color: #2b2c74;
+}
+
+#add:disabled {
+    background-color: #2b2c74;
 }
