@@ -1,28 +1,55 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../../redux/slice/product.slice';
+import { addtocart, decrementQty, incrementQty, removeItem } from '../../../redux/slice/cart.slice';
 
 function Cart(props) {
-    return (
 
+    const dispatch = useDispatch()
+
+    const product = useSelector(state => state.products)
+    console.log(product.products);
+
+    const allproduct = product.products;
+    console.log(allproduct);
+
+    const c1 = useSelector((state) => state.cart)
+    console.log(c1);
+
+    let cartitems = c1.cart.map((v) => {
+
+        let productsItems = allproduct.find((p) => p.id === v.id);
+
+        let NewData = { ...productsItems, qty: v.qty };
+        console.log(NewData);
+        return NewData
+    })
+    console.log(cartitems);
+
+    useEffect(() => {
+        dispatch(getProduct())
+    }, []);
+
+    const handleInc = (id) => {
+        console.log(id);
+        dispatch(incrementQty(id))
+    }
+
+    const handleDec = (id) => {
+        console.log(id);
+        dispatch(decrementQty(id))
+    }
+
+    const handleRemove = (id) => {
+        console.log(id);
+        dispatch(removeItem(id))
+    }
+
+    return (
 
         <div id='app'>
 
             <div>
-                <div className="page-style-a">
-                    <div className="container">
-                        <div className="page-intro">
-                            <h2>Cart</h2>
-                            <ul className="bread-crumb">
-                                <li className="has-separator">
-                                    <i className="ion ion-md-home" />
-                                    <a href="home.html">Home</a>
-                                </li>
-                                <li className="is-marked">
-                                    <a href="cart.html">Cart</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 {/* Page Introduction Wrapper /- */}
                 {/* Cart-Page */}
                 <div className="page-cart u-s-p-t-80">
@@ -42,126 +69,44 @@ function Cart(props) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div className="cart-anchor-image">
-                                                            <a href="single-product.html">
-                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                                <h6>Casual Hoodie Full Cotton</h6>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-price">
-                                                            $55.00
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-quantity">
-                                                            <div className="quantity">
-                                                                <input type="text" className="quantity-text-field" defaultValue={1} />
-                                                                <a className="plus-a" data-max={1000}>+</a>
-                                                                <a className="minus-a" data-min={1}>-</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="action-wrapper">
-                                                            <button className="button button-outline-secondary fas fa-sync" />
-                                                            <button className="button button-outline-secondary fas fa-trash" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className="cart-anchor-image">
-                                                            <a href="single-product.html">
-                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                                <h6>Black Rock Dress with High Jewelery Necklace</h6>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-price">
-                                                            $55.00
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-quantity">
-                                                            <div className="quantity">
-                                                                <input type="text" className="quantity-text-field" defaultValue={1} />
-                                                                <a className="plus-a" data-max={1000}>+</a>
-                                                                <a className="minus-a" data-min={1}>-</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="action-wrapper">
-                                                            <button className="button button-outline-secondary fas fa-sync" />
-                                                            <button className="button button-outline-secondary fas fa-trash" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className="cart-anchor-image">
-                                                            <a href="single-product.html">
-                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                                <h6>Xiaomi Note 2 Black Color</h6>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-price">
-                                                            $55.00
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-quantity">
-                                                            <div className="quantity">
-                                                                <input type="text" className="quantity-text-field" defaultValue={1} />
-                                                                <a className="plus-a" data-max={1000}>+</a>
-                                                                <a className="minus-a" data-min={1}>-</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="action-wrapper">
-                                                            <button className="button button-outline-secondary fas fa-sync" />
-                                                            <button className="button button-outline-secondary fas fa-trash" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div className="cart-anchor-image">
-                                                            <a href="single-product.html">
-                                                                <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                                <h6>Dell Inspiron 15</h6>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-price">
-                                                            $55.00
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="cart-quantity">
-                                                            <div className="quantity">
-                                                                <input type="text" className="quantity-text-field" defaultValue={1} />
-                                                                <a className="plus-a" data-max={1000}>+</a>
-                                                                <a className="minus-a" data-min={1}>-</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div className="action-wrapper">
-                                                            <button className="button button-outline-secondary fas fa-sync" />
-                                                            <button className="button button-outline-secondary fas fa-trash" />
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                {
+                                                    cartitems.map((v) => {
+                                                        console.log(v);
+                                                        return (
+                                                            <tr>
+                                                                <td>
+                                                                    <div className="cart-anchor-image">
+                                                                        <a href="single-product.html">
+                                                                            <img src={v.fileurl?.[0]} alt="Product" />
+                                                                            <h6>{v.product_name}</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="cart-price">
+                                                                        ${v.price}
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="cart-quantity">
+                                                                        <div className="quantity">
+                                                                            <input type="text" className="quantity-text-field" value={v.qty} />
+                                                                            <a className="plus-a" onClick={() => handleInc(v.id)}>+</a>
+                                                                            <a className="minus-a" onClick={() => handleDec(v.id)}>-</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div className="action-wrapper">
+                                                                        <button className="button button-outline-secondary fas fa-sync" />
+                                                                        <button onClick={() => handleRemove(v.id)} className="button button-outline-secondary fas fa-trash" />
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+
                                             </tbody>
                                         </table>
                                     </div>

@@ -5,7 +5,7 @@ import AdminRoutes from './Routes/AdminRoutes';
 import AdminAuth from './Admin/conatiner/AdminAuth/AdminAuth';
 import Register from './Admin/conatiner/AdminAuth/Register';
 import { Provider } from 'react-redux';
-import { persistor, store } from './redux/Store';
+import { configureStore, persistor, store } from './redux/Store';
 import { SnackbarProvider } from 'notistack';
 import Alert from './Admin/conatiner/Alert/Alert';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -13,6 +13,9 @@ import SuperAdminRoutes from './Routes/SuperAdminRoutes';
 import PrivateRoutes from './Routes/PrivateRoutes';
 
 function App() {
+
+  let { store, persistor } = configureStore();
+
   return (
     <>
       <SnackbarProvider

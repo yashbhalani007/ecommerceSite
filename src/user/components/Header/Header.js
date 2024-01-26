@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userLogoutRequest } from "../../../redux/action/adminauth.action";
 import { getCategoryData } from "../../../redux/slice/category.slice";
 import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
-import Category from "../../container/Category/Category";
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import { IconButton } from "@mui/material";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 function Header({ setsubCategory }) {
+
+  const cart = useSelector(state => state.cart)
+  let qty = 0;
+
+  cart.cart.map((v) => {
+    qty += v.qty
+  })
+
   const userauth = useSelector(state => state.userauth);
   // const [selectcat, setcat] = useState([]);
   const dispatch = useDispatch()
@@ -26,7 +37,7 @@ function Header({ setsubCategory }) {
   let uniqueCategories = [];
   subCategories.forEach((v) => {
     if (!uniqueCategories.includes(v.category)) {
-      uniqueCategories.push(v.category,v.id);
+      uniqueCategories.push(v.category, v.id);
     }
   });
 
@@ -52,7 +63,7 @@ function Header({ setsubCategory }) {
     setsubCategory(selectedCategory);
     // Check if a category is selected before navigating
     if (selectedCategory) {
-        navigate(`/category/${selectedCategory}`);
+      navigate(`/category/${selectedCategory}`);
     }
     // <Category subCat = {selectedCategory} />
   };
@@ -239,10 +250,18 @@ function Header({ setsubCategory }) {
                         </NavLink>
                       </li>
                       <li>
-                        <a id="mini-cart-trigger">
+                        {/* <Link to='/cart'>
+                          <IconButton aria-label="cart" >
+                            <StyledBadge badgeContent={cartValue} color="warning">
+                              <ShoppingCartIcon />
+                            </StyledBadge>
+                          </IconButton>
+                        </Link> */}
+
+                        <Link to='/cart' id="mini-cart-trigger">
                           <i className="ion ion-md-basket" />
-                          <span className="item-counter">4</span>
-                        </a>
+                          <span className="item-counter">{qty} </span>
+                        </Link>
                       </li>
                     </ul>
                   </nav>

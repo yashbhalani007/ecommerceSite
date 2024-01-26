@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../../../redux/slice/product.slice';
+import { addtocart } from '../../../redux/slice/cart.slice';
 
 
-function Singlepage(props) {
+function Singlepage({ CartIncDec }) {
 
     const [quantity, setQuantity] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -49,6 +50,15 @@ function Singlepage(props) {
     const handleImageClick = (index) => {
         setActiveImageIndex(index);
     };
+
+    const HandleAddtocart = (event ,id) => {
+        event.preventDefault();
+
+        dispatch(addtocart({id: id, qty: 1}))
+        
+        CartIncDec((prev) => prev + 1)
+
+    }
 
     return (
 
@@ -232,7 +242,7 @@ function Singlepage(props) {
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            <button className="button button-outline-secondary" type="submit">Add to cart</button>
+                                                            <button className="button button-outline-secondary" onClick={(event) => HandleAddtocart(event,v.id)} type="submit">Add to cart</button>
                                                             <button className="button button-outline-secondary far fa-heart u-s-m-l-6" />
                                                         </div>
                                                     </form>
