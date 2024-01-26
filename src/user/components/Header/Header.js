@@ -5,31 +5,44 @@ import { useNavigate } from "react-router-dom";
 import { userLogoutRequest } from "../../../redux/action/adminauth.action";
 import { getCategoryData } from "../../../redux/slice/category.slice";
 import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
-import { IconButton } from "@mui/material";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { getProduct } from "../../../redux/slice/product.slice";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-function Header({ setsubCategory }) {
+function Header({ setsubCategory, favItem }) {
 
-  const cart = useSelector(state => state.cart)
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
+
+  const product = useSelector(state => state.products)
+  console.log(product.products);
+
+  const allproduct = product.products;
+  console.log(allproduct);
+
+  const c1 = useSelector(state => state.cart)
   let qty = 0;
 
-  cart.cart.map((v) => {
+  c1.cart.map((v) => {
     qty += v.qty
   })
 
+  let cartitems = c1.cart.map((v) => {
+
+    let productsItems = allproduct.find((p) => p.id === v.id);
+
+    let NewData = { ...productsItems, qty: v.qty };
+    console.log(NewData);
+    return NewData
+  })
+  console.log(cartitems);
+
   const userauth = useSelector(state => state.userauth);
-  // const [selectcat, setcat] = useState([]);
-  const dispatch = useDispatch()
+
   console.log(userauth.userAuth);
 
-  const navigate = useNavigate();
-
   const category = useSelector(state => state.category)
-
-
 
   const subcategory = useSelector(state => state.subcategory)
 
@@ -41,13 +54,10 @@ function Header({ setsubCategory }) {
     }
   });
 
-
-  // const namesList = subcategory.subcategory.map((obj) => obj.subcategory);
-
-
   useEffect(() => {
     dispatch(getCategoryData())
     dispatch(getSubCategoryData())
+    dispatch(getProduct())
   }, []);
 
   const handleLogout = () => {
@@ -183,13 +193,17 @@ function Header({ setsubCategory }) {
               <div className="row clearfix align-items-center">
                 <div className="col-lg-3 col-md-9 col-sm-6">
                   <div className="brand-logo text-lg-center">
-                    <NavLink to={"/"}>
+                    <a href="/">
                       <img
                         src="../assets/images/main-logo/groover-branding-1.png"
                         alt="Groover Brand Logo"
                         className="app-brand-logo"
                       />
-                    </NavLink>
+                    </a>
+                    {/* <a href="/">
+                          <i className="ion ion-md-home u-c-brand" />
+                        </a> */}
+
                   </div>
                 </div>
                 <div className="col-lg-6 u-d-none-lg">
@@ -240,7 +254,7 @@ function Header({ setsubCategory }) {
                   <nav>
                     <ul className="mid-nav g-nav">
                       <li className="u-d-none-lg">
-                        <a href="home.html">
+                        <a href="/">
                           <i className="ion ion-md-home u-c-brand" />
                         </a>
                       </li>
@@ -258,7 +272,7 @@ function Header({ setsubCategory }) {
                           </IconButton>
                         </Link> */}
 
-                        <Link to='/cart' id="mini-cart-trigger">
+                        <Link id="mini-cart-trigger">
                           <i className="ion ion-md-basket" />
                           <span className="item-counter">{qty} </span>
                         </Link>
@@ -280,9 +294,10 @@ function Header({ setsubCategory }) {
               />
             </div>
             <div className="fixed-responsive-wrapper">
-              <a href="wishlist.html">
+              <a href="wishlist">
                 <i className="far fa-heart" />
-                <span className="fixed-item-counter">4</span>
+                <span className="item-counter">{favItem.length}
+                </span>
               </a>
             </div>
           </div>
@@ -299,44 +314,25 @@ function Header({ setsubCategory }) {
                 />
               </div>
               <ul className="mini-cart-list">
-                <li className="clearfix">
-                  <a href="single-product.html">
-                    <img src="images/product/product@1x.jpg" />
-                    <span className="mini-item-name">
-                      Casual Hoodie Full Cotton
-                    </span>
-                    <span className="mini-item-price">$55.00</span>
-                    <span className="mini-item-quantity"> x 1 </span>
-                  </a>
-                </li>
-                <li className="clearfix">
-                  <a href="single-product.html">
-                    <img src="images/product/product@1x.jpg" />
-                    <span className="mini-item-name">
-                      Black Rock Dress with High Jewelery Necklace
-                    </span>
-                    <span className="mini-item-price">$55.00</span>
-                    <span className="mini-item-quantity"> x 1 </span>
-                  </a>
-                </li>
-                <li className="clearfix">
-                  <a href="single-product.html">
-                    <img src="images/product/product@1x.jpg" />
-                    <span className="mini-item-name">
-                      Xiaomi Note 2 Black Color
-                    </span>
-                    <span className="mini-item-price">$55.00</span>
-                    <span className="mini-item-quantity"> x 1 </span>
-                  </a>
-                </li>
-                <li className="clearfix">
-                  <a href="single-product.html">
-                    <img src="images/product/product@1x.jpg" />
-                    <span className="mini-item-name">Dell Inspiron 15</span>
-                    <span className="mini-item-price">$55.00</span>
-                    <span className="mini-item-quantity"> x 1 </span>
-                  </a>
-                </li>
+
+                {
+                  cartitems.map((v) => {
+                    return (
+                      <li className="clearfix">
+                        <a href="single-product.html">
+                          <img src={v.fileurl?.[0]} />
+                          <span className="mini-item-name">
+                            {v.product_name}
+                          </span>
+                          <span className="mini-item-price">${v.price}</span>
+                          <span className="mini-item-quantity"> x {v.qty} </span>
+                        </a>
+                      </li>
+                    )
+                  })
+                }
+
+
               </ul>
               <div className="mini-shop-total clearfix">
                 <span className="mini-total-heading float-left">Total:</span>
@@ -344,10 +340,7 @@ function Header({ setsubCategory }) {
               </div>
               <ul>
                 <div className="mini-action-anchors">
-                  <NavLink className="cart-anchor" to={"/Cart"}>
-                    View Cart
-                  </NavLink>
-                  {/* <a href="/cart" className="cart-anchor">View Cart</a> */}
+                  <a href="/Cart" className="cart-anchor">View Cart</a>
                   {/* <a href="checkout.html" className="checkout-anchor">Checkout</a> */}
                   <NavLink className="checkout-anchor" to={"/checkout"}>
                     Checkout
