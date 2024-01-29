@@ -10,33 +10,34 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const [quantity, setQuantity] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [activeTab, setActiveTab] = useState('description');
+    const [fdata, setFdata] = useState([]);
+    const [variant, setVariant] = useState([]);
+
+    const { id } = useParams()
 
     const dispatch = useDispatch()
 
     const product = useSelector(state => state.products)
-    console.log(product.products);
+
 
     const allproduct = product.products;
 
     useEffect(() => {
         dispatch(getProduct())
+        let filteredData = product.products.filter((v) => v.id === id);
+        setFdata(filteredData)
     }, []);
-
-    const { id } = useParams()
-
-    let fdata = product.products.filter((v) => v.id === id)
 
     if (fdata.length === 0) {
         return fdata;
     }
 
-    const targetGroupId = fdata[0].group_id;
+    let targetGroupId = fdata[0].group_id;
 
-    const matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
-    console.log(matchingObjects);
+    let matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
 
-    const fileUrls = matchingObjects[0].fileurl;
-    console.log(fileUrls);
+
+    let fileUrls = matchingObjects[0].fileurl;
 
 
     const handleIncrease = () => {
@@ -51,23 +52,21 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
         setActiveImageIndex(index);
     };
 
-    const HandleAddtocart = (event, v ,matchingObjects) => {
+    const HandleAddtocart = (event, v, matchingObjects) => {
         event.preventDefault();
         console.log(matchingObjects);
-
-        
 
         matchingObjects.map((val) => {
             console.log(val);
         })
-        
+
         dispatch(addtocart({ id: v.id, qty: 1 }))
 
         CartIncDec((prev) => prev + 1)
 
     }
 
-    const handleWishlist = (event,id) => {
+    const handleWishlist = (event, id) => {
         event.preventDefault()
 
 
@@ -79,27 +78,44 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
         }
     }
 
+
+    const handleColorChange = (event, matchingObjects) => {
+        const variantArray = []
+        const selectedColor = event.target.value;
+        const selectedObject = matchingObjects.find((obj) => obj.color === selectedColor);
+        variantArray.push(selectedObject)
+
+        setVariant(variantArray)
+    };
+
+    console.log(variant);
+    console.log(fdata);
+
+    let finaldata = variant.length > 0 ? variant : fdata
+
+
     return (
 
         <div id='app'>
             <div className="page-detail u-s-p-t-80">
 
                 <div className="container">
-                    {/* Product-Detail */}
+
 
                     {
-                        fdata.map((v) => {
+                        finaldata.map((v) => {
                             console.log(v);
                             return (
                                 <>
+
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6 col-sm-12">
-                                            {/* Product-zoom-area */}
+
 
                                             <div className="zoom-area">
                                                 <div className="main-image">
-                                                    <img className="img-fluid" src={fileUrls[activeImageIndex]}
-                                                        alt="Zoom Image" />
+                                                    <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
+
                                                 </div>
 
                                                 <div id="gallery" className="u-s-m-t-10">
@@ -112,15 +128,16 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                             data-zoom-image={image}
                                                             onClick={() => handleImageClick(i)}
                                                         >
-                                                            <img src={image} alt={`Product Thumbnail ${i + 1}`} />
+                                                            <img src={variant.length > 0 ? variant[0].fileurl[i] : image} alt={`Product Thumbnail ${i + 1}`} />
+
                                                         </a>
                                                     ))}
                                                 </div>
                                             </div>
-                                            {/* Product-zoom-area /- */}
+
                                         </div>
                                         <div className="col-lg-6 col-md-6 col-sm-12">
-                                            {/* Product-details */}
+
                                             <div className="all-information-wrapper">
                                                 <div className="section-1-title-breadcrumb-rating">
                                                     <div className="product-title">
@@ -185,7 +202,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                     <div className="color u-s-m-b-11">
                                                         <span>Available Color:</span>
                                                         <div className="color-variant select-box-wrapper">
-                                                            <select className="select-box product-color">
+                                                            <select className="select-box product-color" onChange={(e) => handleColorChange(e, matchingObjects)}>
 
                                                                 {
                                                                     matchingObjects.map((val) => {
@@ -261,14 +278,14 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                             </div>
                                                         </div>
                                                         <div>
-                                                            
-                                                            <button className="button button-outline-secondary" onClick={(event) => HandleAddtocart(event, v , matchingObjects)} type="submit">Add to cart</button>
+
+                                                            <button className="button button-outline-secondary" onClick={(event) => HandleAddtocart(event, v, matchingObjects)} type="submit">Add to cart</button>
                                                             <button className="button button-outline-secondary far fa-heart u-s-m-l-6" onClick={(event) => handleWishlist(event, v.id)} />
                                                         </div>
                                                     </form>
                                                 </div>
                                             </div>
-                                            {/* Product-details /- */}
+
                                         </div>
                                     </div>
                                 </>
