@@ -17,9 +17,11 @@ function Cart(props) {
     console.log(c1);
 
     let cartitems = c1.cart.map((v) => {
-
+        console.log(v.qty);
         let productsItems = allproduct.find((p) => p.id === v.id);
+        // if() {
 
+        // }
         let NewData = { ...productsItems, qty: v.qty };
         console.log(NewData);
         return NewData
@@ -98,7 +100,6 @@ function Cart(props) {
                                                                 </td>
                                                                 <td>
                                                                     <div className="action-wrapper">
-                                                                        <button className="button button-outline-secondary fas fa-sync" />
                                                                         <button onClick={() => handleRemove(v.id)} className="button button-outline-secondary fas fa-trash" />
                                                                     </div>
                                                                 </td>
@@ -143,7 +144,9 @@ function Cart(props) {
                                                         <h3 className="calc-h3 u-s-m-b-0">Subtotal</h3>
                                                     </td>
                                                     <td>
-                                                        <span className="calc-text">$222.00</span>
+                                                        <span className="calc-text">
+                                                            ${cartitems.reduce((total, v) => total + v.price * v.qty, 0).toFixed(2)}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -200,11 +203,13 @@ function Cart(props) {
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <h3 className="calc-h3 u-s-m-b-0" id="tax-heading">Tax</h3>
+                                                        <h3 className="calc-h3 u-s-m-b-0" id="tax-heading">Tax (With GST)</h3>
                                                         <span> (estimated for your country)</span>
                                                     </td>
                                                     <td>
-                                                        <span className="calc-text">$0.00</span>
+                                                        <span className="calc-text">
+                                                            ${cartitems.reduce((total, v) => total + v.price * v.qty * 0.18, 0).toFixed(2)}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -212,7 +217,9 @@ function Cart(props) {
                                                         <h3 className="calc-h3 u-s-m-b-0">Total</h3>
                                                     </td>
                                                     <td>
-                                                        <span className="calc-text">$220.00</span>
+                                                        <span className="calc-text">
+                                                            ${(cartitems.reduce((total, v) => total + v.price * v.qty, 0) * 1.18).toFixed(2)}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             </tbody>

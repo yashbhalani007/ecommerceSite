@@ -30,6 +30,7 @@ function UserRoutes(props) {
     const [subCategoryvalue, setsubCategory] = useState([])
     const [favItem, setFavItem] = useState([]);
     
+    console.log(favItem);
 
     return (
         <>

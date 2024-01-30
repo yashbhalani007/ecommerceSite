@@ -16,10 +16,8 @@ function Header({ setsubCategory, favItem }) {
   const navigate = useNavigate();
 
   const product = useSelector(state => state.products)
-  console.log(product.products);
 
   const allproduct = product.products;
-  console.log(allproduct);
 
   const c1 = useSelector(state => state.cart)
   let qty = 0;
@@ -33,14 +31,11 @@ function Header({ setsubCategory, favItem }) {
     let productsItems = allproduct.find((p) => p.id === v.id);
 
     let NewData = { ...productsItems, qty: v.qty };
-    console.log(NewData);
+
     return NewData
   })
-  console.log(cartitems);
 
   const userauth = useSelector(state => state.userauth);
-
-  console.log(userauth.userAuth);
 
   const category = useSelector(state => state.category)
 
@@ -61,15 +56,12 @@ function Header({ setsubCategory, favItem }) {
   }, []);
 
   const handleLogout = () => {
-    console.log('kkk');
     dispatch(userLogoutRequest())
   }
 
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-    console.log(event);
 
-    console.log(selectedCategory);
     setsubCategory(selectedCategory);
     // Check if a category is selected before navigating
     if (selectedCategory) {
@@ -261,6 +253,7 @@ function Header({ setsubCategory, favItem }) {
                       <li>
                         <NavLink to={"/wishlist"}>
                           <i className="far fa-heart" />
+                          <span className="item-counter">{favItem.length}</span>
                         </NavLink>
                       </li>
                       <li>
@@ -296,7 +289,7 @@ function Header({ setsubCategory, favItem }) {
             <div className="fixed-responsive-wrapper">
               <a href="wishlist">
                 <i className="far fa-heart" />
-                <span className="item-counter">{favItem.length}
+                <span className="item-counter">
                 </span>
               </a>
             </div>
@@ -332,11 +325,12 @@ function Header({ setsubCategory, favItem }) {
                   })
                 }
 
-
               </ul>
               <div className="mini-shop-total clearfix">
                 <span className="mini-total-heading float-left">Total:</span>
-                <span className="mini-total-price float-right">$220.00</span>
+                <span className="mini-total-price float-right">
+                  ${cartitems.reduce((total, v) => total + v.price * v.qty, 0).toFixed(2)}
+                </span>
               </div>
               <ul>
                 <div className="mini-action-anchors">
