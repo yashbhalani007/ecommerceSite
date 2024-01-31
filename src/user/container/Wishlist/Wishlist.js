@@ -1,6 +1,16 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function Wishlist(props) {
+
+    const product = useSelector(state => state.products)
+    const allproduct = product.products;
+    console.log(allproduct);
+
+    const wishlist = useSelector(state => state.wishlist);
+    const allWishlist = wishlist.wishlist
+    console.log(allWishlist);
+
     return (
         <div id='app'>
             <div>
@@ -22,84 +32,40 @@ function Wishlist(props) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div className="cart-anchor-image">
-                                                        <a href="single-product.html">
-                                                            <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                            <h6>Casual Hoodie Full Cotton</h6>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-price">
-                                                        $55.00
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-stock">
-                                                        In Stock
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="action-wrapper">
-                                                        <button className="button button-outline-secondary">Add to Cart</button>
-                                                        <button className="button button-outline-secondary fas fa-trash" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div className="cart-anchor-image">
-                                                        <a href="single-product.html">
-                                                            <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                            <h6>Black Rock Dress with High Jewelery Necklace</h6>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-price">
-                                                        $55.00
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-stock">
-                                                        In Stock
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="action-wrapper">
-                                                        <button className="button button-outline-secondary">Add to Cart</button>
-                                                        <button className="button button-outline-secondary fas fa-trash" />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div className="cart-anchor-image">
-                                                        <a href="single-product.html">
-                                                            <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                            <h6>Xiaomi Note 2 Black Color</h6>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-price">
-                                                        $55.00
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="cart-stock">
-                                                        In Stock
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="action-wrapper">
-                                                        <button className="button button-outline-secondary">Add to Cart</button>
-                                                        <button className="button button-outline-secondary fas fa-trash" />
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            {
+                                                allWishlist.map((v) => {
+                                                    console.log(v);
+                                                    return (
+                                                        <tr>
+                                                            <td>
+                                                                <div className="cart-anchor-image">
+                                                                    <a href="single-product.html">
+                                                                        <img src="../assets/images/product/product@1x.jpg" alt="Product" />
+                                                                        <h6>Casual Hoodie Full Cotton</h6>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="cart-price">
+                                                                    $55.00
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="cart-stock">
+                                                                    In Stock
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="action-wrapper">
+                                                                    <button className="button button-outline-secondary">Add to Cart</button>
+                                                                    <button className="button button-outline-secondary fas fa-trash" />
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+
                                         </tbody>
                                     </table>
                                 </div>

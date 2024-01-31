@@ -12,12 +12,12 @@ export const wishlistSlice = createSlice({
     initialState,
     reducers: {
         addtowishlist: (state, action) => {
-            const itemToAdd = action.payload; // Assuming payload is the item to add
+            const itemToAdd = action.payload; 
             state.wishlist = [...state.wishlist, itemToAdd];
         },
 
         removefromwishlist: (state, action) => {
-            const itemToRemove = action.payload; // Assuming payload is the item to remove
+            const itemToRemove = action.payload; 
             state.wishlist = state.wishlist.filter(item => item !== itemToRemove);
 
         }

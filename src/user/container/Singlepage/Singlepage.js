@@ -14,7 +14,8 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const [fdata, setFdata] = useState([]);
     const [variant, setVariant] = useState([]);
     const wishlist = useSelector(state => state.wishlist);
-    console.log(wishlist);
+    const allWishlist = wishlist.wishlist
+
 
     const { id } = useParams()
 
@@ -78,15 +79,15 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const handleWishlist = (event, id) => {
         event.preventDefault()
 
-        // if (favItem.includes(id)) {
-        //     let fItem = favItem.filter((v) => v !== id);
-        //     setFavItem(fItem)
-        // } else {
-        //     setFavItem((prev) => [...prev, id])
-        // }
+        if (favItem.includes(id)) {
+            let fItem = favItem.filter((v) => v !== id);
+            setFavItem(fItem)
+        } else {
+            setFavItem((prev) => [...prev, id])
+        }
 
         
-        if (wishlist.includes(id)) {
+        if (allWishlist.includes(id)) {
             // If the item is in the wishlist, dispatch the removefromwishlist action
             dispatch(removefromwishlist(id));
         } else {
