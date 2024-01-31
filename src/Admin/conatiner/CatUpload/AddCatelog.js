@@ -76,6 +76,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
     color: yup.string().required(),
     price: yup.number().positive().required(),
     mrp: yup.number().positive().required(),
+    weight: yup.number().positive().required(),
     category: yup.string().required(),
     subcategory: yup.string().required(),
     status: yup.string().required(),
@@ -141,13 +142,13 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
   const handleAddClick = (values, id) => {
     setDataArray(prevInputs =>
       prevInputs.map(
-        input => (input.id === id ? {...values, id, status: false} : input)
+        input => (input.id === id ? { ...values, id, status: false } : input)
       )
     );
 
     setDataArray(prevInputs => [
       ...prevInputs,
-      { id: prevInputs.length + 1, measurment:null, size: null, stock: null, status: true }
+      { id: prevInputs.length + 1, measurment: null, size: null, stock: null, status: true }
     ])
   }
 
@@ -385,7 +386,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                                         </div>
 
                                         {
-                                          ! input.status ? <button type="button" onClick={handleSubmit} disabled={isSubmitting} id='add' key={input.id} disabled>
+                                          !input.status ? <button type="button" onClick={handleSubmit} disabled={isSubmitting} id='add' key={input.id} disabled>
                                             <ArrowForwardIcon />
                                           </button> :
                                             <button type="button" onClick={handleSubmit} disabled={isSubmitting} id='add' key={input.id}>
@@ -452,6 +453,13 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
                         {...register('mrp', { required: true })}
                       />
                       {errors.mrp && <p>{errors.mrp.message}</p>}
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label" htmlFor="ecommerce-product-discount-weight">Weight (kg)</label>
+                      <input type="text" className="form-control" id="ecommerce-product-discount-weight" placeholder="Weight" name="weight" aria-label="Weight"
+                        {...register('weight', { required: true })}
+                      />
+                      {errors.weight && <p>{errors.weight.message}</p>}
                     </div>
                     {/* <div className="mb-3">
                       <label className="form-label" htmlFor="stock">Stock</label>
