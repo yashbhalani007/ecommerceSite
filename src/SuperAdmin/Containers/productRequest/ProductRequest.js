@@ -16,6 +16,10 @@ import ModalClose from '@mui/joy/ModalClose';
 function ProductRequest(props) {
     const [state, setState] = React.useState(false);
     const [data, setData] = useState([])
+    const [clickProduct, setClickProduct] = useState([])
+    const [fileUrl, setFileUrl] = useState([])
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [fdata, setFdata] = useState([]);
     const [filteredData, setFilteredData] = useState([])
     const products = useSelector(state => state.products)
     const users = useSelector(state => state.users)
@@ -39,9 +43,18 @@ function ProductRequest(props) {
 
         setState(open);
         console.log(data);
-
+        setClickProduct(data)
+        setFileUrl(data.fileurl)
     };
 
+    let targetGroupId;
+    if (fdata.length > 0) {
+        targetGroupId = fdata[0].group_id;
+    }
+
+    const handleImageClick = (index) => {
+        setActiveImageIndex(index);
+    };
     const handleAction = async (data, action) => {
         // const docRef = doc(db, "users", data.uid);
 
@@ -57,7 +70,7 @@ function ProductRequest(props) {
 
         setFilteredData(filterData)
     }
-
+    console.log(clickProduct);
     const FinalData = filteredData.length > 0 ? filteredData : data
 
     return (
@@ -158,7 +171,163 @@ function ProductRequest(props) {
                 anchor='right'
             >
                 <ModalClose onClick={() => setState(false)} />
-                <h1>Hello</h1>
+                <div id='app'>
+                    <div className="page-detail u-s-p-t-80">
+
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+
+
+                                    <div className="zoom-area">
+                                        <div className="main-image">
+                                            <img className="img-fluid" src={fileUrl.length > 0 ? fileUrl[activeImageIndex] : null} alt="Zoom Image" />
+                                        </div>
+
+                                        <div id="gallery" className="u-s-m-t-10">
+                                            {
+                                                fileUrl.map((image, i) => (
+                                                    <a
+                                                        className={activeImageIndex === i ? 'active' : ''}
+                                                        data-image={image}
+                                                        data-zoom-image={image}
+                                                        onClick={() => handleImageClick(i)}
+                                                    >
+                                                        <img src={clickProduct.length > 0 ? clickProduct.fileurl[0] : image} alt={`Product Thumbnail ${i + 1}`} />
+
+                                                    </a>
+                                                ))}
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-sm-12">
+                                    <div className="all-information-wrapper">
+                                        <div className="section-1-title-breadcrumb-rating">
+                                            <div className="product-title">
+                                                <h3>
+                                                    <a>{clickProduct.product_name}</a>
+                                                </h3>
+                                            </div>
+                                            <ul className="bread-crumb">
+                                                <li className="has-separator">
+                                                    <a>Home</a>
+                                                </li>
+                                                <li className="has-separator">
+                                                    <a>Men's Clothing</a>
+                                                </li>
+                                                <li className="has-separator">
+                                                    <a>Tops</a>
+                                                </li>
+                                                <li className="is-marked">
+                                                    <a>Hoodies</a>
+                                                </li>
+                                            </ul>
+                                            <div className="product-rating">
+                                                <div className="star" title="4.5 out of 5 - based on 23 Reviews">
+                                                    <span style={{ width: 67 }} />
+                                                </div>
+                                                <span>(23)</span>
+                                            </div>
+                                        </div>
+                                        <div className="section-3-price-original-discount u-s-p-y-14">
+                                            <div className="price">
+                                                <h4> ₹{clickProduct.price}</h4>
+                                            </div>
+                                            <div className="original-price">
+                                                <span>Original Price:</span>
+                                                <span> ₹{clickProduct.mrp}</span>
+                                            </div>
+                                            <div className="discount-price">
+                                                <span>Discount:</span>
+                                                <span>  {Math.round((clickProduct.mrp - clickProduct.price) * 100 / clickProduct.mrp)}%</span>
+                                            </div>
+                                            <div className="total-save">
+                                                <span>Save:</span>
+                                                <span> ₹{clickProduct.mrp - clickProduct.price}</span>
+                                            </div>
+                                        </div>
+                                        <div className="section-4-sku-information u-s-p-y-14">
+                                            <h6 className="information-heading u-s-m-b-8">Sku Information:  <span>{clickProduct.sku}</span></h6>
+                                            <div className="availability">
+                                                <span>Availability:</span>
+                                                {
+                                                    clickProduct.stock > 0 ? <span>  In Stock</span> : <span style={{ color: 'red' }}>  Out of Stock</span>
+                                                }
+                                            </div>
+                                            <div className="left">
+                                                <span>Quantity:</span>
+                                                <span>  {clickProduct.stock}</span>
+                                            </div>
+                                        </div>
+                                        <div className="section-5-product-variants u-s-p-y-14">
+                                            <h6 className="information-heading u-s-m-b-8">Product Variants:</h6>
+                                            <div className="color u-s-m-b-11">
+                                                <span>Available Color:</span>
+                                                <div className="color-variant select-box-wrapper">
+                                                    <span style={{ textTransform: 'uppercase' }}>{clickProduct.color}</span>
+                                                </div>
+                                            </div>
+                                            <div className="sizes u-s-m-b-11">
+                                                <span>Available Sizes:</span>
+                                                <div className="size-variant select-box-wrapper" style={{ display: 'block' }}>
+                                                    {/* {clickProduct &&
+                                                        clickProduct.sizes.map((obj) => {
+                                                            return (
+                                                                <>
+                                                                    <span style={{ textTransform: 'uppercase', display: 'block' }}>{`${obj.size}  -  ${obj.stock > 0 ? obj.stock : 'Out of stock'} `}</span>
+                                                                </>
+                                                            )
+                                                        })
+                                                    } */}
+                                                    {/* <span style={{ textTransform: 'uppercase' }}>{clickProduct.color}</span> */}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="section-6-social-media-quantity-actions u-s-p-y-14">
+                                            <form action="#" className="post-form">
+                                                <div className="quick-social-media-wrapper u-s-m-b-22">
+                                                    <span>Share:</span>
+                                                    <ul className="social-media-list">
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fab fa-facebook-f" />
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fab fa-twitter" />
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fab fa-google-plus-g" />
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fas fa-rss" />
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i className="fab fa-pinterest" />
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            {/* {`Zoom Image for Product ${fdata.id}`} */}
+
+                        </div>
+
+                    </div>
+                </div>
             </Drawer>
         </div>
     );

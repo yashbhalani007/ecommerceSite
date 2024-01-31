@@ -43,7 +43,6 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
     let matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
 
-
     let fileUrls = [];
     if (matchingObjects.length > 0 && matchingObjects[0].fileurl) {
         fileUrls = matchingObjects[0].fileurl;
