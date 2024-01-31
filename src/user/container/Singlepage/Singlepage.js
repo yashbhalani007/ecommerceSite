@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getProduct } from '../../../redux/slice/product.slice';
 import { addtocart } from '../../../redux/slice/cart.slice';
+import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
 
 
 function Singlepage({ CartIncDec, favItem, setFavItem }) {
@@ -12,6 +13,8 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const [activeTab, setActiveTab] = useState('description');
     const [fdata, setFdata] = useState([]);
     const [variant, setVariant] = useState([]);
+    const wishlist = useSelector(state => state.wishlist);
+    console.log(wishlist);
 
     const { id } = useParams()
 
@@ -19,33 +22,39 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
     const product = useSelector(state => state.products)
 
-
     const allproduct = product.products;
 
     useEffect(() => {
         dispatch(getProduct())
         let filteredData = product.products.filter((v) => v.id === id);
         setFdata(filteredData)
-    }, []);
+        if (filteredData.length <= 0) {
+            return;
+        }
 
-    if (fdata.length === 0) {
-        return fdata;
+    }, [dispatch, id, product.products]);
+
+
+    let targetGroupId;
+    if (fdata.length > 0) {
+        targetGroupId = fdata[0].group_id;
     }
-
-    let targetGroupId = fdata[0].group_id;
 
     let matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
 
 
-    let fileUrls = matchingObjects[0].fileurl;
+    let fileUrls = [];
+    if (matchingObjects.length > 0 && matchingObjects[0].fileurl) {
+        fileUrls = matchingObjects[0].fileurl;
+    }
 
 
     const handleIncrease = () => {
-        setQuantity(quantity + 1);
+        setQuantity(prevQuantity => prevQuantity + 1);
     }
 
     const handleDecrease = () => {
-        setQuantity(quantity - 1);
+        setQuantity(prevQuantity => Math.max(1, prevQuantity - 1));
     }
 
     const handleImageClick = (index) => {
@@ -60,7 +69,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
             console.log(val);
         })
 
-        dispatch(addtocart({ id: v.id, qty: 1 }))
+        dispatch(addtocart({ id: v.id, qty: quantity }))
 
         CartIncDec((prev) => prev + 1)
 
@@ -69,12 +78,20 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const handleWishlist = (event, id) => {
         event.preventDefault()
 
+        // if (favItem.includes(id)) {
+        //     let fItem = favItem.filter((v) => v !== id);
+        //     setFavItem(fItem)
+        // } else {
+        //     setFavItem((prev) => [...prev, id])
+        // }
 
-        if (favItem.includes(id)) {
-            let fData = favItem.filter((v) => v !== id);
-            setFavItem(fData)
+        
+        if (wishlist.includes(id)) {
+            // If the item is in the wishlist, dispatch the removefromwishlist action
+            dispatch(removefromwishlist(id));
         } else {
-            setFavItem((prev) => [...prev, id])
+            // If the item is not in the wishlist, dispatch the addtowishlist action
+            dispatch(addtowishlist(id));
         }
     }
 
@@ -88,10 +105,8 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
         setVariant(variantArray)
     };
 
-    console.log(variant);
-    console.log(fdata);
-
     let finaldata = variant.length > 0 ? variant : fdata
+  
 
 
     return (
@@ -101,10 +116,9 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                 <div className="container">
 
-
                     {
                         finaldata.map((v) => {
-                            console.log(v);
+
                             return (
                                 <>
 
@@ -114,7 +128,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                                             <div className="zoom-area">
                                                 <div className="main-image">
-                                                    <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
+                                                <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
 
                                                 </div>
 
