@@ -10,16 +10,46 @@ import { getProduct } from '../../../redux/slice/product.slice';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+import { auth } from '../../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function CatUpload(props) {
     const [data, setData] = useState([])
+    const [currentUser, setCurrentUser] = useState(null)
     const dispatch = useDispatch();
 
     const productData = useSelector(state => state.products)
 
     useEffect(() => {
+        getUser()
+    })
+
+    useEffect(() => {
         dispatch(getProduct());
-    }, [productData.products])
+    }, [])
+
+    useEffect(() => {
+        setData(productData.products.filter((product) => product.supplier_id == currentUser))
+    }, [currentUser, productData.products])
+
+    const getUser = async () => {
+        try {
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                  // User is signed in, see docs for a list of available properties
+                  // https://firebase.google.com/docs/reference/js/auth.user
+                  const uid = user.uid;
+                  setCurrentUser(uid)
+                  // ...
+                } else {
+                  // User is signed out
+                  // ...
+                }
+              });
+        } catch (error) {
+            
+        }
+    }
 
     const columns = [
         {
@@ -81,16 +111,7 @@ function CatUpload(props) {
         }
 
     ];
-
-    const handleDelete = (value) => {
-        console.log(value);
-    }
-
-    const handleEdit = () => {
-
-    }
-
- 
+    
     return (
         <>
             <br></br>
@@ -106,14 +127,14 @@ function CatUpload(props) {
                     </Button>
                 </Link>
             </div>
-            <Box sx={{ height: 400, width: '100%', marginTop: '15px' }}>
+            <Box sx={{ height: '100vh', width: '100%', marginTop: '25px' }}>
                  <DataGrid
-                    rows={productData.products}
+                    rows={data}
                     columns={columns}
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 5,
+                                pageSize: 10,
                             },
                         },
                     }}

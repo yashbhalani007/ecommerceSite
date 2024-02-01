@@ -15,7 +15,7 @@ function SuperAdminRoutes(props) {
                 <Route path="/" element={<SuperDashboard />} />
                 <Route path="supercategory" element={<SuperCategory />} />
                 <Route path='supplier' element={<Supplier />} />
-                <Route path='consumer' element={<Consumer />} />
+                {/* <Route path='consumer' element={<Consumer />} /> */}
                 <Route path='pro-requests' element={<ProductRequest />} />
                 <Route path="*" element={<Error />} />
             </Routes>
