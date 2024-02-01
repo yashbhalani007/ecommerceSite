@@ -31,7 +31,7 @@ function CatUpload(props) {
     useEffect(() => {
         setData(productData.products.filter((product) => product.supplier_id == currentUser))
     }, [currentUser, productData.products])
-    console.log(data);
+    
     const getUser = async () => {
         try {
             onAuthStateChanged(auth, (user) => {
