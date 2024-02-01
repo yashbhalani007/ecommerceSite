@@ -42,6 +42,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     }
 
     let matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
+    console.log(matchingObjects);
 
     let fileUrls = [];
     if (matchingObjects.length > 0 && matchingObjects[0].fileurl) {
@@ -85,7 +86,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
             setFavItem((prev) => [...prev, id])
         }
 
-        
+
         if (allWishlist.includes(id)) {
             // If the item is in the wishlist, dispatch the removefromwishlist action
             dispatch(removefromwishlist(id));
@@ -106,7 +107,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     };
 
     let finaldata = variant.length > 0 ? variant : fdata
-  
+
 
 
     return (
@@ -118,7 +119,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                     {
                         finaldata.map((v) => {
-
+                        
                             return (
                                 <>
 
@@ -128,7 +129,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                                             <div className="zoom-area">
                                                 <div className="main-image">
-                                                <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
+                                                    <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
 
                                                 </div>
 
@@ -212,22 +213,36 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                     </div>
                                                 </div>
                                                 <div className="section-5-product-variants u-s-p-y-14">
-                                                    <h6 className="information-heading u-s-m-b-8">Product Variants:</h6>
+                                                    <h6 className="information-heading u-s-m-b-8">More Color:</h6>
                                                     <div className="color u-s-m-b-11">
-                                                        <span>Available Color:</span>
                                                         <div className="color-variant select-box-wrapper">
-                                                            <select className="select-box product-color" onChange={(e) => handleColorChange(e, matchingObjects)}>
+                                                            {/* <select className="select-box product-color" onChange={(e) => handleColorChange(e, matchingObjects)}>
 
                                                                 {
                                                                     matchingObjects.map((val) => {
+                                                                        console.log(val);
                                                                         return (
                                                                             <option>{val.color}</option>
                                                                         )
                                                                     })
                                                                 }
 
+                                                            </select> */}
 
-                                                            </select>
+                                                            {
+                                                                matchingObjects.map((val) => (
+                                                                    <img
+                                                                        key={val.color}
+                                                                        className={`color-option ${val.color === variant[0]?.color ? 'active' : ''}`}
+                                                                        src={val.fileurl[0]}
+                                                                        alt={val.color}
+                                                                        onClick={(e) => handleColorChange(e, matchingObjects)}
+                                                                        data-color={val.color}
+                                                                        style={{ width: '85px', height: '100px' }}
+                                                                    />
+                                                                ))
+                                                            }
+
                                                         </div>
                                                     </div>
                                                     <div className="sizes u-s-m-b-11">
@@ -236,7 +251,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                             <select className="select-box product-size">
                                                                 {
                                                                     v.sizes.map((sizeOption, index) => (
-                                                                        <option key={index}>{sizeOption}</option>
+                                                                        <option key={index}>{sizeOption.size}</option>
                                                                     ))
                                                                 }
                                                             </select>
