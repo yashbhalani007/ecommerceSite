@@ -22,32 +22,33 @@ function CatUpload(props) {
 
     useEffect(() => {
         getUser()
-    })
+    }, [])
 
     useEffect(() => {
         dispatch(getProduct());
     }, [])
 
     useEffect(() => {
-        setData(productData.products.filter((product) => product.supplier_id == currentUser))
+        if (productData.products) {
+            const filteredData = productData.products
+                .filter((product) => product.supplier_id === currentUser)
+                .filter((product) => product.fileurl); // Only include items with fileurl
+            setData(filteredData);
+        }
     }, [currentUser, productData.products])
 
     const getUser = async () => {
         try {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                  // User is signed in, see docs for a list of available properties
-                  // https://firebase.google.com/docs/reference/js/auth.user
-                  const uid = user.uid;
-                  setCurrentUser(uid)
-                  // ...
+                    const uid = user.uid;
+                    setCurrentUser(uid)
                 } else {
-                  // User is signed out
-                  // ...
+
                 }
-              });
+            });
         } catch (error) {
-            
+            console.error("Error fetching user:", error);
         }
     }
 
@@ -59,8 +60,8 @@ function CatUpload(props) {
             width: 150,
             editable: true,
             renderCell: (params) => (
-                <strong style={{width : '100px', height : '100px'}}>
-                    <img src={params.row.fileurl} style={{backgroundSize : 'contain' , height : '100%' ,width : '100%'}}/>
+                <strong style={{ width: '100px', height: '100px' }}>
+                    <img src={params.row.fileurl} style={{ backgroundSize: 'contain', height: '100%', width: '100%' }} />
                 </strong>
             )
         },
@@ -76,42 +77,37 @@ function CatUpload(props) {
             width: 80,
             editable: true,
         },
-        {   
-            field : 'status',
+        {
+            field: 'status',
             headerName: 'Status',
             width: 110,
             editable: true,
-            renderCell: (params) => {
-                return(
+            renderCell: ({ row }) => {
+                const { status } = row;
+                return (
                     <strong>
-                    {
-                        params.row.status == 'pending' ? 
-                    <PendingIcon style={{width : 50, color : 'orange'}}/> 
-                        :
-                        params.row.status == 'approve' ?
-                       <CheckCircleIcon style={{width : 50, color : 'green'}}/> :
-                        <ReportProblemIcon style={{width : 50, color : 'red'}}/>
-                    }
+                        {status === 'pending' ? <PendingIcon style={{ width: 50, color: 'orange' }} /> :
+                            status === 'approve' ? <CheckCircleIcon style={{ width: 50, color: 'green' }} /> :
+                                <ReportProblemIcon style={{ width: 50, color: 'red' }} />}
                     </strong>
-                )
-              
+                );
             }
         },
         {
             field: 'action',
             headerName: 'Action',
-            width : 250,
+            width: 250,
             renderCell: (params) => (
                 <strong>
-                      <Button variant="contained" color="success">
-                         View Catelog
-                      </Button>
+                    <Button variant="contained" color="success">
+                        View Catelog
+                    </Button>
                 </strong>
             )
         }
 
     ];
-    
+
     return (
         <>
             <br></br>
@@ -128,8 +124,8 @@ function CatUpload(props) {
                 </Link>
             </div>
             <Box sx={{ height: '100vh', width: '100%', marginTop: '25px' }}>
-                 <DataGrid
-                    rows={data}
+                <DataGrid
+                    rows={data ? data : productData.products}
                     columns={columns}
                     initialState={{
                         pagination: {
@@ -142,7 +138,7 @@ function CatUpload(props) {
                     pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
-                /> 
+                />
             </Box>
         </>
     );
