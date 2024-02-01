@@ -349,6 +349,10 @@ function Header({ setsubCategory, favItem }) {
           <div className="full-layer-bottom-header">
             <div className="container">
               <div className="row align-items-center">
+
+                
+
+
                 <div className="col-lg-9 new">
                   <ul className="bottom-nav g-nav u-d-none-lg">
                     <li>

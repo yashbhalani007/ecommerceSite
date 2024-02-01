@@ -62,19 +62,85 @@ function Category({ subCategoryvalue, CartIncDec }) {
     return (
         <div id='app'>
             <div>
-                {/* Page Introduction Wrapper /- */}
-                {/* Shop-Page */}
+
                 <div className="page-shop u-s-p-t-80">
                     <div className="container">
-                        {/* Shop-Intro */}
+
                         <div className="shop-intro">
                             <h3>{subCategoryvalue}</h3>
                         </div>
-                        {/* Shop-Intro /- */}
+
                         <div className="row">
-                            {/* Shop-Left-Side-Bar-Wrapper */}
+
                             <div className="col-lg-3 col-md-3 col-sm-12">
-                                {/* Fetch-Categories-from-Root-Category  */}
+                                <div className="v-menu">
+                                    <span className="v-title">
+                                        <i className="ion ion-md-menu" />
+                                        All Categories
+                                    </span>
+                                    <nav>
+                                        <div className="v-wrapper">
+                                            <ul className="v-list animated fadeIn">
+                                                <li className="js-backdrop">
+                                                    <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, 'All')}>
+                                                        <i class="ion ion-md-heart"></i>
+                                                        All
+                                                        <i className="ion ion-ios-arrow-forward" />
+                                                    </a>
+
+                                                </li>
+
+                                                {subcategory.subcategory.map((item) => {
+
+                                                    if (subCategoryvalue === 'All') {
+                                                        return (
+                                                            // <h3 className="fetch-mark-category" key={item.subcategory}>
+                                                            //     <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
+                                                            //     </a>
+                                                            // </h3>
+                                                            <li className="js-backdrop">
+                                                                <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, item.subcategory)}>
+                                                                    <i class="ion ion-md-heart"></i>
+                                                                    {item.subcategory}
+                                                                    <i className="ion ion-ios-arrow-forward" />
+                                                                </a>
+                                                            </li>
+                                                        );
+                                                    } else if (item.category === subCategoryvalue) {
+                                                        return (
+                                                            // <h3 className="fetch-mark-category">
+                                                            //     <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
+                                                            //     </a>
+                                                            // </h3>
+                                                            <li className="js-backdrop">
+                                                                <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, item.subcategory)}>
+                                                                    <i class="ion ion-md-heart"></i>
+                                                                    {item.subcategory}
+                                                                    <i className="ion ion-ios-arrow-forward" />
+                                                                </a>
+                                                            </li>
+                                                        );
+                                                    }
+
+                                                })}
+
+                                                {/* <li className="js-backdrop">
+                                                    <a href="shop-v1-root-category.html">
+                                                        <i className="ion ion-md-shirt" />
+                                                        Men's Clothing
+                                                        <i className="ion ion-ios-arrow-forward" />
+                                                    </a>
+                                                </li> */}
+
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </div>
+
+
+                            {/* <div className="col-lg-3 col-md-3 col-sm-12">
+
                                 <div className="fetch-categories">
                                     <h3 className="title-name">Browse Categories</h3>
                                     <h3 className="fetch-mark-category">
@@ -103,190 +169,12 @@ function Category({ subCategoryvalue, CartIncDec }) {
 
                                     })}
 
-
-
-                                    {/* <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Tops
-                                            <span className="total-fetch-items">(5)</span>
-                                        </a>
-                                    </h3> */}
-                                    {/* Level-2 /- */}
-                                    {/* Level-3 */}
-                                    {/* <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">T-Shirts
-                                                <span className="total-fetch-items">(2)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Hoodies
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Suits
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v4-filter-as-category.html">Black Bean T-Shirt
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Outwear
-                                            <span className="total-fetch-items">(3)</span>
-                                        </a>
-                                    </h3>
-
-                                    <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Jackets
-                                                <span className="total-fetch-items">(3)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Trench
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Parkas
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Sweaters
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Accessories
-                                            <span className="total-fetch-items">(1)</span>
-                                        </a>
-                                    </h3>
-
-                                    <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Watches
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v2-sub-category.html">Ties
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Scarves
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Belts
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Bottoms
-                                            <span className="total-fetch-items">(2)</span>
-                                        </a>
-                                    </h3>
-
-                                    <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Casual Pants
-                                                <span className="total-fetch-items">(2)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Shoes
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Jeans
-                                                <span className="total-fetch-items">(1)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Shorts
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Underwear
-                                            <span className="total-fetch-items">(0)</span>
-                                        </a>
-                                    </h3>
-
-                                    <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Boxers
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Briefs
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Robes
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Socks
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html">Sunglasses
-                                            <span className="total-fetch-items">(2)</span>
-                                        </a>
-                                    </h3>
-
-                                    <ul>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Pilot
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Wayfarer
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Square
-                                                <span className="total-fetch-items">(0)</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v3-sub-sub-category.html">Round
-                                                <span className="total-fetch-items">(2)</span>
-                                            </a>
-                                        </li>
-                                    </ul> */}
-
                                 </div>
-                                {/* Fetch-Categories-from-Root-Category  /- */}
-                            </div>
-                            {/* Shop-Left-Side-Bar-Wrapper /- */}
-                            {/* Shop-Right-Wrapper */}
+
+                            </div> */}
+
                             <div className="col-lg-9 col-md-9 col-sm-12">
-                                {/* Page-Bar */}
+
                                 <div className="page-bar clearfix">
                                     <div className="shop-settings">
                                         <a id="list-anchor" className="active">
@@ -296,7 +184,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                             <i className="fas fa-th" />
                                         </a>
                                     </div>
-                                    {/* Toolbar Sorter 1  */}
+
                                     <div className="toolbar-sorter">
                                         <div className="select-box-wrapper">
                                             <label className="sr-only" htmlFor="sort-by">Sort By</label>
@@ -309,8 +197,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                             </select>
                                         </div>
                                     </div>
-                                    {/* //end Toolbar Sorter 1  */}
-                                    {/* Toolbar Sorter 2  */}
+
                                     <div className="toolbar-sorter-2">
                                         <div className="select-box-wrapper">
                                             <label className="sr-only" htmlFor="show-records">Show Records Per Page</label>
@@ -321,16 +208,12 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                             </select>
                                         </div>
                                     </div>
-                                    {/* //end Toolbar Sorter 2  */}
+
                                 </div>
-                                {/* Page-Bar /- */}
-                                {/* Row-of-Product-Container */}
+
                                 <div className="row product-container list-style">
 
-
                                     {
-
-
                                         uniqueProducts.map((v) => {
 
                                             if (subCategoryvalue === 'All' && v.status === 'approve') {
@@ -395,7 +278,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                 )
                                             } else if (v.category === subCategoryvalue && v.status === 'approve') {
                                                 return (
-                                                    <div className="product-item col-lg-4 col-md-6 col-sm-6"  key={v.id}>
+                                                    <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
                                                         <Link to={"/product_Details/" + v.id}>
                                                             <div className="item">
                                                                 <div className="image-container">

@@ -746,6 +746,10 @@ body {
   position: relative;
 }
 
+/* .v-menu nav {
+  position: absolute;
+} */
+
 .v-menu>.v-title {
   position: relative;
   height: 52px;
@@ -788,6 +792,7 @@ body {
   z-index: 2;
   border: 1px solid #ededed;
   border-top-width: 0;
+  display: contents;
 }
 
 .v-list>li {
