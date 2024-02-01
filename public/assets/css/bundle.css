@@ -3278,6 +3278,16 @@ body {
   font-size: 14px;
 }
 
+.color-variant {
+  display: flex;
+  flex-direction: row;
+}
+
+.color-option {
+  /* Add any additional styling for each color option */
+  margin-right: 10px; /* Adjust as needed for spacing between options */
+}
+
 .section-2-short-description {
   border-bottom: 1px solid #f8f9f5;
 }

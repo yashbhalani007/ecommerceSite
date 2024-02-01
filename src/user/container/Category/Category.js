@@ -91,14 +91,14 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                 </li>
 
                                                 {subcategory.subcategory.map((item) => {
-
+                                                    console.log(item);
                                                     if (subCategoryvalue === 'All') {
                                                         return (
                                                             // <h3 className="fetch-mark-category" key={item.subcategory}>
                                                             //     <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
                                                             //     </a>
                                                             // </h3>
-                                                            <li className="js-backdrop">
+                                                            <li className="js-backdrop" key={item.subcategory}>
                                                                 <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, item.subcategory)}>
                                                                     <i class="ion ion-md-heart"></i>
                                                                     {item.subcategory}
