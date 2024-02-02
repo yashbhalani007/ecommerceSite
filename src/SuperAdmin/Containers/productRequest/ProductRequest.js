@@ -15,6 +15,7 @@ import ModalClose from '@mui/joy/ModalClose';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
 import BlockIcon from '@mui/icons-material/Block';
+import { CloseOutlined } from '@mui/icons-material';
 
 function ProductRequest(props) {
     const [state, setState] = React.useState(false);
@@ -115,7 +116,7 @@ function ProductRequest(props) {
                                             <ListItemText
                                                 // onClick={() => handleClickOpen(v.email)}
                                                 style={{ cursor: 'pointer', marginLeft: '10px', textAlign: 'left' }}
-                                                onClick={toggleDrawer(true, v)}
+                                                onClick={toggleDrawer(true, { ...v, user_id: user.id })}
                                                 primary={v.product_name}
                                                 secondary={
                                                     <React.Fragment>
@@ -153,7 +154,7 @@ function ProductRequest(props) {
                                             />
 
 
-                                            {
+                                            {/* {
                                                 v.status === 'approve' ?
                                                     <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved</Button> : v.status !== 'error' ?
                                                         <>
@@ -164,6 +165,14 @@ function ProductRequest(props) {
                                                                 Refuse
                                                             </Button>
                                                         </> : <Button color="secondary" style={{ margin: 'auto 5px', color: 'red', fontSize: '15px' }}>Refused</Button>
+                                            } */}
+                                            {
+                                                v.status === 'approve' ?
+                                                    <Button color="secondary" style={{ margin: 'auto 5px', color: 'green', fontSize: '15px' }}>Approved </Button> : v.status === 'error' ?
+                                                        <Button color="secondary" style={{ margin: 'auto 5px', color: 'red', fontSize: '15px' }}>Refused </Button>
+                                                        : v.status === 'block' ? <Button color="secondary" style={{ margin: 'auto 5px', color: 'red', fontSize: '15px' }}>Blocked </Button>
+                                                            : <Button style={{ margin: 'auto 5px', color: 'red', fontSize: '15px', color: 'orange' }}>Pending </Button> 
+
                                             }
                                         </ListItem>
                                         <Divider variant="inset" component="li" />
@@ -271,6 +280,9 @@ function ProductRequest(props) {
                                         </div> */}
                                         <div className="section-5-product-variants u-s-p-y-14">
                                             <h6 className="information-heading u-s-m-b-8">SKU:  <span>{clickProduct.sku}</span></h6>
+                                            <h6 className="information-heading u-s-m-b-8">Group_id:  <span>{clickProduct.group_id}</span></h6>
+                                            <h6 className="information-heading u-s-m-b-8">Supplier_id:  <span>{clickProduct.supplier_id}</span></h6>
+                                            <h6 className="information-heading u-s-m-b-8">Document_id:  <span>{clickProduct.user_id}</span></h6>
                                             <h6 className="information-heading u-s-m-b-8">Color:  <span style={{ textTransform: 'uppercase' }}>{clickProduct.color}</span></h6>
 
                                             <h6 className="information-heading u-s-m-b-8">Sizes:  </h6>
@@ -322,10 +334,15 @@ function ProductRequest(props) {
                                         </div>
 
                                     </div>
+                                    <div id="description">
+                                        <div className="description-whole-container">
+                                            <p className="desc-p u-s-m-b-26">{clickProduct.description}</p>
+                                        </div>
+                                    </div>
                                     <div className='approve_div'>
                                         {
                                             clickProduct.status === 'approve' ?
-                                                <Button variant="outlined" color="error" style={{ float: 'right', margin: '40px auto' }} onClick={() => handleAction(clickProduct, 'block')}>
+                                                <Button variant="outlined" color="error" style={{ float: 'right' }} onClick={() => handleAction(clickProduct, 'block')}>
                                                     Block <BlockIcon style={{ marginLeft: '5px' }} />
                                                 </Button> : clickProduct.status !== 'error' ?
                                                     <div className='pro_request_product_approve'>
@@ -340,7 +357,6 @@ function ProductRequest(props) {
                                     </div>
                                 </div>
                             </div>
-                            {/* {`Zoom Image for Product ${fdata.id}`} */}
 
                         </div>
 
