@@ -64,11 +64,6 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
     const HandleAddtocart = (event, v, matchingObjects) => {
         event.preventDefault();
-        console.log(matchingObjects);
-
-        matchingObjects.map((val) => {
-            console.log(val);
-        })
 
         dispatch(addtocart({ id: v.id, qty: quantity }))
 
@@ -97,11 +92,16 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     }
 
 
-    const handleColorChange = (event, matchingObjects) => {
-        const variantArray = []
-        const selectedColor = event.target.value;
-        const selectedObject = matchingObjects.find((obj) => obj.color === selectedColor);
-        variantArray.push(selectedObject)
+    const handleColorChange = (event, selectedColor) => {
+        console.log(event,selectedColor);
+
+        // const variantArray = []
+        // const selectedColor = event.target.value;
+        // const selectedObject = matchingObjects.find((obj) => obj.color === selectedColor);
+        // variantArray.push(selectedObject)
+
+        const variantArray = [];
+        variantArray.push(selectedColor);
 
         setVariant(variantArray)
     };
@@ -220,7 +220,6 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                                                                 {
                                                                     matchingObjects.map((val) => {
-                                                                        console.log(val);
                                                                         return (
                                                                             <option>{val.color}</option>
                                                                         )
@@ -236,7 +235,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                                         className={`color-option ${val.color === variant[0]?.color ? 'active' : ''}`}
                                                                         src={val.fileurl[0]}
                                                                         alt={val.color}
-                                                                        onClick={(e) => handleColorChange(e, matchingObjects)}
+                                                                        onClick={(e) => handleColorChange(e, val)}
                                                                         data-color={val.color}
                                                                         style={{ width: '85px', height: '100px' }}
                                                                     />
