@@ -200,7 +200,7 @@ function Header({ setsubCategory, favItem }) {
                   </div>
                 </div>
                 <div className="col-lg-6 u-d-none-lg">
-                  <form action className="form-searchbox">
+                  <form action className="form-search">
                     <label className="sr-only" htmlFor="search-landscape">
                       Search
                     </label>

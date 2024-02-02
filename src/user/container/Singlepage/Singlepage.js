@@ -42,7 +42,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     }
 
     let matchingObjects = allproduct.filter(obj => obj.group_id === targetGroupId);
-    console.log(matchingObjects);
+
 
     let fileUrls = [];
     if (matchingObjects.length > 0 && matchingObjects[0].fileurl) {
@@ -93,7 +93,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
 
     const handleColorChange = (event, selectedColor) => {
-        console.log(event,selectedColor);
+        console.log(event, selectedColor);
 
         // const variantArray = []
         // const selectedColor = event.target.value;
@@ -109,7 +109,6 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     let finaldata = variant.length > 0 ? variant : fdata
 
 
-
     return (
 
         <div id='app'>
@@ -119,7 +118,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                     {
                         finaldata.map((v) => {
-                        
+                            console.log(v);
                             return (
                                 <>
 
@@ -186,16 +185,10 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                         <h4>${v.price}</h4>
                                                     </div>
                                                     <div className="original-price">
-                                                        <span>Original Price:</span>
-                                                        <span>${v.mrp}</span>
+                                                        <h4>${v.mrp}</h4>
                                                     </div>
                                                     <div className="discount-price">
-                                                        <span>Discount:</span>
-                                                        <span>{Math.round((v.mrp - v.price) * 100 / v.mrp)}%</span>
-                                                    </div>
-                                                    <div className="total-save">
-                                                        <span>Save:</span>
-                                                        <span>${v.mrp - v.price}</span>
+                                                        <h4>({Math.round((v.mrp - v.price) * 100 / v.mrp)}% off)</h4>
                                                     </div>
                                                 </div>
                                                 <div className="section-4-sku-information u-s-p-y-14">
@@ -203,14 +196,19 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                     <div className="availability">
                                                         <span>Availability:</span>
                                                         {
-                                                            v.stock > 0 ? <span>In Stock</span> : <span>Out of Stock</span>
+                                                            v.sizes.some(sizeOption => sizeOption.stock > 0) ? <span>In Stock</span> : <span>Out of Stock</span>
                                                         }
 
                                                     </div>
-                                                    <div className="left">
+                                                    {/* <div className="left">
                                                         <span>Only:</span>
-                                                        <span>{v.stock} left</span>
-                                                    </div>
+                                                        {
+                                                            v.sizes.map((sizeOption, index) => (
+                                                                <span>{sizeOption.stock} left</span>
+                                                            ))
+                                                        }
+                                                       
+                                                    </div> */}
                                                 </div>
                                                 <div className="section-5-product-variants u-s-p-y-14">
                                                     <h6 className="information-heading u-s-m-b-8">More Color:</h6>
@@ -229,7 +227,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                             </select> */}
 
                                                             {
-                                                                matchingObjects.map((val) => (
+                                                                matchingObjects.map((val, index) => (
                                                                     <img
                                                                         key={val.color}
                                                                         className={`color-option ${val.color === variant[0]?.color ? 'active' : ''}`}

@@ -2358,36 +2358,36 @@ body {
   vertical-align: top;
 }
 
-.form-searchbox {
+.form-search {
   width: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.form-searchbox .text-field {
+.form-search .text-field {
   padding: 0 0 0 15px;
   border-color: #d90429;
 }
 
-.form-searchbox .select-hide {
+.form-search.select-hide {
   visibility: hidden;
 }
 
-.form-searchbox .select-box-position {
+.form-search .select-box-position {
   position: absolute;
   right: 40px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.form-searchbox .select-box-position .select-box {
+.form-search .select-box-position .select-box {
   border-left: 1px solid #d90429;
   border-right: none;
   border-top: none;
   border-bottom: none;
 }
 
-.form-searchbox button {
+.form-search button {
   width: 40px;
   height: 46px;
   position: absolute;
@@ -3255,6 +3255,7 @@ body {
 .section-1-title-breadcrumb-rating .product-title h1 {
   font-size: 26px;
   margin-bottom: 0;
+  display: contents;
 }
 
 .section-1-title-breadcrumb-rating .product-title h1 a:hover {
@@ -3299,23 +3300,31 @@ body {
 
 .section-3-price-original-discount {
   border-bottom: 1px solid #f8f9f5;
+  display: flex;
+  align-items: baseline;
+  column-gap: 6px;
 }
 
 .section-3-price-original-discount>.price>h4 {
   color: #292929;
   font-weight: 600;
   margin-bottom: 6px;
-  font-size: 28px;
+  font-size: 25px;
 }
 
-.section-3-price-original-discount>.original-price,
-.section-3-price-original-discount .discount-price,
-.section-3-price-original-discount .total-save {
-  font-size: 12px;
+.section-3-price-original-discount>.original-price h4 {
+  font-size: 16px;
 }
 
-.section-3-price-original-discount>.original-price span+span {
+
+.section-3-price-original-discount .discount-price h4{
+  color: #FF935F;
+  font-size: 18px;
+}
+
+.section-3-price-original-discount>.original-price h4 {
   text-decoration: line-through;
+  /* font-size: 22px; */
 }
 
 .section-4-sku-information {
