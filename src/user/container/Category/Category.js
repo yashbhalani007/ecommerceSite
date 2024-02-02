@@ -221,7 +221,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
 
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
 
-                                                        <Link to={"/product_Details/" + v.id}>
+                                                        <Link to={"/product_Details/" + v.id} >
                                                             <div className="item">
                                                                 <div className="image-container">
 
@@ -230,8 +230,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
-                                                                        <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look</a>
-                                                                        <a className="item-mail" href="javascript:void(0)">Mail</a>
+        
                                                                         <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
                                                                         <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
                                                                     </div>
