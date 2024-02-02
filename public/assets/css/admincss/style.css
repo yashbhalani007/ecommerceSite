@@ -823,3 +823,12 @@ a.more-link {
 #add:disabled {
     background-color: #2b2c74;
 }
+
+.pro_request_product_approve {
+    display: flex;
+    justify-content: space-between;
+}
+
+.approve_div {
+    margin: 40px 0;
+}
