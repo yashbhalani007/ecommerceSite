@@ -15,6 +15,7 @@ import { getProduct } from "../../../redux/slice/product.slice";
 import { SignalCellularNullRounded } from "@mui/icons-material";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../firebase";
+import { Col, Row } from "react-bootstrap";
 
 
 function CustomTabPanel(props) {
@@ -60,13 +61,13 @@ function Inventory(props) {
 
   const allproduct = productData.products;
 
-  console.log(allproduct);
 
   const uniqueProducts = productDatas.reduce((accumulator, currentProduct) => {
     // Check if the current product's group_id is already in the accumulator
     const existingProduct = accumulator.find(
       (product) => product.group_id === currentProduct.group_id
     );
+
 
     // If not found, add the current product to the accumulator
     if (!existingProduct) {
@@ -76,7 +77,13 @@ function Inventory(props) {
     return accumulator;
   }, []);
 
-  // console.log(uniqueProducts);
+  console.log(uniqueProducts);
+
+  const filteredProducts = uniqueProducts.filter(uniqueProducts => {
+    return uniqueProducts.sizes.some(size => size.stock === 0);
+  });
+
+  console.log(filteredProducts);
 
   // const fData = productData.products.filter((v) => v.status == 'approve');
   // console.log(fData);
@@ -91,12 +98,12 @@ function Inventory(props) {
 
   useEffect(() => {
     if (productData.products) {
-        const filteredData = productData.products
-            .filter((product) => product.supplier_id === currentUser)
-            .filter((product) => product.fileurl); // Only include items with fileurl
-            setProductDatas(filteredData);
+      const filteredData = productData.products
+        .filter((product) => product.supplier_id === currentUser)
+        .filter((product) => product.fileurl); // Only include items with fileurl
+      setProductDatas(filteredData);
     }
-}, [currentUser, productData.products])
+  }, [currentUser, productData.products])
 
   const getUser = async () => {
     try {
@@ -131,8 +138,6 @@ function Inventory(props) {
   }
 
 
-
-
   return (
     <>
       <br></br>
@@ -160,36 +165,79 @@ function Inventory(props) {
         value === 0 ?
 
           uniqueProducts.map((v) => {
+
             return (
-              <div className="contentTop">
-                <div className="row product-container list-style col-5">
-                  <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
-                    <div className="new-item">
-                      <div className="new-image-container">
-                        <a className="item-img-wrapper-link" href="single-product.html">
-                          <img className="new-img-fluid" src={v.fileurl} alt="Product" />
-                        </a>
-                      </div>
-                      <div className="item-content">
-                        <div className="what-product-is">
-                          <h6 className="new-tem-title">
-                            <a href="single-product.html">Mischka Plain Men T-Shirt</a>
-                          </h6>
-                          <div className="item-stars">
-                            <span>Group-Id : 1234567</span>
+              <>
+                <Row>
+                  <Col className="contentTop">
+                    <div className="row product-container list-style">
+                      <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                        <div className="new-item">
+                          <div className="new-image-container">
+                            <a className="item-img-wrapper-link" href="single-product.html">
+                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                            </a>
                           </div>
-                        </div>
-                        <div className="price-template">
-                          <div className="new-item-new-price">
-                            <span>Category : T-Shirts</span>
+                          <div className="item-content">
+                            <div className="what-product-is">
+                              <h6 className="new-tem-title">
+                                <a href="single-product.html">Mischka Plain Men T-Shirt</a>
+                              </h6>
+                              <div className="item-stars">
+                                <span>Group-Id : 1234567</span>
+                              </div>
+                            </div>
+                            <div className="price-template">
+                              <div className="new-item-new-price">
+                                <span>Category : T-Shirts</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </Col>
 
-              </div>
+                  <Col xs={8} className="outStock">
+                    <Row className="product-container list-style">
+                      {
+                        filteredProducts.map((val) => {
+                          console.log(val);
+                          return (
+                            <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                              <div className="new-item">
+                                <div className="new-image-container">
+                                  <a className="item-img-wrapper-link" href="single-product.html">
+                                    <img className="new-img-fluid" src={val.fileurl} alt="Product" />
+                                  </a>
+                                </div>
+                                <div className="item-content">
+                                  <div className="what-product-is">
+                                    <h6 className="new-tem-title">
+                                      <a href="single-product.html">Mischka Plain Men T-Shirt</a>
+                                    </h6>
+                                    <div className="item-stars">
+                                      <span>Group-Id : 1234567</span>
+                                    </div>
+                                  </div>
+                                  <div className="price-template">
+                                    <div className="new-item-new-price">
+                                      <span>Category : T-Shirts</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>)
+
+                        })
+                      }
+
+
+                    </Row>
+
+                  </Col>
+                </Row>
+              </>
             )
 
           })
