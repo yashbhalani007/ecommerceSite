@@ -5,6 +5,7 @@ import { getSubCategoryData } from '../../../redux/slice/subcategory.slice';
 import { getProduct } from '../../../redux/slice/product.slice';
 import { Link } from 'react-router-dom';
 import { addtocart } from '../../../redux/slice/cart.slice';
+import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
 
 function Category({ subCategoryvalue, CartIncDec }) {
     console.log(subCategoryvalue);
@@ -20,6 +21,9 @@ function Category({ subCategoryvalue, CartIncDec }) {
     const allproduct = product.products;
 
     console.log(allproduct);
+
+    const wishlist = useSelector(state => state.wishlist);
+    const allWishlist = wishlist.wishlist
 
     const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
         // Check if the current product's group_id is already in the accumulator
@@ -48,6 +52,20 @@ function Category({ subCategoryvalue, CartIncDec }) {
         event.preventDefault();
         console.log(subcategoryValue);
         setSelectedSubcategory(subcategoryValue);
+    }
+
+    const handleWishlist = (event, id) => {
+        event.preventDefault()
+
+        const isItemInWishlist = allWishlist.includes(id);
+
+        if (isItemInWishlist) {
+            // If the item is in the wishlist, dispatch the removefromwishlist action
+            dispatch(removefromwishlist({ id }));
+        } else {
+            // If the item is not in the wishlist, dispatch the addtowishlist action
+            dispatch(addtowishlist({ id }));
+        }
     }
 
     const HandleAddtocart = (event, id) => {
@@ -287,7 +305,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
-                                                                        <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
+                                                                        <a onClick={(event) => handleWishlist(event, v.id)} className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
                                                                         <a onClick={(event) => HandleAddtocart(event, v.id)} className="item-addCart" href="javascript:void(0)">Add to Cart</a>
                                                                     </div>
                                                                 </div>
