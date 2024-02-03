@@ -90,7 +90,8 @@ function Supplier(props) {
 
     const handleSearch = (value) => {
         console.log(value);
-        let searData = usersData.users.filter((v) => v.full_name.toLowerCase().includes(value.toLowerCase()) || v.email.toLowerCase().includes(value.toLowerCase()) || JSON.stringify(v.mobile_number).includes(JSON.stringify(value)) || JSON.stringify(v.emailVerified).includes(value) || console.log(v.full_name, v.email))
+        
+        let searData = usersData.users.filter((v) => v.full_name.toLowerCase().includes(value.toLowerCase()) || v.email.toLowerCase().includes(value.toLowerCase()) || JSON.stringify(v.mobile_number).includes(JSON.stringify(value)) || JSON.stringify(v.emailVerified).includes(value) || JSON.stringify(v.id).includes(value))
 
         setFdata(searData)
     }
