@@ -542,6 +542,7 @@ nav.close~.dashboard .top {
 .contentTop {
     display: flex;
     justify-content: space-between;
+    width: 100% !important;
 }
 
 .error {
