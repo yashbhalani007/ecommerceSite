@@ -6,7 +6,7 @@ import { addtocart } from '../../../redux/slice/cart.slice';
 import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
 
 
-function Singlepage({ CartIncDec, favItem, setFavItem }) {
+function Singlepage({ CartIncDec }) {
 
     const [quantity, setQuantity] = useState(1);
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -62,7 +62,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
         setActiveImageIndex(index);
     };
 
-    const HandleAddtocart = (event, v, matchingObjects) => {
+    const HandleAddtocart = (event, v) => {
         event.preventDefault();
 
         dispatch(addtocart({ id: v.id, qty: quantity }))
@@ -74,24 +74,18 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
     const handleWishlist = (event, id) => {
         event.preventDefault()
 
-        if (favItem.includes(id)) {
-            let fItem = favItem.filter((v) => v !== id);
-            setFavItem(fItem)
-        } else {
-            setFavItem((prev) => [...prev, id])
-        }
+        const isItemInWishlist = allWishlist.includes(id);
 
-
-        if (allWishlist.includes(id)) {
+        if (isItemInWishlist) {
             // If the item is in the wishlist, dispatch the removefromwishlist action
-            dispatch(removefromwishlist(id));
+            dispatch(removefromwishlist({ id }));
         } else {
             // If the item is not in the wishlist, dispatch the addtowishlist action
-            dispatch(addtowishlist(id));
+            dispatch(addtowishlist({ id }));
         }
     }
 
-
+  
     const handleColorChange = (event, selectedColor) => {
         console.log(event, selectedColor);
 
@@ -118,7 +112,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
 
                     {
                         finaldata.map((v) => {
-                            console.log(v);
+                 
                             return (
                                 <>
 
@@ -305,7 +299,7 @@ function Singlepage({ CartIncDec, favItem, setFavItem }) {
                                                         </div>
                                                         <div>
 
-                                                            <button className="button button-outline-secondary" onClick={(event) => HandleAddtocart(event, v, matchingObjects)} type="submit">Add to cart</button>
+                                                            <button className="button button-outline-secondary" onClick={(event) => HandleAddtocart(event, v)} type="submit">Add to cart</button>
                                                             <button className="button button-outline-secondary far fa-heart u-s-m-l-6" onClick={(event) => handleWishlist(event, v.id)} />
                                                         </div>
                                                     </form>

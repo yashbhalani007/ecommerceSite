@@ -200,7 +200,7 @@ body {
 }
 
 /* Page introduction styles */
-[class*="page-style-"] {
+/* [class*="page-style-"] {
   position: relative;
   z-index: 1;
   color: #ffffff;
@@ -236,7 +236,7 @@ body {
 
 [class*="page-style-"] .page-intro>.bread-crumb>li.is-marked>a {
   color: #d90429;
-}
+} */
 
 /* Page introduction style a */
 .page-style-a {
