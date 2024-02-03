@@ -6,7 +6,6 @@ import { addtocart } from '../../../redux/slice/cart.slice';
 
 function Wishlist({ CartIncDec }) {
 
-    const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch()
 
     const product = useSelector(state => state.products)
@@ -24,18 +23,11 @@ function Wishlist({ CartIncDec }) {
     const matchedProducts = allproduct.filter(product => allWishlist.includes(product.id));
     console.log(matchedProducts);
 
-    const handleIncrease = () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
-    }
-
-    const handleDecrease = () => {
-        setQuantity(prevQuantity => Math.max(1, prevQuantity - 1));
-    }
 
     const HandleAddtocart = (event, v) => {
         event.preventDefault();
 
-        dispatch(addtocart({ id: v.id, qty: quantity }))
+        dispatch(addtocart({ id: v.id, qty: 1 }))
 
         CartIncDec((prev) => prev + 1)
 
@@ -79,7 +71,6 @@ function Wishlist({ CartIncDec }) {
                                                 <th>Product</th>
                                                 <th>Unit Price</th>
                                                 <th>Stock Status</th>
-                                                <th>Quality</th>
                                                 <th />
                                             </tr>
                                         </thead>
@@ -110,21 +101,7 @@ function Wishlist({ CartIncDec }) {
                                                                     }
                                                                 </div>
                                                             </td>
-                                                            <td>
-                                                                <div className="quantity">
-                                                                    <input
-                                                                        type="text"
-                                                                        className="quantity-text-field"
-                                                                        value={quantity}
-                                                                    />
-                                                                    <a className="plus-a" onClick={handleIncrease}>
-                                                                        +
-                                                                    </a>
-                                                                    <a className="minus-a" onClick={handleDecrease}>
-                                                                        -
-                                                                    </a>
-                                                                </div>
-                                                            </td>
+                                                           
                                                             <td>
                                                                 <div className="action-wrapper">
                                                                     <button onClick={(event) => HandleAddtocart(event, v)} className="button button-outline-secondary">Add to Cart</button>
