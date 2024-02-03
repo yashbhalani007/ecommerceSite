@@ -1,7 +1,13 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../../redux/slice/product.slice';
+import { removefromwishlist } from '../../../redux/slice/wishlist.slice';
+import { addtocart } from '../../../redux/slice/cart.slice';
 
-function Wishlist(props) {
+function Wishlist({ CartIncDec }) {
+
+    const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch()
 
     const product = useSelector(state => state.products)
     const allproduct = product.products;
@@ -11,6 +17,37 @@ function Wishlist(props) {
     const allWishlist = wishlist.wishlist
     console.log(allWishlist);
 
+    useEffect(() => {
+        dispatch(getProduct())
+    }, []);
+
+    const matchedProducts = allproduct.filter(product => allWishlist.includes(product.id));
+    console.log(matchedProducts);
+
+    const handleIncrease = () => {
+        setQuantity(prevQuantity => prevQuantity + 1);
+    }
+
+    const handleDecrease = () => {
+        setQuantity(prevQuantity => Math.max(1, prevQuantity - 1));
+    }
+
+    const HandleAddtocart = (event, v) => {
+        event.preventDefault();
+
+        dispatch(addtocart({ id: v.id, qty: quantity }))
+
+        CartIncDec((prev) => prev + 1)
+
+    }
+
+    const handleRemove = (id) => {
+        console.log(id);
+        dispatch(removefromwishlist(id))
+    }
+
+
+
     return (
         <div id='app'>
             <div>
@@ -18,6 +55,20 @@ function Wishlist(props) {
                 {/* Wishlist-Page */}
                 <div className="page-wishlist u-s-p-t-80">
                     <div className="container">
+
+                        {/* <div className="page-intro">
+                            <h2>Wishlist</h2>
+                            <ul className="bread-crumb">
+                                <li className="has-separator">
+                                    <i className="ion ion-md-home" />
+                                    <a href="home.html">Home</a>
+                                </li>
+                                <li className="is-marked">
+                                    <a href="cart.html">Wishlist</a>
+                                </li>
+                            </ul>
+                        </div> */}
+
                         <div className="row">
                             <div className="col-lg-12">
                                 {/* Products-List-Wrapper */}
@@ -28,43 +79,64 @@ function Wishlist(props) {
                                                 <th>Product</th>
                                                 <th>Unit Price</th>
                                                 <th>Stock Status</th>
+                                                <th>Quality</th>
                                                 <th />
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {
-                                                allWishlist.map((v) => {
+                                                matchedProducts.map((v) => {
                                                     console.log(v);
                                                     return (
                                                         <tr>
                                                             <td>
                                                                 <div className="cart-anchor-image">
                                                                     <a href="single-product.html">
-                                                                        <img src="../assets/images/product/product@1x.jpg" alt="Product" />
-                                                                        <h6>Casual Hoodie Full Cotton</h6>
+                                                                        <img src={v.fileurl?.[0]} alt="Product" />
+                                                                        <h6>{v.product_name}</h6>
                                                                     </a>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div className="cart-price">
-                                                                    $55.00
+                                                                    ${v.price}
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div className="cart-stock">
-                                                                    In Stock
+
+                                                                    {
+                                                                        v.sizes.some(sizeOption => sizeOption.stock > 0) ? <span>In Stock</span> : <span>Out of Stock</span>
+                                                                    }
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div className="quantity">
+                                                                    <input
+                                                                        type="text"
+                                                                        className="quantity-text-field"
+                                                                        value={quantity}
+                                                                    />
+                                                                    <a className="plus-a" onClick={handleIncrease}>
+                                                                        +
+                                                                    </a>
+                                                                    <a className="minus-a" onClick={handleDecrease}>
+                                                                        -
+                                                                    </a>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div className="action-wrapper">
-                                                                    <button className="button button-outline-secondary">Add to Cart</button>
-                                                                    <button className="button button-outline-secondary fas fa-trash" />
+                                                                    <button onClick={(event) => HandleAddtocart(event, v)} className="button button-outline-secondary">Add to Cart</button>
+                                                                    <button onClick={() => handleRemove(v.id)} className="button button-outline-secondary fas fa-trash" />
                                                                 </div>
                                                             </td>
                                                         </tr>
                                                     )
                                                 })
                                             }
+
+
 
                                         </tbody>
                                     </table>

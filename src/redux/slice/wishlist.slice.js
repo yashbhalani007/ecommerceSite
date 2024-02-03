@@ -12,8 +12,9 @@ export const wishlistSlice = createSlice({
     initialState,
     reducers: {
         addtowishlist: (state, action) => {
+            console.log(action.payload);
             const itemToAdd = action.payload; 
-            state.wishlist = [...state.wishlist, itemToAdd];
+            state.wishlist = [...state.wishlist, itemToAdd.id];
         },
 
         removefromwishlist: (state, action) => {

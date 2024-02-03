@@ -22,26 +22,27 @@ import Conformation from '../user/container/Conformation/Conformation';
 import NewArrival from '../user/container/NewArrival/NewArrival';
 import Category from '../user/container/Category/Category';
 import Error from '../Error';
+import { useSelector } from 'react-redux';
 
 
 function UserRoutes(props) {
 
     const [cartValue, setCartValue] = useState(0)
     const [subCategoryvalue, setsubCategory] = useState([])
-    const [favItem, setFavItem] = useState([]);
-    
-    console.log(favItem);
+
+    const wishlist = useSelector(state => state.wishlist);
+    const allWishlist = wishlist.wishlist
 
     return (
         <>
-            <Header setsubCategory={setsubCategory}  cartValue={cartValue} favItem={favItem}/>
+            <Header setsubCategory={setsubCategory}  cartValue={cartValue} favItem={allWishlist}/>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/Cart" element={<Cart />} />
-                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/wishlist" element={<Wishlist CartIncDec={setCartValue} />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/category/:categoryName" element={<Category subCategoryvalue={subCategoryvalue} CartIncDec={setCartValue} />} />
-                <Route path="/product_Details/:id" element={<Singlepage CartIncDec={setCartValue} favItem={favItem} setFavItem={setFavItem} />} />
+                <Route path="/product_Details/:id" element={<Singlepage CartIncDec={setCartValue} />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
