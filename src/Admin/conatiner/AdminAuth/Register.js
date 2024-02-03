@@ -129,10 +129,10 @@ function Register(props) {
                                         </>
                                     }
                                     {step === 1 &&
-                                        <button className="button button-primary w-100" onClick={() => setStep(step + 1)} style={{ width: '150px' }}>Next</button>
+                                        <button className="button button-primary w-100 registerbtn" onClick={() => setStep(step + 1)}>Next</button>
                                     }
                                     {step === 2 &&
-                                        <button className="button button-primary w-100" type='submit'>Register</button>
+                                        <button className="button button-primary w-100 registerbtn" type='submit'>Register</button>
                                     }
                                 </Form>
                             )}

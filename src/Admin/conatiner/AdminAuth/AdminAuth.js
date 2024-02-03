@@ -127,7 +127,7 @@ function AdminAuth(props) {
                             }
                             <div className="m-b-45">
                                 {formName === 'login' ?
-                                    <button className="button button-outline-secondary w-100" type='submit'>Login</button> :
+                                    <button className="button button-outline-secondary w-100 loginbtn" type='submit'>Login</button> :
                                     <div className="page-anchor">
                                         <button className="button button-outline-secondary" type='submit'>Get Reset Link</button>
                                         <a onClick={() => setFormName('login')}>

@@ -832,3 +832,23 @@ a.more-link {
 .approve_div {
     margin: 40px 0;
 }
+
+.loginbtn {
+    background-color: #d90429;
+    color: white;
+    border: none;
+}
+
+.loginbtn:hover {
+    background-color: #a0152d;
+    border: none;
+}
+
+.registerbtn {
+    width: 150px;
+}
+
+.registerbtn:hover {
+    background-color: #a0152d;
+    border: none;
+}

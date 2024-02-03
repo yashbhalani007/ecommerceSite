@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../../redux/slice/product.slice";
 import { SignalCellularNullRounded } from "@mui/icons-material";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 
 function CustomTabPanel(props) {
@@ -50,8 +52,9 @@ function a11yProps(index) {
 
 function Inventory(props) {
   const [value, setValue] = React.useState(0);
-  console.log(value);
-  const [data, setData] = React.useState(0);
+  // const [data, setData] = React.useState(0);
+  const [productDatas, setProductDatas] = useState([])
+  const [currentUser, setCurrentUser] = useState(null)
   const dispatch = useDispatch();
   const productData = useSelector(state => state.products)
 
@@ -59,7 +62,7 @@ function Inventory(props) {
 
   console.log(allproduct);
 
-  const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
+  const uniqueProducts = productDatas.reduce((accumulator, currentProduct) => {
     // Check if the current product's group_id is already in the accumulator
     const existingProduct = accumulator.find(
       (product) => product.group_id === currentProduct.group_id
@@ -73,15 +76,42 @@ function Inventory(props) {
     return accumulator;
   }, []);
 
-  console.log(uniqueProducts);
+  // console.log(uniqueProducts);
 
   // const fData = productData.products.filter((v) => v.status == 'approve');
   // console.log(fData);
 
   useEffect(() => {
-    dispatch(getProduct());
-  }, [productData.products])
+    getUser()
+  }, [])
 
+  useEffect(() => {
+    dispatch(getProduct());
+  }, [])
+
+  useEffect(() => {
+    if (productData.products) {
+        const filteredData = productData.products
+            .filter((product) => product.supplier_id === currentUser)
+            .filter((product) => product.fileurl); // Only include items with fileurl
+            setProductDatas(filteredData);
+    }
+}, [currentUser, productData.products])
+
+  const getUser = async () => {
+    try {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const uid = user.uid;
+          setCurrentUser(uid)
+        } else {
+
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -96,10 +126,10 @@ function Inventory(props) {
   }
 
 
- const handleCustomTabPannel = () => {
-  
- }
- 
+  const handleCustomTabPannel = () => {
+
+  }
+
 
 
 
@@ -128,12 +158,12 @@ function Inventory(props) {
 
       {
         value === 0 ?
-        
+
           uniqueProducts.map((v) => {
             return (
               <div className="contentTop">
-                <div className="row product-container list-style col-6">
-                  <div className="product-item new-product-itam col-lg-4 col-md-6 col-sm-6">
+                <div className="row product-container list-style col-5">
+                  <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
                     <div className="new-item">
                       <div className="new-image-container">
                         <a className="item-img-wrapper-link" href="single-product.html">
