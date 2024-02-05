@@ -790,6 +790,7 @@ progress {
 
 .col {
   flex: 1 0 0%;
+  flex-direction: column;
 }
 
 .row-cols-auto > * {

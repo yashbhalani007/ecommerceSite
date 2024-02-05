@@ -15,7 +15,8 @@ import { getProduct } from "../../../redux/slice/product.slice";
 import { SignalCellularNullRounded } from "@mui/icons-material";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../firebase";
-import { Col, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 
 function CustomTabPanel(props) {
@@ -56,6 +57,7 @@ function Inventory(props) {
   // const [data, setData] = React.useState(0);
   const [productDatas, setProductDatas] = useState([])
   const [currentUser, setCurrentUser] = useState(null)
+  const [clickedProduct, setClickedProduct] = useState([]);
   const dispatch = useDispatch();
   const productData = useSelector(state => state.products)
 
@@ -63,13 +65,13 @@ function Inventory(props) {
 
 
   const uniqueProducts = productDatas.reduce((accumulator, currentProduct) => {
-    // Check if the current product's group_id is already in the accumulator
+
     const existingProduct = accumulator.find(
       (product) => product.group_id === currentProduct.group_id
     );
 
 
-    // If not found, add the current product to the accumulator
+
     if (!existingProduct) {
       accumulator.push(currentProduct);
     }
@@ -137,6 +139,12 @@ function Inventory(props) {
 
   }
 
+  const handleclick = (id) => {
+    const Product = uniqueProducts.find((product) => product.id === id);
+    setClickedProduct([Product])
+  }
+
+  console.log(clickedProduct);
 
   return (
     <>
@@ -160,28 +168,114 @@ function Inventory(props) {
           {handleCustomTabPannel()}
         </CustomTabPanel>
       </Box>
+      <Container>
+        <div className="mainbox">
+          <div className="box1">
+            {
+              value === 0 ?
 
-      {
-        value === 0 ?
+                uniqueProducts.map((v) => {
 
-          uniqueProducts.map((v) => {
+                  return (
+                    <>
+                      <div className="product-container list-style">
+                        <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                          <div className="new-item">
+                            <div className="new-image-container">
+                              <a className="item-img-wrapper-link" onClick={() => handleclick(v.id)}>
+                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              </a>
+                            </div>
+                            <div className="item-content">
+                              <div className="what-product-is">
+                                <h6 className="new-tem-title">
+                                  <a href="single-product.html">Mischka Plain Men T-Shirt</a>
+                                </h6>
+                                <div className="item-stars">
+                                  <span>Group-Id : 1234567</span>
+                                </div>
+                              </div>
+                              <div className="price-template">
+                                <div className="new-item-new-price">
+                                  <span>Category : T-Shirts</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )
 
-            return (
-              <>
-                <Row>
-                  <Col className="contentTop">
-                    <div className="row product-container list-style">
-                      <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                }) : null
+            }
+          </div>
+          <div className="box2">
+            <Row>
+              {
+                clickedProduct.length > 0 && clickedProduct.map((v) => {
+                  return (
+                    <>
+                      <Col key={v.id}>
+                        <div className="new-image-container">
+                          <a className="item-img-wrapper-link">
+                            <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                          </a>
+                        </div>
+                      </Col>
+                      <Col>
+                        <div className="item-stars">
+                          <span>Description: {v.description}</span>
+                        </div>
+                      </Col>
+
+                      <Col>
+                        {/* {
+                          v.sizes.map((val) => {
+                            console.log(val);
+                            return (
+                              <>
+                                  <span style={{ textTransform: 'uppercase', display: 'block', fontSize: '14px' }}>{`${val.size}  -  ${val.stock} `}</span>
+                              </>
+                          )
+                          })
+                        } */}
+                      </Col>
+
+                    </>
+                  );
+                })
+              }
+
+
+            </Row>
+          </div>
+        </div>
+
+      </Container>
+
+      <Row>
+        <Col className="contentTop">
+
+          {
+            value === 1 ?
+
+              filteredProducts.map((val) => {
+                console.log(val);
+                return (
+                  <div className="row product-container list-style">
+                    <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                      <Link>
                         <div className="new-item">
                           <div className="new-image-container">
-                            <a className="item-img-wrapper-link" href="single-product.html">
-                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                            <a className="item-img-wrapper-link">
+                              <img className="new-img-fluid" src={val.fileurl} alt="Product" />
                             </a>
                           </div>
                           <div className="item-content">
                             <div className="what-product-is">
                               <h6 className="new-tem-title">
-                                <a href="single-product.html">Mischka Plain Men T-Shirt</a>
+                                <a>Mischka Plain Men T-Shirt</a>
                               </h6>
                               <div className="item-stars">
                                 <span>Group-Id : 1234567</span>
@@ -194,60 +288,19 @@ function Inventory(props) {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </div>
-                  </Col>
+                  </div>
+                )
 
-                  <Col xs={8} className="outStock">
-                    <Row className="product-container list-style">
-                      {
-                        filteredProducts.map((val) => {
-                          console.log(val);
-                          return (
-                            <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
-                              <div className="new-item">
-                                <div className="new-image-container">
-                                  <a className="item-img-wrapper-link" href="single-product.html">
-                                    <img className="new-img-fluid" src={val.fileurl} alt="Product" />
-                                  </a>
-                                </div>
-                                <div className="item-content">
-                                  <div className="what-product-is">
-                                    <h6 className="new-tem-title">
-                                      <a href="single-product.html">Mischka Plain Men T-Shirt</a>
-                                    </h6>
-                                    <div className="item-stars">
-                                      <span>Group-Id : 1234567</span>
-                                    </div>
-                                  </div>
-                                  <div className="price-template">
-                                    <div className="new-item-new-price">
-                                      <span>Category : T-Shirts</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>)
-
-                        })
-                      }
-
-
-                    </Row>
-
-                  </Col>
-                </Row>
-              </>
-            )
-
-          })
+              }) : null
+          }
 
 
 
-          : null
-      }
 
-
+        </Col>
+      </Row>
 
     </>
   );
