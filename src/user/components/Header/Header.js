@@ -11,7 +11,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 function Header({ setsubCategory, favItem }) {
-console.log(favItem);
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
