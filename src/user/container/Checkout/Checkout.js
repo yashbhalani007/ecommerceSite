@@ -1,6 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function Checkout(props) {
+    const cart = useSelector(state => state.cart)
+    const cartData = cart.cart
+    const product = useSelector(state => state.products)
+    const productData = product.products
+    const dispatch = useDispatch()
+
+    // const cartItem = cartData.map((Obj) => {
+    //     const matchingProduct = productData.filter((product) => Obj.id === product.id)[0];
+    //     return matchingProduct;
+    // });
+
+    const orderTotal = cartData.reduce((total, item) => {
+        const product = productData.find(product => item.id === product.id);
+        console.log(product);
+
+        if (product) {
+            
+        }
+        // if (product) {
+            
+        //     const productTotal = product.price * item.qty;
+        //     return total + productTotal;
+        // }
+    
+        return total;
+    }, 0);
+    
+    const grandTotal = orderTotal;
+    console.log(grandTotal);
+    // console.log(cartItem);    
+
     return (
         <div id='app'>
             <div>
@@ -11,10 +44,10 @@ function Checkout(props) {
                             <ul className="bread-crumb">
                                 <li className="has-separator">
                                     <i className="ion ion-md-home" />
-                                    <a href="home.html">Home</a>
+                                    <Link to='/' >Home</Link>
                                 </li>
                                 <li className="is-marked">
-                                    <a href="checkout.html">Checkout</a>
+                                    <a href="#">Checkout</a>
                                 </li>
                             </ul>
                         </div>
@@ -27,7 +60,7 @@ function Checkout(props) {
                         <div className="row">
                             <div className="col-lg-12 col-md-12">
                                 {/* First-Accordion */}
-                                <div>
+                                {/* <div>
                                     <div className="message-open u-s-m-b-24">
                                         Returning customer?
                                         <strong>
@@ -63,10 +96,10 @@ function Checkout(props) {
                                             </div>
                                         </form>
                                     </div>
-                                </div>
+                                </div> */}
                                 {/* First-Accordion /- */}
                                 {/* Second Accordion */}
-                                <div>
+                                {/* <div>
                                     <div className="message-open u-s-m-b-24">
                                         Have a coupon?
                                         <strong>
@@ -83,7 +116,7 @@ function Checkout(props) {
                                             <button type="submit" className="button">Apply Coupon</button>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 {/* Second Accordion /- */}
                                 <form>
                                     <div className="row">
@@ -112,6 +145,7 @@ function Checkout(props) {
                                                 <div className="select-box-wrapper">
                                                     <select className="select-box" id="select-country">
                                                         <option selected="selected" value>Choose your country...</option>
+                                                        <option value>India (IN)</option>
                                                         <option value>United Kingdom (UK)</option>
                                                         <option value>United States (US)</option>
                                                         <option value>United Arab Emirates (UAE)</option>
@@ -271,50 +305,27 @@ function Checkout(props) {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 className="order-h6">Casual Hoodie Full Cotton</h6>
-                                                                <span className="order-span-quantity">x 1</span>
-                                                            </td>
-                                                            <td>
-                                                                <h6 className="order-h6">$55.00</h6>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 className="order-h6">Black Rock Dress with High Jewelery Necklace</h6>
-                                                                <span className="order-span-quantity">x 1</span>
-                                                            </td>
-                                                            <td>
-                                                                <h6 className="order-h6">$55.00</h6>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 className="order-h6">Xiaomi Note 2 Black Color</h6>
-                                                                <span className="order-span-quantity">x 1</span>
-                                                            </td>
-                                                            <td>
-                                                                <h6 className="order-h6">$55.00</h6>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h6 className="order-h6">Dell Inspiron 15</h6>
-                                                                <span className="order-span-quantity">x 1</span>
-                                                            </td>
-                                                            <td>
-                                                                <h6 className="order-h6">$55.00</h6>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <h3 className="order-h3">Subtotal</h3>
-                                                            </td>
-                                                            <td>
-                                                                <h3 className="order-h3">$220.00</h3>
-                                                            </td>
-                                                        </tr>
+                                                        {cartData &&
+                                                            cartData.map((Obj) => {
+                                                                return productData.map((product) => {
+                                                                    if (Obj.id === product.id) {
+                                                                        return (
+                                                                            <>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <h6 className="order-h6">{product.product_name}</h6>
+                                                                                        <span className="order-span-quantity">x {Obj.qty}</span>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <h6 className="order-h6">${product.price * Obj.qty}</h6>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </>
+                                                                        )
+                                                                    }
+                                                                })
+                                                            })
+                                                        }
                                                         <tr>
                                                             <td>
                                                                 <h3 className="order-h3">Shipping</h3>
@@ -336,7 +347,7 @@ function Checkout(props) {
                                                                 <h3 className="order-h3">Total</h3>
                                                             </td>
                                                             <td>
-                                                                <h3 className="order-h3">$220.00</h3>
+                                                                <h3 className="order-h3">${grandTotal}</h3>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -376,3 +387,31 @@ function Checkout(props) {
 }
 
 export default Checkout;
+
+{/* <tr>
+                                                            <td>
+                                                                <h6 className="order-h6">Black Rock Dress with High Jewelery Necklace</h6>
+                                                                <span className="order-span-quantity">x 1</span>
+                                                            </td>
+                                                            <td>
+                                                                <h6 className="order-h6">$55.00</h6>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h6 className="order-h6">Xiaomi Note 2 Black Color</h6>
+                                                                <span className="order-span-quantity">x 1</span>
+                                                            </td>
+                                                            <td>
+                                                                <h6 className="order-h6">$55.00</h6>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <h6 className="order-h6">Dell Inspiron 15</h6>
+                                                                <span className="order-span-quantity">x 1</span>
+                                                            </td>
+                                                            <td>
+                                                                <h6 className="order-h6">$55.00</h6>
+                                                            </td>
+                                                        </tr> */}

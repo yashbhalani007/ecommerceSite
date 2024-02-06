@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProduct } from '../../../redux/slice/product.slice';
 import { addtocart, decrementQty, incrementQty, removeItem } from '../../../redux/slice/cart.slice';
+import { Link } from 'react-router-dom';
 
 function Cart(props) {
 
@@ -19,9 +20,7 @@ function Cart(props) {
     let cartitems = c1.cart.map((v) => {
         console.log(v.qty);
         let productsItems = allproduct.find((p) => p.id === v.id);
-        // if() {
 
-        // }
         let NewData = { ...productsItems, qty: v.qty };
         console.log(NewData);
         return NewData
@@ -46,6 +45,8 @@ function Cart(props) {
         console.log(id);
         dispatch(removeItem(id))
     }
+
+
 
     return (
 
@@ -123,8 +124,8 @@ function Cart(props) {
                                             </div>
                                         </div>
                                         <div className="button-area">
-                                            <a href="shop-v1-root-category.html" className="continue">Continue Shopping</a>
-                                            <a href="checkout.html" className="checkout">Proceed to Checkout</a>
+                                            <Link to='/' className="continue">Continue Shopping</Link>
+                                            <Link to='/checkout' className="checkout">Proceed to Checkout</Link>
                                         </div>
                                     </div>
                                     {/* Coupon /- */}
