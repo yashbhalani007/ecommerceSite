@@ -1589,6 +1589,20 @@ body {
 }
 
 /* Product component */
+
+.mainbox {
+  display: flex;
+}
+
+.box1 {
+  width: 36%;
+}
+
+.box2 {
+  border: 1px solid gray;
+  width: 100%;
+}
+
 .item {
   background-color: #ffffff;
   border: 1px solid #DCDCDD;
@@ -1599,9 +1613,8 @@ body {
 
 .new-item {
   background-color: #ffffff;
-  border: 1px solid #DCDCDD;
   position: relative;
-  overflow: hidden;
+  cursor: pointer;
 }
 
 .image-container {
@@ -4584,6 +4597,8 @@ body {
 * removing this property, all other flex properties are futile. */
 .list-style {
   display: block;
+  border: 1px solid gray;
+  margin: 2px;
 }
 
 .list-style .product-item {
@@ -4594,14 +4609,21 @@ body {
 
 .list-style .new-product-itam {
   display: block;
-  width: 80%;
+  width: 60%;
+  max-width: 100%;
+  margin: 4px;
+}
+
+.list-style .outofstock-itam {
+  display: block;
+  width: 36%;
   max-width: 100%;
 }
 
 .list-style .item {
   display: table;
   border-spacing: 20px;
-  margin: 0 0 30px;
+  /* margin: 0 0 30px; */
   width: 900px;
   cursor: pointer;
 }
