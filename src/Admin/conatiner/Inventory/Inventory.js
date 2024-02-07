@@ -17,6 +17,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../../firebase";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { ButtonBase } from "@mui/material";
 
 
 function CustomTabPanel(props) {
@@ -54,23 +55,21 @@ function a11yProps(index) {
 
 function Inventory(props) {
   const [value, setValue] = React.useState(0);
-  // const [data, setData] = React.useState(0);
   const [productDatas, setProductDatas] = useState([])
   const [currentUser, setCurrentUser] = useState(null)
   const [clickedProduct, setClickedProduct] = useState([]);
+  const [clickedsecondProduct, setClickedsecondProduct] = useState([]);
+  const [clickedlowstock, setClickedlowstock] = useState([]);
   const dispatch = useDispatch();
   const productData = useSelector(state => state.products)
 
   const allproduct = productData.products;
-
 
   const uniqueProducts = productDatas.reduce((accumulator, currentProduct) => {
 
     const existingProduct = accumulator.find(
       (product) => product.group_id === currentProduct.group_id
     );
-
-
 
     if (!existingProduct) {
       accumulator.push(currentProduct);
@@ -85,10 +84,11 @@ function Inventory(props) {
     return uniqueProducts.sizes.some(size => size.stock === 0);
   });
 
-  console.log(filteredProducts);
+  const lowstockProducts = uniqueProducts.filter(uniqueProducts => {
+    return uniqueProducts.sizes.some(size => size.stock > 0 && size.stock < 7);
+  });
 
-  // const fData = productData.products.filter((v) => v.status == 'approve');
-  // console.log(fData);
+  console.log(lowstockProducts);
 
   useEffect(() => {
     getUser()
@@ -141,7 +141,42 @@ function Inventory(props) {
 
   const handleclick = (id) => {
     const Product = uniqueProducts.find((product) => product.id === id);
-    setClickedProduct([Product])
+    const productsArray = [];
+
+    Product.sizes.forEach((size) => {
+      const clonedProduct = { ...Product };
+      clonedProduct.sizes = [size];
+      productsArray.push(clonedProduct);
+    });
+
+    setClickedProduct(productsArray)
+
+  }
+
+  const handlesecondclick = (id) => {
+    const Product = uniqueProducts.find((product) => product.id === id);
+    const productsArray = [];
+
+    Product.sizes.forEach((size) => {
+      const clonedProduct = { ...Product };
+      clonedProduct.sizes = [size];
+      productsArray.push(clonedProduct);
+    });
+
+    setClickedsecondProduct(productsArray)
+  }
+
+  const handlesLowstock = (id) => {
+    const Product = uniqueProducts.find((product) => product.id === id);
+    const productsArray = [];
+
+    Product.sizes.forEach((size) => {
+      const clonedProduct = { ...Product };
+      clonedProduct.sizes = [size];
+      productsArray.push(clonedProduct);
+    });
+
+    setClickedlowstock(productsArray)
   }
 
   console.log(clickedProduct);
@@ -170,6 +205,7 @@ function Inventory(props) {
       </Box>
       <Container>
         <div className="mainbox">
+
           <div className="box1">
             {
               value === 0 ?
@@ -178,7 +214,7 @@ function Inventory(props) {
 
                   return (
                     <>
-                      <div className="product-container list-style">
+                      <div className="product-container new_style list-style">
                         <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
                           <div className="new-item">
                             <div className="new-image-container">
@@ -189,15 +225,15 @@ function Inventory(props) {
                             <div className="item-content">
                               <div className="what-product-is">
                                 <h6 className="new-tem-title">
-                                  <a href="single-product.html">Mischka Plain Men T-Shirt</a>
+                                  <a href="single-product.html">{v.product_name}</a>
                                 </h6>
                                 <div className="item-stars">
-                                  <span>Group-Id : 1234567</span>
+                                  <span>Group-Id : {v.group_id}</span>
                                 </div>
                               </div>
                               <div className="price-template">
                                 <div className="new-item-new-price">
-                                  <span>Category : T-Shirts</span>
+                                  <span>Category : {v.subcategory}</span>
                                 </div>
                               </div>
                             </div>
@@ -213,94 +249,232 @@ function Inventory(props) {
           <div className="box2">
             <Row>
               {
-                clickedProduct.length > 0 && clickedProduct.map((v) => {
-                  return (
-                    <>
-                      <Col key={v.id}>
-                        <div className="new-image-container">
-                          <a className="item-img-wrapper-link">
-                            <img className="new-img-fluid" src={v.fileurl} alt="Product" />
-                          </a>
-                        </div>
-                      </Col>
-                      <Col>
-                        <div className="item-stars">
-                          <span>Description: {v.description}</span>
-                        </div>
-                      </Col>
+                value === 0 ?
+                  clickedProduct.length > 0 && clickedProduct.map((v) => {
+                    return (
+                      <>
+                        <div className="productsize">
+                          <div key={v.id} className="new-image-container">
+                            <a className="item-img-wrapper-link">
+                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                            </a>
+                          </div>
 
-                      <Col>
-                        {/* {
-                          v.sizes.map((val) => {
-                            console.log(val);
-                            return (
-                              <>
-                                  <span style={{ textTransform: 'uppercase', display: 'block', fontSize: '14px' }}>{`${val.size}  -  ${val.stock} `}</span>
-                              </>
-                          )
-                          })
-                        } */}
-                      </Col>
+                          <div className="item-newstar">
+                            <span>product name: {v.product_name}</span>
+                            <span>SKU: {v.sku}</span>
+                            <span>Group-Id : {v.group_id}</span>
+                          </div>
 
-                    </>
-                  );
-                })
+                          <div className="item-newstar">
+                            {
+                              v.sizes.map((val) => {
+                                console.log(val);
+                                return (
+                                  <>
+                                    <span>{`${val.size}  -  ${val.stock} `}</span>
+                                  </>
+                                )
+                              })
+                            }
+                          </div>
+
+                          <button className="button button-outline-secondary">Edit</button>
+                        </div>
+
+
+
+                      </>
+                    );
+                  }) : null
               }
-
-
             </Row>
           </div>
         </div>
 
       </Container>
 
-      <Row>
-        <Col className="contentTop">
+      <Container>
+        <div className="mainbox">
 
-          {
-            value === 1 ?
+          <div className="box1">
+            {
+              value === 1 ?
 
-              filteredProducts.map((val) => {
-                console.log(val);
-                return (
-                  <div className="row product-container list-style">
-                    <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
-                      <Link>
-                        <div className="new-item">
-                          <div className="new-image-container">
-                            <a className="item-img-wrapper-link">
-                              <img className="new-img-fluid" src={val.fileurl} alt="Product" />
-                            </a>
-                          </div>
-                          <div className="item-content">
-                            <div className="what-product-is">
-                              <h6 className="new-tem-title">
-                                <a>Mischka Plain Men T-Shirt</a>
-                              </h6>
-                              <div className="item-stars">
-                                <span>Group-Id : 1234567</span>
-                              </div>
+                filteredProducts.map((v) => {
+
+                  return (
+                    <>
+                      <div className="product-container new_style list-style">
+                        <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                          <div className="new-item">
+                            <div className="new-image-container">
+                              <a className="item-img-wrapper-link" onClick={() => handlesecondclick(v.id)}>
+                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              </a>
                             </div>
-                            <div className="price-template">
-                              <div className="new-item-new-price">
-                                <span>Category : T-Shirts</span>
+                            <div className="item-content">
+                              <div className="what-product-is">
+                                <h6 className="new-tem-title">
+                                  <a href="single-product.html">{v.product_name}</a>
+                                </h6>
+                                <div className="item-stars">
+                                  <span>Group-Id : {v.group_id}</span>
+                                </div>
+                              </div>
+                              <div className="price-template">
+                                <div className="new-item-new-price">
+                                  <span>Category : {v.subcategory}</span>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </Link>
-                    </div>
-                  </div>
-                )
+                      </div>
+                    </>
+                  )
 
-              }) : null
-          }
+                }) : null
+            }
+          </div>
+          <div className="box2">
+            <Row>
+              {
+                value === 1 ?
+                  clickedsecondProduct.length > 0 && clickedsecondProduct.map((v) => {
+                    return (
+                      <>
+                        <div className="productsize">
+                          <div key={v.id} className="new-image-container">
+                            <a className="item-img-wrapper-link">
+                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                            </a>
+                          </div>
+
+                          <div className="item-newstar">
+                            <span>product name: {v.product_name}</span>
+                            <span>SKU: {v.sku}</span>
+                            <span>Group-Id : {v.group_id}</span>
+                          </div>
+
+                          <div className="item-newstar">
+                            {
+                              v.sizes.map((val) => {
+                                console.log(val);
+                                return (
+                                  <>
+                                    <span>{`${val.size}  -  ${val.stock} `}</span>
+                                  </>
+                                )
+                              })
+                            }
+                          </div>
+
+                          <button className="button button-outline-secondary">Edit</button>
+                        </div>
 
 
 
+                      </>
+                    );
+                  }) : null
+              }
+            </Row>
+          </div>
+        </div>
 
-        </Col>
-      </Row>
+      </Container>
+
+      <Container>
+        <div className="mainbox">
+
+          <div className="box1">
+            {
+              value === 2 ?
+
+                lowstockProducts.map((v) => {
+
+                  return (
+                    <>
+                      <div className="product-container new_style list-style">
+                        <div className="product-item new-product-itam col-lg-4 col-md-5 col-sm-5">
+                          <div className="new-item">
+                            <div className="new-image-container">
+                              <a className="item-img-wrapper-link" onClick={() => handlesLowstock(v.id)}>
+                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              </a>
+                            </div>
+                            <div className="item-content">
+                              <div className="what-product-is">
+                                <h6 className="new-tem-title">
+                                  <a href="single-product.html">{v.product_name}</a>
+                                </h6>
+                                <div className="item-stars">
+                                  <span>Group-Id : {v.group_id}</span>
+                                </div>
+                              </div>
+                              <div className="price-template">
+                                <div className="new-item-new-price">
+                                  <span>Category : {v.subcategory}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )
+
+                }) : null
+            }
+          </div>
+          <div className="box2">
+            <Row>
+              {
+                value === 2 ?
+                  clickedlowstock.length > 0 && clickedlowstock.map((v) => {
+                    return (
+                      <>
+                        <div className="productsize">
+                          <div key={v.id} className="new-image-container">
+                            <a className="item-img-wrapper-link">
+                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                            </a>
+                          </div>
+
+                          <div className="item-newstar">
+                            <span>product name: {v.product_name}</span>
+                            <span>SKU: {v.sku}</span>
+                            <span>Group-Id : {v.group_id}</span>
+                          </div>
+
+                          <div className="item-newstar">
+                            {
+                              v.sizes.map((val) => {
+                                console.log(val);
+                                return (
+                                  <>
+                                    <span>{`${val.size}  -  ${val.stock} `}</span>
+                                  </>
+                                )
+                              })
+                            }
+                          </div>
+
+                          <button className="button button-outline-secondary">Edit</button>
+                        </div>
+
+
+
+                      </>
+                    );
+                  }) : null
+              }
+            </Row>
+          </div>
+        </div>
+
+      </Container>
 
     </>
   );
