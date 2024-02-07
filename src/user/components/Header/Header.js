@@ -6,11 +6,13 @@ import { userLogoutRequest } from "../../../redux/action/adminauth.action";
 import { getCategoryData } from "../../../redux/slice/category.slice";
 import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
 import { getProduct } from "../../../redux/slice/product.slice";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-function Header({ setsubCategory, favItem }) {
+function Header({ favItem }) {
+
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [newvalue, setValue] = useState([]);
+  console.log(newvalue);
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ function Header({ setsubCategory, favItem }) {
   const product = useSelector(state => state.products)
 
   const allproduct = product.products;
-
+  
   const c1 = useSelector(state => state.cart)
   let qty = 0;
 
@@ -53,21 +55,33 @@ function Header({ setsubCategory, favItem }) {
     dispatch(getCategoryData())
     dispatch(getSubCategoryData())
     dispatch(getProduct())
+
   }, []);
 
   const handleLogout = () => {
     dispatch(userLogoutRequest())
   }
 
+  useEffect(() => {
+
+    const storedValue = localStorage.getItem('subCategoryValue');
+    if (storedValue) {
+      setValue(storedValue);
+    }
+  }, []); 
+
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
+    
+    localStorage.setItem('subCategoryValue', selectedCategory);
 
-    setsubCategory(selectedCategory);
-    // Check if a category is selected before navigating
+    const stored = localStorage.getItem('subCategoryValue');
+    console.log(stored);
+
     if (selectedCategory) {
       navigate(`/category/${selectedCategory}`);
     }
-    // <Category subCat = {selectedCategory} />
+
   };
 
 
@@ -217,7 +231,7 @@ function Header({ setsubCategory, favItem }) {
 
                         <select className="select-box" id="select-category" onChange={handleCategoryChange} >
 
-                          <option selected="selected" value='All'>
+                          <option value='All'>
                             All
                           </option>
 
@@ -228,7 +242,6 @@ function Header({ setsubCategory, favItem }) {
                               <option key={v.category} value={v.category}>
                                 {v.category}
                               </option>
-
 
                             )
                           })}

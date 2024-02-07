@@ -77,10 +77,8 @@ function Singlepage({ CartIncDec }) {
         const isItemInWishlist = allWishlist.includes(id);
 
         if (isItemInWishlist) {
-            // If the item is in the wishlist, dispatch the removefromwishlist action
             dispatch(removefromwishlist({ id }));
         } else {
-            // If the item is not in the wishlist, dispatch the addtowishlist action
             dispatch(addtowishlist({ id }));
         }
     }

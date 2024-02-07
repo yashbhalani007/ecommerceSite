@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../user/components/Header/Header';
 import Footer from '../user/components/Footer/Footer';
 import { Route, Routes } from 'react-router-dom';
@@ -28,20 +28,20 @@ import { useSelector } from 'react-redux';
 function UserRoutes(props) {
 
     const [cartValue, setCartValue] = useState(0)
-    const [subCategoryvalue, setsubCategory] = useState([])
 
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
 
+
     return (
         <>
-            <Header setsubCategory={setsubCategory}  cartValue={cartValue} favItem={allWishlist}/>
+            <Header cartValue={cartValue} favItem={allWishlist}/>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist CartIncDec={setCartValue} />} />
                 <Route path="/checkout" element={<Checkout />} />
-                <Route path="/category/:categoryName" element={<Category subCategoryvalue={subCategoryvalue} CartIncDec={setCartValue} />} />
+                <Route path="/category/:categoryName" element={<Category CartIncDec={setCartValue} />} />
                 <Route path="/product_Details/:id" element={<Singlepage CartIncDec={setCartValue} />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/about" element={<About />} />

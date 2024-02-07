@@ -7,39 +7,48 @@ import { Link } from 'react-router-dom';
 import { addtocart } from '../../../redux/slice/cart.slice';
 import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
 
-function Category({ subCategoryvalue, CartIncDec }) {
-    console.log(subCategoryvalue);
+function Category({ CartIncDec }) {
+
+    const [getCategory, setGetCategory] = useState([])
+    console.log(getCategory);
+
+    const [value, setValue] = useState('');
+    console.log(value);
+
+
     const dispatch = useDispatch()
 
-    const [selectedSubcategory, setSelectedSubcategory] = useState('All');
+    useEffect(() => {
+
+        const storedValue = localStorage.getItem('subCategoryValue');
+        if (storedValue) {
+            setValue(storedValue);
+        }
+    }, []);
+
+    // const [selectedSubcategory, setSelectedSubcategory] = useState('All');
 
     const subcategory = useSelector(state => state.subcategory)
 
     const product = useSelector(state => state.products)
-    // console.log(product.products);
-
     const allproduct = product.products;
-
-    console.log(allproduct);
 
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
 
-    const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
-        // Check if the current product's group_id is already in the accumulator
-        const existingProduct = accumulator.find(
-            (product) => product.group_id === currentProduct.group_id
-        );
+    // const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
+    //     const existingProduct = accumulator.find(
+    //         (product) => product.group_id === currentProduct.group_id
+    //     );
 
-        // If not found, add the current product to the accumulator
-        if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
-            accumulator.push(currentProduct);
-        }
+    //     if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
+    //         accumulator.push(currentProduct);
+    //     }
 
-        return accumulator;
-    }, []);
+    //     return accumulator;
+    // }, []);
 
-    console.log(uniqueProducts);
+
 
     useEffect(() => {
         dispatch(getCategoryData())
@@ -50,8 +59,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
 
     const handleClick = (event, subcategoryValue) => {
         event.preventDefault();
-        console.log(subcategoryValue);
-        setSelectedSubcategory(subcategoryValue);
+        setGetCategory(subcategoryValue);
     }
 
     const handleWishlist = (event, id) => {
@@ -60,10 +68,8 @@ function Category({ subCategoryvalue, CartIncDec }) {
         const isItemInWishlist = allWishlist.includes(id);
 
         if (isItemInWishlist) {
-            // If the item is in the wishlist, dispatch the removefromwishlist action
             dispatch(removefromwishlist({ id }));
         } else {
-            // If the item is not in the wishlist, dispatch the addtowishlist action
             dispatch(addtowishlist({ id }));
         }
     }
@@ -85,7 +91,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                     <div className="container">
 
                         <div className="shop-intro">
-                            <h3>{subCategoryvalue}</h3>
+                            <h3>{getCategory}</h3>
                         </div>
 
                         <div className="row">
@@ -109,13 +115,9 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                 </li>
 
                                                 {subcategory.subcategory.map((item) => {
-                                                    console.log(item);
-                                                    if (subCategoryvalue === 'All') {
+                                                    if (getCategory === 'All') {
                                                         return (
-                                                            // <h3 className="fetch-mark-category" key={item.subcategory}>
-                                                            //     <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
-                                                            //     </a>
-                                                            // </h3>
+
                                                             <li className="js-backdrop" key={item.subcategory}>
                                                                 <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, item.subcategory)}>
                                                                     <i class="ion ion-md-heart"></i>
@@ -124,12 +126,9 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                                 </a>
                                                             </li>
                                                         );
-                                                    } else if (item.category === subCategoryvalue) {
+                                                    } else if (item.category === getCategory) {
                                                         return (
-                                                            // <h3 className="fetch-mark-category">
-                                                            //     <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
-                                                            //     </a>
-                                                            // </h3>
+
                                                             <li className="js-backdrop">
                                                                 <a href="shop-v1-root-category.html" onClick={(event) => handleClick(event, item.subcategory)}>
                                                                     <i class="ion ion-md-heart"></i>
@@ -232,9 +231,9 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                 <div className="row product-container list-style">
 
                                     {
-                                        uniqueProducts.map((v) => {
+                                        allproduct.map((v) => {
 
-                                            if (subCategoryvalue === 'All' && v.status === 'approve') {
+                                            if (getCategory === 'All' && v.status === 'approve') {
                                                 return (
 
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
@@ -248,7 +247,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
-        
+
                                                                         <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
                                                                         <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
                                                                     </div>
@@ -293,7 +292,7 @@ function Category({ subCategoryvalue, CartIncDec }) {
 
                                                     </div>
                                                 )
-                                            } else if (v.category === subCategoryvalue && v.status === 'approve') {
+                                            } else if (v.category === getCategory && v.status === 'approve') {
                                                 return (
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
                                                         <Link to={"/product_Details/" + v.id}>
