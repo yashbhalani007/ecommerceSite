@@ -158,13 +158,10 @@ function Singlepage({ CartIncDec }) {
                                                             <a href="home.html">Home</a>
                                                         </li>
                                                         <li className="has-separator">
-                                                            <a href="shop-v1-root-category.html">Men's Clothing</a>
-                                                        </li>
-                                                        <li className="has-separator">
-                                                            <a href="shop-v2-sub-category.html">Tops</a>
+                                                            <a href="shop-v1-root-category.html">{v.category}</a>
                                                         </li>
                                                         <li className="is-marked">
-                                                            <a href="shop-v3-sub-sub-category.html">Hoodies</a>
+                                                            <a href="shop-v3-sub-sub-category.html">{v.subcategory}</a>
                                                         </li>
                                                     </ul>
                                                     <div className="product-rating">
