@@ -8,6 +8,7 @@ import subcategorySlice from "../slice/subcategory.slice";
 import productSlice from "../slice/product.slice";
 import cartSlice from "../slice/cart.slice";
 import wishlistSlice from "../slice/wishlist.slice";
+import selectcategorySlice from "../slice/selectcategory.slice";
 
 export const rootreducer = combineReducers({
     adminauth: adminAuthReducer,
@@ -18,5 +19,6 @@ export const rootreducer = combineReducers({
     subcategory: subcategorySlice,
     products: productSlice,
     cart: cartSlice,
-    wishlist: wishlistSlice
+    wishlist: wishlistSlice,
+    selectcategory: selectcategorySlice
 })
