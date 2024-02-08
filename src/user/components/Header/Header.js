@@ -1,26 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { userLogoutRequest } from "../../../redux/action/adminauth.action";
 import { getCategoryData } from "../../../redux/slice/category.slice";
 import { getSubCategoryData } from "../../../redux/slice/subcategory.slice";
 import { getProduct } from "../../../redux/slice/product.slice";
+import { setSelectedCategory } from "../../../redux/slice/selectcategory.slice";
 
 
 function Header({ favItem }) {
 
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [newvalue, setValue] = useState([]);
-  console.log(newvalue);
-
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const location = useLocation();
 
   const product = useSelector(state => state.products)
 
+  const selectedCategory = useSelector(state => state.selectcategory.selectedCategory);
+  console.log(selectedCategory);
+
   const allproduct = product.products;
-  
+
   const c1 = useSelector(state => state.cart)
   let qty = 0;
 
@@ -56,33 +57,23 @@ function Header({ favItem }) {
     dispatch(getSubCategoryData())
     dispatch(getProduct())
 
-  }, []);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     dispatch(userLogoutRequest())
   }
 
-  useEffect(() => {
-
-    const storedValue = localStorage.getItem('subCategoryValue');
-    if (storedValue) {
-      setValue(storedValue);
-    }
-  }, []); 
-
   const handleCategoryChange = (event) => {
     const selectedCategory = event.target.value;
-    
-    localStorage.setItem('subCategoryValue', selectedCategory);
 
-    const stored = localStorage.getItem('subCategoryValue');
-    console.log(stored);
+    dispatch(setSelectedCategory(selectedCategory))
 
     if (selectedCategory) {
       navigate(`/category/${selectedCategory}`);
     }
 
   };
+
 
 
 
@@ -229,7 +220,7 @@ function Header({ favItem }) {
                           Choose category for search
                         </label>
 
-                        <select className="select-box" id="select-category" onChange={handleCategoryChange} >
+                        <select className="select-box" value={selectedCategory} id="select-category" onChange={handleCategoryChange} >
 
                           <option value='All'>
                             All
@@ -362,7 +353,7 @@ function Header({ favItem }) {
             <div className="container">
               <div className="row align-items-center">
 
-                
+
 
 
                 <div className="col-lg-9 new">

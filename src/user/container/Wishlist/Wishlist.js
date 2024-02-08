@@ -77,7 +77,6 @@ function Wishlist({ CartIncDec }) {
                                         <tbody>
                                             {
                                                 matchedProducts.map((v) => {
-                                                    console.log(v);
                                                     return (
                                                         <tr>
                                                             <td>

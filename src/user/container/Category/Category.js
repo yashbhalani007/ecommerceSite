@@ -9,24 +9,12 @@ import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist
 
 function Category({ CartIncDec }) {
 
-    const [getCategory, setGetCategory] = useState([])
-    console.log(getCategory);
-
-    const [value, setValue] = useState('');
-    console.log(value);
-
-
     const dispatch = useDispatch()
 
-    useEffect(() => {
+    const selectedCategory = useSelector(state => state.selectcategory.selectedCategory);
+    console.log(selectedCategory);
 
-        const storedValue = localStorage.getItem('subCategoryValue');
-        if (storedValue) {
-            setValue(storedValue);
-        }
-    }, []);
-
-    // const [selectedSubcategory, setSelectedSubcategory] = useState('All');
+    const [selectedSubcategory, setSelectedSubcategory] = useState('All');
 
     const subcategory = useSelector(state => state.subcategory)
 
@@ -36,17 +24,19 @@ function Category({ CartIncDec }) {
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
 
-    // const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
-    //     const existingProduct = accumulator.find(
-    //         (product) => product.group_id === currentProduct.group_id
-    //     );
+    const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
+        const existingProduct = accumulator.find(
+            (product) => product.group_id === currentProduct.group_id
+        );
 
-    //     if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
-    //         accumulator.push(currentProduct);
-    //     }
+        if (!existingProduct && (selectedSubcategory === 'All' || currentProduct.subcategory === selectedSubcategory)) {
+            accumulator.push(currentProduct);
+        }
 
-    //     return accumulator;
-    // }, []);
+        return accumulator;
+    }, []);
+
+    console.log(uniqueProducts);
 
 
 
@@ -59,7 +49,7 @@ function Category({ CartIncDec }) {
 
     const handleClick = (event, subcategoryValue) => {
         event.preventDefault();
-        setGetCategory(subcategoryValue);
+        setSelectedSubcategory(subcategoryValue);
     }
 
     const handleWishlist = (event, id) => {
@@ -91,7 +81,7 @@ function Category({ CartIncDec }) {
                     <div className="container">
 
                         <div className="shop-intro">
-                            <h3>{getCategory}</h3>
+                            <h3>{selectedCategory}</h3>
                         </div>
 
                         <div className="row">
@@ -115,7 +105,7 @@ function Category({ CartIncDec }) {
                                                 </li>
 
                                                 {subcategory.subcategory.map((item) => {
-                                                    if (getCategory === 'All') {
+                                                    if (selectedCategory === 'All') {
                                                         return (
 
                                                             <li className="js-backdrop" key={item.subcategory}>
@@ -126,7 +116,7 @@ function Category({ CartIncDec }) {
                                                                 </a>
                                                             </li>
                                                         );
-                                                    } else if (item.category === getCategory) {
+                                                    } else if (item.category === selectedCategory) {
                                                         return (
 
                                                             <li className="js-backdrop">
@@ -197,9 +187,6 @@ function Category({ CartIncDec }) {
                                         <a id="list-anchor" className="active">
                                             <i className="fas fa-th-list" />
                                         </a>
-                                        <a id="grid-anchor">
-                                            <i className="fas fa-th" />
-                                        </a>
                                     </div>
 
                                     <div className="toolbar-sorter">
@@ -215,25 +202,15 @@ function Category({ CartIncDec }) {
                                         </div>
                                     </div>
 
-                                    <div className="toolbar-sorter-2">
-                                        <div className="select-box-wrapper">
-                                            <label className="sr-only" htmlFor="show-records">Show Records Per Page</label>
-                                            <select className="select-box" id="show-records">
-                                                <option selected="selected" value>Show: 8</option>
-                                                <option value>Show: 16</option>
-                                                <option value>Show: 28</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
                                 </div>
 
                                 <div className="row product-container list-style">
 
                                     {
-                                        allproduct.map((v) => {
+                                        uniqueProducts.map((v) => {
+                                            console.log(v);
 
-                                            if (getCategory === 'All' && v.status === 'approve') {
+                                            if (selectedCategory === 'All' && v.status === 'approve') {
                                                 return (
 
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
@@ -243,7 +220,7 @@ function Category({ CartIncDec }) {
                                                                 <div className="image-container">
 
                                                                     <a className="item-img-wrapper-link" href="product_Details">
-                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                        <img className="img-fluid" src={v.fileurl[0]} alt="Product" />
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
@@ -292,7 +269,7 @@ function Category({ CartIncDec }) {
 
                                                     </div>
                                                 )
-                                            } else if (v.category === getCategory && v.status === 'approve') {
+                                            } else if (v.category === selectedCategory && v.status === 'approve') {
                                                 return (
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
                                                         <Link to={"/product_Details/" + v.id}>
@@ -300,7 +277,7 @@ function Category({ CartIncDec }) {
                                                                 <div className="image-container">
 
                                                                     <a className="item-img-wrapper-link" href="single-product.html">
-                                                                        <img className="img-fluid" src={v.fileurl} alt="Product" />
+                                                                        <img className="img-fluid" src={v.fileurl[0]} alt="Product" />
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
