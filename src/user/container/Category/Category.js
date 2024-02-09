@@ -11,6 +11,9 @@ function Category({ CartIncDec }) {
 
     const dispatch = useDispatch()
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5); 
+
     const selectedCategory = useSelector(state => state.selectcategory.selectedCategory);
     console.log(selectedCategory);
 
@@ -36,9 +39,7 @@ function Category({ CartIncDec }) {
         return accumulator;
     }, []);
 
-    console.log(uniqueProducts);
-
-
+    // console.log(uniqueProducts);
 
     useEffect(() => {
         dispatch(getCategoryData())
@@ -46,6 +47,29 @@ function Category({ CartIncDec }) {
         dispatch(getProduct())
     }, []);
 
+    useEffect(() => {
+        setCurrentPage(1); 
+    }, [selectedCategory])
+
+    const totalProducts = uniqueProducts.length;
+    const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = uniqueProducts
+    .filter((v) => (selectedCategory === 'All' || v.category === selectedCategory) && v.status === 'approve')
+    .slice(indexOfFirstProduct, indexOfLastProduct);
+    console.log(currentProducts);
+
+ 
+    const paginate = pageNumber => {
+        if (pageNumber > totalPages) {
+            setCurrentPage(1); 
+        } else {
+            setCurrentPage(pageNumber);
+            window.scrollTo(0, 250);
+        }
+    }
 
     const handleClick = (event, subcategoryValue) => {
         event.preventDefault();
@@ -131,54 +155,11 @@ function Category({ CartIncDec }) {
 
                                                 })}
 
-                                                {/* <li className="js-backdrop">
-                                                    <a href="shop-v1-root-category.html">
-                                                        <i className="ion ion-md-shirt" />
-                                                        Men's Clothing
-                                                        <i className="ion ion-ios-arrow-forward" />
-                                                    </a>
-                                                </li> */}
-
                                             </ul>
                                         </div>
                                     </nav>
                                 </div>
                             </div>
-
-
-                            {/* <div className="col-lg-3 col-md-3 col-sm-12">
-
-                                <div className="fetch-categories">
-                                    <h3 className="title-name">Browse Categories</h3>
-                                    <h3 className="fetch-mark-category">
-                                        <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, 'All')}>
-                                            All
-                                        </a>
-                                    </h3>
-
-                                    {subcategory.subcategory.map((item) => {
-
-                                        if (subCategoryvalue === 'All') {
-                                            return (
-                                                <h3 className="fetch-mark-category" key={item.subcategory}>
-                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
-                                                    </a>
-                                                </h3>
-                                            );
-                                        } else if (item.category === subCategoryvalue) {
-                                            return (
-                                                <h3 className="fetch-mark-category">
-                                                    <a href="shop-v2-sub-category.html" onClick={(event) => handleClick(event, item.subcategory)}>{item.subcategory}
-                                                    </a>
-                                                </h3>
-                                            );
-                                        }
-
-                                    })}
-
-                                </div>
-
-                            </div> */}
 
                             <div className="col-lg-9 col-md-9 col-sm-12">
 
@@ -207,7 +188,7 @@ function Category({ CartIncDec }) {
                                 <div className="row product-container list-style">
 
                                     {
-                                        uniqueProducts.map((v) => {
+                                        currentProducts.map((v) => {
                                             console.log(v);
 
                                             if (selectedCategory === 'All' && v.status === 'approve') {
@@ -219,8 +200,8 @@ function Category({ CartIncDec }) {
                                                             <div className="item">
                                                                 <div className="image-container">
 
-                                                                    <a className="item-img-wrapper-link" href="product_Details">
-                                                                        <img className="img-fluid" src={v.fileurl[0]} alt="Product" />
+                                                                    <a className="item-img-wrapper-link" >
+                                                                        <img className="img-fluid zoomimg" src={v.fileurl[0]} alt="Product" />
                                                                     </a>
 
                                                                     <div className="item-action-behaviors">
@@ -249,7 +230,6 @@ function Category({ CartIncDec }) {
                                                                             <div className="star" title="4.5 out of 5 - based on 23 Reviews">
                                                                                 <span style={{ width: 67 }} />
                                                                             </div>
-                                                                            <span>(23)</span>
                                                                         </div>
                                                                     </div>
                                                                     <div className="price-template">
@@ -257,7 +237,7 @@ function Category({ CartIncDec }) {
                                                                             ${v.price}
                                                                         </div>
                                                                         <div className="item-old-price">
-                                                                            $60.00
+                                                                            ${v.mrp}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -305,7 +285,6 @@ function Category({ CartIncDec }) {
                                                                             <div className="star" title="4.5 out of 5 - based on 23 Reviews">
                                                                                 <span style={{ width: 67 }} />
                                                                             </div>
-                                                                            <span>(23)</span>
                                                                         </div>
                                                                     </div>
                                                                     <div className="price-template">
@@ -313,7 +292,7 @@ function Category({ CartIncDec }) {
                                                                             ${v.price}
                                                                         </div>
                                                                         <div className="item-old-price">
-                                                                            $60.00
+                                                                            ${v.mrp}
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -330,9 +309,6 @@ function Category({ CartIncDec }) {
                                         })
                                     }
 
-
-
-
                                 </div>
                                 {/* Row-of-Product-Container /- */}
                             </div>
@@ -341,28 +317,21 @@ function Category({ CartIncDec }) {
                             <div className="pagination-area">
                                 <div className="pagination-number">
                                     <ul>
-                                        <li style={{ display: 'none' }}>
-                                            <a href="shop-v1-root-category.html" title="Previous">
+                       
+                                        <li>
+                                            <a onClick={() => paginate(currentPage - 1)} title="Previous">
                                                 <i className="fa fa-angle-left" />
                                             </a>
                                         </li>
-                                        <li className="active">
-                                            <a href="shop-v1-root-category.html">1</a>
-                                        </li>
+                             
+                                        {[...Array(totalPages).keys()].map(number => (
+                                            <li key={number} className={currentPage === number + 1 ? 'active' : ''}>
+                                                <a onClick={() => paginate(number + 1)}>{number + 1}</a>
+                                            </li>
+                                        ))}
+                               
                                         <li>
-                                            <a href="shop-v1-root-category.html">2</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v1-root-category.html">3</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v1-root-category.html">...</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v1-root-category.html">10</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop-v1-root-category.html" title="Next">
+                                            <a onClick={() => paginate(currentPage + 1)} title="Next">
                                                 <i className="fa fa-angle-right" />
                                             </a>
                                         </li>

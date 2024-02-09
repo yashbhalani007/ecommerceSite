@@ -18,7 +18,6 @@ function Header({ favItem }) {
   const product = useSelector(state => state.products)
 
   const selectedCategory = useSelector(state => state.selectcategory.selectedCategory);
-  console.log(selectedCategory);
 
   const allproduct = product.products;
 
@@ -261,13 +260,6 @@ function Header({ favItem }) {
                         </NavLink>
                       </li>
                       <li>
-                        {/* <Link to='/cart'>
-                          <IconButton aria-label="cart" >
-                            <StyledBadge badgeContent={cartValue} color="warning">
-                              <ShoppingCartIcon />
-                            </StyledBadge>
-                          </IconButton>
-                        </Link> */}
 
                         <Link id="mini-cart-trigger">
                           <i className="ion ion-md-basket" />
@@ -353,15 +345,9 @@ function Header({ favItem }) {
             <div className="container">
               <div className="row align-items-center">
 
-
-
-
                 <div className="col-lg-9 new">
                   <ul className="bottom-nav g-nav u-d-none-lg">
                     <li>
-                      {/* <a href="custom-deal-page.html">New Arrivals
-                                            <span className="superscript-label-new">NEW</span>
-                                        </a> */}
                       <NavLink to={"/newarrival"}>
                         New Arrivals
                         <span className="superscript-label-new">NEW</span>
