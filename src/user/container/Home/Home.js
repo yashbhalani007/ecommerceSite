@@ -1,9 +1,39 @@
 import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../../redux/slice/product.slice';
 
 
 function Home(props) {
 
-    
+    const dispatch = useDispatch()
+
+    const product = useSelector(state => state.products)
+    const allproduct = product.products;
+    console.log(allproduct);
+
+    // remove duplicate from allproduct //
+
+    const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
+        const existingProductIndex = accumulator.findIndex(
+            (product) => product.group_id === currentProduct.group_id
+        );
+
+        if (existingProductIndex === -1) {
+            accumulator.push(currentProduct);
+        }
+
+        return accumulator;
+    }, []);
+
+    console.log(uniqueProducts);
+
+
+
+
+    useEffect(() => {
+        dispatch(getProduct())
+    }, []);
+
 
     return (
 
@@ -65,55 +95,64 @@ function Home(props) {
                             <div className="tab-content">
                                 <div className="tab-pane active show fade" id="men-latest-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
+
+                                        {/* {
+                                            uniqueProducts.map((v) => {
+                                                return (
+                                                    
+                                                )
+                                            })
+                                        } */}
                                         <div className="item">
-                                            <div className="image-container">
-                                                <a className="item-img-wrapper-link" href="single-product.html">
-                                                    <img className="img-fluid" src="../assets/images/product/product@3x.jpg" />
-                                                </a>
-                                                <div className="item-action-behaviors">
-                                                    <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
-                                                    </a>
-                                                    <a className="item-mail" href="javascript:void(0)">Mail</a>
-                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
-                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
-                                                </div>
-                                            </div>
-                                            <div className="item-content">
-                                                <div className="what-product-is">
-                                                    <ul className="bread-crumb">
-                                                        <li className="has-separator">
-                                                            <a href="shop-v1-root-category.html">Men's</a>
-                                                        </li>
-                                                        <li className="has-separator">
-                                                            <a href="shop-v2-sub-category.html">Tops</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-v3-sub-sub-category.html">Hoodies</a>
-                                                        </li>
-                                                    </ul>
-                                                    <h6 className="item-title">
-                                                        <a href="single-product.html">Casual Hoodie Full Cotton</a>
-                                                    </h6>
-                                                    <div className="item-stars">
-                                                        <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                            <span style={{ width: 0 }} />
+                                                        <div className="image-container">
+                                                            <a className="item-img-wrapper-link" href="single-product.html">
+                                                                <img className="img-fluid" src="../assets/images/product/product@3x.jpg" />
+                                                            </a>
+                                                            <div className="item-action-behaviors">
+                                                                <a className="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
+                                                                </a>
+                                                                <a className="item-mail" href="javascript:void(0)">Mail</a>
+                                                                <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist</a>
+                                                                <a className="item-addCart" href="javascript:void(0)">Add to Cart</a>
+                                                            </div>
                                                         </div>
-                                                        <span>(0)</span>
+                                                        <div className="item-content">
+                                                            <div className="what-product-is">
+                                                                <ul className="bread-crumb">
+                                                                    <li className="has-separator">
+                                                                        <a href="shop-v1-root-category.html">Men's</a>
+                                                                    </li>
+                                                                    <li className="has-separator">
+                                                                        <a href="shop-v2-sub-category.html">Tops</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="shop-v3-sub-sub-category.html">Hoodies</a>
+                                                                    </li>
+                                                                </ul>
+                                                                <h6 className="item-title">
+                                                                    <a href="single-product.html">Casual Hoodie Full Cotton</a>
+                                                                </h6>
+                                                                <div className="item-stars">
+                                                                    <div className="star" title="0 out of 5 - based on 0 Reviews">
+                                                                        <span style={{ width: 0 }} />
+                                                                    </div>
+                                                                    <span>(0)</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="price-template">
+                                                                <div className="item-new-price">
+                                                                    $55.00
+                                                                </div>
+                                                                <div className="item-old-price">
+                                                                    $60.00
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="tag new">
+                                                            <span>NEW</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="price-template">
-                                                    <div className="item-new-price">
-                                                        $55.00
-                                                    </div>
-                                                    <div className="item-old-price">
-                                                        $60.00
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="tag new">
-                                                <span>NEW</span>
-                                            </div>
-                                        </div>
+
                                         <div className="item">
                                             <div className="image-container">
                                                 <a className="item-img-wrapper-link" href="single-product.html">
@@ -160,7 +199,7 @@ function Home(props) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="item">
+                                        {/* <div className="item">
                                             <div className="image-container">
                                                 <a className="item-img-wrapper-link" href="single-product.html">
                                                     <img className="img-fluid" src="../assets/images/product/product@3x.jpg" />
@@ -446,10 +485,10 @@ function Home(props) {
                                             <div className="tag discount">
                                                 <span>-15%</span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
-                              
+
                                 <div className="tab-pane fade" id="men-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -645,7 +684,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -1316,7 +1355,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div className="tab-pane fade" id="women-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -1512,7 +1551,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -1935,7 +1974,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div className="tab-pane fade" id="toys-top-rating-products">
                                     <div className="products-slider owl-carousel" data-item={4}>
                                         <div className="item">
@@ -2132,7 +2171,7 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -2397,7 +2436,7 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div className="tab-pane fade" id="smart-watches">
                                                     <div className="specific-category-slider owl-carousel" data-item={3}>
                                                         <div className="item">
@@ -2599,15 +2638,15 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                               
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            
-                            
-                            
+
+
+
                             </div>
                         </div>
                     </div>
@@ -2871,7 +2910,7 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div className="tab-pane fade" id="tv">
                                                     <div className="specific-category-slider owl-carousel" data-item={3}>
                                                         <div className="item">
@@ -3070,15 +3109,15 @@ function Home(props) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
-                                
+
+
+
                             </div>
                         </div>
                     </div>
@@ -3287,8 +3326,8 @@ function Home(props) {
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
