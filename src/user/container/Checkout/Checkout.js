@@ -7,6 +7,7 @@ function Checkout(props) {
     const cartData = cart.cart
     const product = useSelector(state => state.products)
     const productData = product.products
+    const [shipping, setShipping] = useState()
     const dispatch = useDispatch()
 
     // const cartItem = cartData.map((Obj) => {
@@ -16,22 +17,39 @@ function Checkout(props) {
 
     const orderTotal = cartData.reduce((total, item) => {
         const product = productData.find(product => item.id === product.id);
-        console.log(product);
+        let shippingCharge = 0
+        let tax = 0
 
-        if (product) {
+        if (product && product.id === item.id) {
+            if (product.weight <= 0.5) {
+                shippingCharge = 64
+            } else if (product.weight > 0.5 && product.weight <= 4) {
+                const additionalWeight = product.weight - 0.5
+                shippingCharge = ((additionalWeight / 0.5) * 61) + 64
+            } else if (product.weight > 4 && product.weight <= 5) {
+                shippingCharge = 302
+            } else if (product.weight > 5 && product.weight <= 9) {
+                const additionalWeight = product.weight - 5
+                shippingCharge = 302 + (additionalWeight * 41)
+            } else if (product.weight > 9 && product.weight <= 10) {
+                shippingCharge = 419
+            } else if (product.weight > 10) {
+                const additionalWeight = product.weight - 10
+                shippingCharge = 419 + (additionalWeight * 42)
+            }
+            tax = parseFloat(product.price * (product.tax / 100)) * item.qty
             
+            total.tax += tax
+            total.shippingCharges += parseFloat(shippingCharge * item.qty)
+            total.orderTotal += (product.price * item.qty) + (item.qty * shippingCharge) + tax
         }
-        // if (product) {
-            
-        //     const productTotal = product.price * item.qty;
-        //     return total + productTotal;
-        // }
-    
+
         return total;
-    }, 0);
-    
-    const grandTotal = orderTotal;
-    console.log(grandTotal);
+    }, { orderTotal: 0, shippingCharges: 0, tax: 0 });
+
+    const grandTotal = orderTotal.orderTotal;
+    const totalShippingCharges = orderTotal.shippingCharges;
+    const tax = orderTotal.tax;
     // console.log(cartItem);    
 
     return (
@@ -331,7 +349,7 @@ function Checkout(props) {
                                                                 <h3 className="order-h3">Shipping</h3>
                                                             </td>
                                                             <td>
-                                                                <h3 className="order-h3">$0.00</h3>
+                                                                <h3 className="order-h3">${totalShippingCharges}</h3>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -339,7 +357,7 @@ function Checkout(props) {
                                                                 <h3 className="order-h3">Tax</h3>
                                                             </td>
                                                             <td>
-                                                                <h3 className="order-h3">$0.00</h3>
+                                                                <h3 className="order-h3">${tax}</h3>
                                                             </td>
                                                         </tr>
                                                         <tr>
