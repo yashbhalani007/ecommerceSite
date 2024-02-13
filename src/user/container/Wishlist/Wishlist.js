@@ -35,7 +35,7 @@ function Wishlist({ CartIncDec }) {
 
     const handleRemove = (id) => {
         console.log(id);
-        dispatch(removefromwishlist(id))
+        dispatch(removefromwishlist({ id }));
     }
 
 

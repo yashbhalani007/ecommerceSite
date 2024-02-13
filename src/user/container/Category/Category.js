@@ -10,9 +10,9 @@ import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist
 function Category({ CartIncDec }) {
 
     const dispatch = useDispatch()
-
+    const [viewMode, setViewMode] = useState('list');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(5); 
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     const selectedCategory = useSelector(state => state.selectcategory.selectedCategory);
     console.log(selectedCategory);
@@ -48,7 +48,7 @@ function Category({ CartIncDec }) {
     }, []);
 
     useEffect(() => {
-        setCurrentPage(1); 
+        setCurrentPage(1);
     }, [selectedCategory])
 
     const totalProducts = uniqueProducts.length;
@@ -57,14 +57,14 @@ function Category({ CartIncDec }) {
     const indexOfLastProduct = currentPage * itemsPerPage;
     const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
     const currentProducts = uniqueProducts
-    .filter((v) => (selectedCategory === 'All' || v.category === selectedCategory) && v.status === 'approve')
-    .slice(indexOfFirstProduct, indexOfLastProduct);
+        .filter((v) => (selectedCategory === 'All' || v.category === selectedCategory) && v.status === 'approve')
+        .slice(indexOfFirstProduct, indexOfLastProduct);
     console.log(currentProducts);
 
- 
+
     const paginate = pageNumber => {
         if (pageNumber > totalPages) {
-            setCurrentPage(1); 
+            setCurrentPage(1);
         } else {
             setCurrentPage(pageNumber);
             window.scrollTo(0, 250);
@@ -96,6 +96,16 @@ function Category({ CartIncDec }) {
         CartIncDec((prev) => prev + 1)
 
     }
+
+    const handleListAnchorClick = () => {
+        setViewMode('list');
+        setItemsPerPage(5);
+    };
+
+    const handleGridAnchorClick = () => {
+        setViewMode('grid');
+        setItemsPerPage(9);
+    };
 
     return (
         <div id='app'>
@@ -165,8 +175,11 @@ function Category({ CartIncDec }) {
 
                                 <div className="page-bar clearfix">
                                     <div className="shop-settings">
-                                        <a id="list-anchor" className="active">
+                                        <a id="list-anchor" className={viewMode === 'list' ? 'active' : ''} onClick={handleListAnchorClick}>
                                             <i className="fas fa-th-list" />
+                                        </a>
+                                        <a id="grid-anchor" className={viewMode === 'grid' ? 'active' : ''} onClick={handleGridAnchorClick}>
+                                            <i class="fas fa-th"></i>
                                         </a>
                                     </div>
 
@@ -185,7 +198,7 @@ function Category({ CartIncDec }) {
 
                                 </div>
 
-                                <div className="row product-container list-style">
+                                <div className={`row product-container ${viewMode === 'list' ? 'list-style' : 'grid-style'}`}>
 
                                     {
                                         currentProducts.map((v) => {
@@ -317,19 +330,19 @@ function Category({ CartIncDec }) {
                             <div className="pagination-area">
                                 <div className="pagination-number">
                                     <ul>
-                       
+
                                         <li>
                                             <a onClick={() => paginate(currentPage - 1)} title="Previous">
                                                 <i className="fa fa-angle-left" />
                                             </a>
                                         </li>
-                             
+
                                         {[...Array(totalPages).keys()].map(number => (
                                             <li key={number} className={currentPage === number + 1 ? 'active' : ''}>
                                                 <a onClick={() => paginate(number + 1)}>{number + 1}</a>
                                             </li>
                                         ))}
-                               
+
                                         <li>
                                             <a onClick={() => paginate(currentPage + 1)} title="Next">
                                                 <i className="fa fa-angle-right" />

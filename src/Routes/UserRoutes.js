@@ -37,7 +37,7 @@ function UserRoutes(props) {
         <>
             <Header cartValue={cartValue} favItem={allWishlist}/>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home CartIncDec={setCartValue} />} />
                 <Route path="/Cart" element={<Cart />} />
                 <Route path="/wishlist" element={<Wishlist CartIncDec={setCartValue} />} />
                 <Route path="/checkout" element={<Checkout />} />

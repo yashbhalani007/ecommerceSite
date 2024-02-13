@@ -780,7 +780,7 @@ input,
 select,
 textarea {
     font-family: 'Montserrat', Helvetica, sans-serif;
-    color: #bbb;
+    color: rgb(138, 137, 137);
 }
 
 h1 {

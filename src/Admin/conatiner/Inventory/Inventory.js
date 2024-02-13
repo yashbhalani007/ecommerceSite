@@ -219,7 +219,7 @@ function Inventory(props) {
                           <div className="new-item">
                             <div className="new-image-container">
                               <a className="item-img-wrapper-link" onClick={() => handleclick(v.id)}>
-                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                                <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                               </a>
                             </div>
                             <div className="item-content">
@@ -256,7 +256,7 @@ function Inventory(props) {
                         <div className="productsize">
                           <div key={v.id} className="new-image-container">
                             <a className="item-img-wrapper-link">
-                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                             </a>
                           </div>
 
@@ -310,7 +310,7 @@ function Inventory(props) {
                           <div className="new-item">
                             <div className="new-image-container">
                               <a className="item-img-wrapper-link" onClick={() => handlesecondclick(v.id)}>
-                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                                <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                               </a>
                             </div>
                             <div className="item-content">
@@ -347,7 +347,7 @@ function Inventory(props) {
                         <div className="productsize">
                           <div key={v.id} className="new-image-container">
                             <a className="item-img-wrapper-link">
-                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                             </a>
                           </div>
 
@@ -401,7 +401,7 @@ function Inventory(props) {
                           <div className="new-item">
                             <div className="new-image-container">
                               <a className="item-img-wrapper-link" onClick={() => handlesLowstock(v.id)}>
-                                <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                                <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                               </a>
                             </div>
                             <div className="item-content">
@@ -438,7 +438,7 @@ function Inventory(props) {
                         <div className="productsize">
                           <div key={v.id} className="new-image-container">
                             <a className="item-img-wrapper-link">
-                              <img className="new-img-fluid" src={v.fileurl} alt="Product" />
+                              <img className="new-img-fluid" src={v.fileurl[0]} alt="Product" />
                             </a>
                           </div>
 
