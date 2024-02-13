@@ -61,7 +61,7 @@ function CatUpload(props) {
             editable: true,
             renderCell: (params) => (
                 <strong style={{ width: '100px', height: '100px' }}>
-                    <img src={params.row.fileurl} style={{ backgroundSize: 'contain', height: '100%', width: '100%' }} />
+                    <img src={params.row.fileurl[0]} style={{ backgroundSize: 'contain', height: '100%', width: '100%' }} />
                 </strong>
             )
         },

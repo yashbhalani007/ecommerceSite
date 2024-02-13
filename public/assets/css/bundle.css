@@ -1681,6 +1681,7 @@ body {
 
 .zoomimg {
   transition: transform .5s ease;
+  height: 280px !important;
 }
 
 .zoomimg:hover {

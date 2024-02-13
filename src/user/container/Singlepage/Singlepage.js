@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { getProduct } from '../../../redux/slice/product.slice';
 import { addtocart } from '../../../redux/slice/cart.slice';
 import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
+import Drift from 'drift-zoom';
+
 
 
 function Singlepage({ CartIncDec }) {
@@ -83,7 +85,7 @@ function Singlepage({ CartIncDec }) {
         }
     }
 
-  
+
     const handleColorChange = (event, selectedColor) => {
         console.log(event, selectedColor);
 
@@ -110,7 +112,7 @@ function Singlepage({ CartIncDec }) {
 
                     {
                         finaldata.map((v) => {
-                 
+
                             return (
                                 <>
 
@@ -120,8 +122,7 @@ function Singlepage({ CartIncDec }) {
 
                                             <div className="zoom-area">
                                                 <div className="main-image">
-                                                    <img className="img-fluid" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
-
+                                                    <img className="img-fluid drift-demo-trigger" src={variant.length > 0 ? variant[0].fileurl[activeImageIndex] : fileUrls[activeImageIndex]} alt="Zoom Image" />
                                                 </div>
 
                                                 <div id="gallery" className="u-s-m-t-10">
