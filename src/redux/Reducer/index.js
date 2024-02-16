@@ -9,6 +9,7 @@ import productSlice from "../slice/product.slice";
 import cartSlice from "../slice/cart.slice";
 import wishlistSlice from "../slice/wishlist.slice";
 import selectcategorySlice from "../slice/selectcategory.slice";
+import  reviewSlice  from "../slice/rating.slice";
 
 export const rootreducer = combineReducers({
     adminauth: adminAuthReducer,
@@ -20,5 +21,6 @@ export const rootreducer = combineReducers({
     products: productSlice,
     cart: cartSlice,
     wishlist: wishlistSlice,
-    selectcategory: selectcategorySlice
+    selectcategory: selectcategorySlice,
+    review: reviewSlice
 })

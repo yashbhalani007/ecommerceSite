@@ -147,36 +147,10 @@ function Header({ favItem }) {
                     </ul>
                   </li>
                   <li>
-                    <a>
-                      USD
+                    <a href="/admin">
+                      Become a Seller
                       <i className="fas fa-chevron-down u-s-m-l-9" />
                     </a>
-                    <ul className="g-dropdown" style={{ width: 90 }}>
-                      <li>
-                        <a href="#" className="u-c-brand">
-                          ($) USD
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">(£) GBP</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a>
-                      ENG
-                      <i className="fas fa-chevron-down u-s-m-l-9" />
-                    </a>
-                    <ul className="g-dropdown" style={{ width: 70 }}>
-                      <li>
-                        <a href="#" className="u-c-brand">
-                          ENG
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">ARB</a>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
               </nav>
