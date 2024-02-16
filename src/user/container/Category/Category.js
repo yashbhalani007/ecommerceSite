@@ -269,7 +269,7 @@ function Category({ CartIncDec }) {
                                                             <div className="item">
                                                                 <div className="image-container">
 
-                                                                    <a className="item-img-wrapper-link" href="single-product.html">
+                                                                    <a className="item-img-wrapper-link">
                                                                         <img className="img-fluid zoomimg" src={v.fileurl[0]} alt="Product" />
                                                                     </a>
 

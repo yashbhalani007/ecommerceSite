@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { db } from "../../firebase";
 import { getFirestore, addDoc, collection, query, doc, getDoc, getDocs } from "firebase/firestore";
-import { useSelector } from "react-redux";
+
 
 const initialState = {
     isLoading: false,
@@ -19,7 +19,7 @@ export const addSubCategory = createAsyncThunk(
         const querySnapshot = await getDocs(q);
 
         let document = null
-        // console.log(data);
+
         querySnapshot.forEach((doc) => {
             if (doc.data().category === data.categorys) {
                 document = {...doc.data(),subcategory: data.newSubCategory,cateId: doc.id}
@@ -42,7 +42,7 @@ export const getSubCategoryData = createAsyncThunk(
         const querySnapshot = await getDocs(collection(db, "subCategory"));
         querySnapshot.forEach((doc) => {
             data.push({...doc.data()})
-            // console.log(data);
+
         });
 
         return data
