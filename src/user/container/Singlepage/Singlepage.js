@@ -90,12 +90,19 @@ function Singlepage({ CartIncDec }) {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        const starInputs = event.target.elements['rating'];
+        let selectedRating = null;
+        for (let i = 0; i < starInputs.length; i++) {
+            if (starInputs[i].checked) {
+                selectedRating = parseInt(starInputs[i].value);
+                break;
+            }
+        }
+
         const formData = {
-            name: event.target.elements['your-name'].value,
             email: event.target.elements['your-email'].value,
-            reviewTitle: event.target.elements['review-title'].value,
             reviewText: event.target.elements['review-text-area'].value,
-            rating: parseFloat(event.target.elements['your-rating-value'].value),
+            rating: selectedRating,
             productId: id
         };
 
@@ -104,11 +111,7 @@ function Singlepage({ CartIncDec }) {
         event.target.reset();
     };
 
-    const calculateStarWidth = (rating) => {
-        const totalWidth = 100; // Total width of the star container
-        const maxRating = 5; // Maximum rating
-        return (rating / maxRating) * totalWidth;
-    };
+
 
 
     const handleColorChange = (event, selectedColor) => {
@@ -430,48 +433,46 @@ function Singlepage({ CartIncDec }) {
                                                         </div>
                                                     </div>
                                                     <div className="col-lg-6 col-md-6">
-                                                        {
-                                                            reviewData.map((r) => (
-                                                                <div className="total-star-meter">
-                                                                    <div className="star-wrapper">
-                                                                        <span>5 Stars</span>
-                                                                        <div className="star">
-                                                                            <span style={{ width: calculateStarWidth(r.rating) + '%' }} />
-                                                                        </div>
-                                                                        <span>(0)</span>
-                                                                    </div>
-                                                                    <div className="star-wrapper">
-                                                                        <span>4 Stars</span>
-                                                                        <div className="star">
-                                                                            <span style={{ width: calculateStarWidth(r.rating) + '%' }} />
-                                                                        </div>
-                                                                        <span>(23)</span>
-                                                                    </div>
-                                                                    <div className="star-wrapper">
-                                                                        <span>3 Stars</span>
-                                                                        <div className="star">
-                                                                            <span style={{ width: calculateStarWidth(r.rating) + '%' }} />
-                                                                        </div>
-                                                                        <span>(0)</span>
-                                                                    </div>
-                                                                    <div className="star-wrapper">
-                                                                        <span>2 Stars</span>
-                                                                        <div className="star">
-                                                                            <span style={{ width: calculateStarWidth(r.rating) + '%' }} />
-                                                                        </div>
-                                                                        <span>(0)</span>
-                                                                    </div>
-                                                                    <div className="star-wrapper">
-                                                                        <span>1 Star</span>
-                                                                        <div className="star">
-                                                                            <span style={{ width: calculateStarWidth(r.rating) + '%' }} />
-                                                                        </div>
-                                                                        <span>(0)</span>
-                                                                    </div>
-                                                                </div>
-                                                            ))
-                                                        }
 
+
+                                                        <div className="total-star-meter">
+
+                                                            <div className="star-wrapper">
+                                                                <span>5 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>4 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 67 }} />
+                                                                </div>
+                                                                <span>(23)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>3 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>2 Stars</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                            <div className="star-wrapper">
+                                                                <span>1 Star</span>
+                                                                <div className="star">
+                                                                    <span style={{ width: 0 }} />
+                                                                </div>
+                                                                <span>(0)</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div className="row r-2 u-s-m-b-26 u-s-p-b-22">
@@ -485,25 +486,41 @@ function Singlepage({ CartIncDec }) {
                                                             <form onSubmit={handleSubmit}>
 
                                                                 <div className="star-wrapper u-s-m-b-8">
-                                                                    <div className="star">
-                                                                        <span id="your-stars" style={{ width: 0 }} />
+
+                                                                    <div className="star-rating">
+                                                                        <input id="star-5" type="radio" name="rating" defaultValue="5" />
+                                                                        <label htmlFor="star-5" title="5 stars">
+                                                                            <i className="active fa fa-star" aria-hidden="true" />
+                                                                        </label>
+                                                                        <input id="star-4" type="radio" name="rating" defaultValue="4" />
+                                                                        <label htmlFor="star-4" title="4 stars">
+                                                                            <i className="active fa fa-star" aria-hidden="true" />
+                                                                        </label>
+                                                                        <input id="star-3" type="radio" name="rating" defaultValue="3" />
+                                                                        <label htmlFor="star-3" title="3 stars">
+                                                                            <i className="active fa fa-star" aria-hidden="true" />
+                                                                        </label>
+                                                                        <input id="star-2" type="radio" name="rating" defaultValue="2" />
+                                                                        <label htmlFor="star-2" title="2 stars">
+                                                                            <i className="active fa fa-star" aria-hidden="true" />
+                                                                        </label>
+                                                                        <input id="star-1" type="radio" name="rating" defaultValue="1" />
+                                                                        <label htmlFor="star-1" title="1 star">
+                                                                            <i className="active fa fa-star" aria-hidden="true" />
+                                                                        </label>
                                                                     </div>
-                                                                    <label htmlFor="your-rating-value" />
-                                                                    <input id="your-rating-value" style={{ width: '100px' }} type="text" className="text-field" placeholder={0.0} />
-                                                                    <span id="star-comment" />
+
+                                                                    <input type="file" id="image-upload" name="image" accept="image/*" />
                                                                 </div>
-                                                                <label htmlFor="your-name">Name
-                                                                    <span className="astk"> *</span>
-                                                                </label>
-                                                                <input id="your-name" type="text" className="text-field" placeholder="Your Name" />
+
+
+
+
                                                                 <label htmlFor="your-email">Email
                                                                     <span className="astk"> *</span>
                                                                 </label>
                                                                 <input id="your-email" type="text" className="text-field" placeholder="Your Email" />
-                                                                <label htmlFor="review-title">Review Title
-                                                                    <span className="astk"> *</span>
-                                                                </label>
-                                                                <input id="review-title" type="text" className="text-field" placeholder="Review Title" />
+
                                                                 <label htmlFor="review-text-area">Review
                                                                     <span className="astk"> *</span>
                                                                 </label>
@@ -539,6 +556,7 @@ function Singlepage({ CartIncDec }) {
                                                     <div className="reviewers">
                                                         {
                                                             reviewData.map((r) => {
+                                                                const starWidth = (r.rating / 5) * 100;
 
                                                                 if (id === r.productId) {
                                                                     return (
@@ -550,7 +568,7 @@ function Singlepage({ CartIncDec }) {
                                                                             <div className="reviewer-stars-title-body">
                                                                                 <div className="reviewer-stars">
                                                                                     <div className="star">
-                                                                                        <span style={{ width: 67 }} />
+                                                                                        <span style={{ width: `${starWidth}%` }} />
                                                                                     </div>
                                                                                     <span className="review-title">Good!</span>
                                                                                 </div>
