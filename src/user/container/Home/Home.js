@@ -4,7 +4,8 @@ import { getProduct } from '../../../redux/slice/product.slice';
 import Slider from "react-slick";
 import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
 import { addtocart } from '../../../redux/slice/cart.slice';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getReviews } from '../../../redux/slice/rating.slice';
 
 
 
@@ -21,7 +22,10 @@ function Home({ CartIncDec }) {
 
     const product = useSelector(state => state.products)
     const allproduct = product.products;
-    console.log(allproduct);
+    // console.log(allproduct);
+
+    const reviewData = useSelector(state => state.review.reviews)
+    console.log(reviewData);
 
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
@@ -44,10 +48,9 @@ function Home({ CartIncDec }) {
     console.log(uniqueProducts);
 
 
-
-
     useEffect(() => {
         dispatch(getProduct())
+        dispatch(getReviews())
     }, []);
 
 
@@ -134,6 +137,11 @@ function Home({ CartIncDec }) {
                                         {
                                             uniqueProducts.map((v) => {
                                                 if (v.category === 'Men Fashion') {
+                                                    let productReviews = reviewData.filter(review => v.id === review.productId);
+                                                    let ratedReviews = productReviews.filter(review => review.rating !== null);
+                                                    let totalRatings = ratedReviews.length;
+                                                    let sumOfRatings = ratedReviews.reduce((total, review) => total + review.rating, 0);
+                                                    let averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
                                                     return (
                                                         <Link to={"/product_Details/" + v.id} target='_blank'>
                                                             <div>
@@ -163,7 +171,7 @@ function Home({ CartIncDec }) {
                                                                             </h6>
                                                                             <div className="item-stars">
                                                                                 <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                    <span style={{ width: 0 }} />
+                                                                                    <span style={{ width: `${averageRating * 20}%` }} />
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -228,6 +236,12 @@ function Home({ CartIncDec }) {
                                         {
                                             uniqueProducts.map((v) => {
                                                 if (v.category === 'Women Fashion') {
+
+                                                    let productReviews = reviewData.filter(review => v.id === review.productId);
+                                                    let ratedReviews = productReviews.filter(review => review.rating !== null);
+                                                    let totalRatings = ratedReviews.length;
+                                                    let sumOfRatings = ratedReviews.reduce((total, review) => total + review.rating, 0);
+                                                    let averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
                                                     return (
                                                         <div>
                                                             <div className="item">
@@ -260,7 +274,7 @@ function Home({ CartIncDec }) {
                                                                         </h6>
                                                                         <div className="item-stars">
                                                                             <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                <span style={{ width: 0 }} />
+                                                                                <span style={{ width: `${averageRating * 20}%` }} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -324,6 +338,12 @@ function Home({ CartIncDec }) {
                                         {
                                             uniqueProducts.map((v) => {
                                                 if (v.category === 'Kids Fashion') {
+
+                                                    let productReviews = reviewData.filter(review => v.id === review.productId);
+                                                    let ratedReviews = productReviews.filter(review => review.rating !== null);
+                                                    let totalRatings = ratedReviews.length;
+                                                    let sumOfRatings = ratedReviews.reduce((total, review) => total + review.rating, 0);
+                                                    let averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
                                                     return (
                                                         <div>
                                                             <div className="item">
@@ -356,7 +376,7 @@ function Home({ CartIncDec }) {
                                                                         </h6>
                                                                         <div className="item-stars">
                                                                             <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                <span style={{ width: 0 }} />
+                                                                                <span style={{ width: `${averageRating * 20}%` }} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
