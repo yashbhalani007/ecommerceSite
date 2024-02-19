@@ -6,6 +6,7 @@ import { getProduct } from '../../../redux/slice/product.slice';
 import { Link } from 'react-router-dom';
 import { addtocart } from '../../../redux/slice/cart.slice';
 import { addtowishlist, removefromwishlist } from '../../../redux/slice/wishlist.slice';
+import { getReviews } from '../../../redux/slice/rating.slice';
 
 function Category({ CartIncDec }) {
 
@@ -27,6 +28,8 @@ function Category({ CartIncDec }) {
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
 
+    const reviewData = useSelector(state => state.review.reviews)
+
     const uniqueProducts = allproduct.reduce((accumulator, currentProduct) => {
         const existingProduct = accumulator.find(
             (product) => product.group_id === currentProduct.group_id
@@ -45,6 +48,7 @@ function Category({ CartIncDec }) {
         dispatch(getCategoryData())
         dispatch(getSubCategoryData())
         dispatch(getProduct())
+        dispatch(getReviews())
     }, []);
 
     useEffect(() => {
@@ -203,8 +207,15 @@ function Category({ CartIncDec }) {
                                     {
                                         currentProducts.map((v) => {
                                             console.log(v);
+                                            
+                                            const productReviews = reviewData.filter(r => v.id === r.productId);
+                                            const ratedReviews = productReviews.filter(r => r.rating !== null);
+                                            const totalRatings = ratedReviews.length;
+                                            const sumOfRatings = ratedReviews.reduce((total, r) => total + r.rating, 0);
+                                            const averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
 
                                             if (selectedCategory === 'All' && v.status === 'approve') {
+
                                                 return (
 
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
@@ -241,7 +252,7 @@ function Category({ CartIncDec }) {
                                                                         </div>
                                                                         <div className="item-stars">
                                                                             <div className="star" title="4.5 out of 5 - based on 23 Reviews">
-                                                                                <span style={{ width: 67 }} />
+                                                                                <span style={{ width: `${averageRating * 20}%` }} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -296,7 +307,7 @@ function Category({ CartIncDec }) {
                                                                         </div>
                                                                         <div className="item-stars">
                                                                             <div className="star" title="4.5 out of 5 - based on 23 Reviews">
-                                                                                <span style={{ width: 67 }} />
+                                                                                <span style={{ width: `${averageRating * 20}%` }} />
                                                                             </div>
                                                                         </div>
                                                                     </div>

@@ -17,8 +17,10 @@ function Singlepage({ CartIncDec }) {
     const wishlist = useSelector(state => state.wishlist);
     const allWishlist = wishlist.wishlist
 
+
+
     const reviewData = useSelector(state => state.review.reviews)
-    console.log(reviewData);
+    // console.log(reviewData);
 
     const { id } = useParams()
 
@@ -39,6 +41,15 @@ function Singlepage({ CartIncDec }) {
 
     }, [dispatch, id, product.products]);
 
+    //rating.........//
+
+    let productReviews = reviewData.filter(r => id === r.productId);
+    let ratedReviews = productReviews.filter(r => r.rating !== null);
+    let totalRatings = ratedReviews.length;
+    let sumOfRatings = ratedReviews.reduce((total, r) => total + r.rating, 0);
+    let averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
+
+    //....................//
 
     let targetGroupId;
     if (fdata.length > 0) {
@@ -87,7 +98,9 @@ function Singlepage({ CartIncDec }) {
         }
     }
 
-    const handleSubmit = (event) => {
+
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
         const starInputs = event.target.elements['rating'];
@@ -103,16 +116,19 @@ function Singlepage({ CartIncDec }) {
             email: event.target.elements['your-email'].value,
             reviewText: event.target.elements['review-text-area'].value,
             rating: selectedRating,
-            productId: id
+            productId: id,
+            // Images: event.target.elements['image-upload'].files[0]
         };
+
+        const imageFile = event.target.elements['image-upload'].files[0];
+        if (imageFile) {
+            formData.Images = imageFile;
+        }
 
         dispatch(addReview(formData));
 
         event.target.reset();
     };
-
-
-
 
     const handleColorChange = (event, selectedColor) => {
         console.log(event, selectedColor);
@@ -424,54 +440,67 @@ function Singlepage({ CartIncDec }) {
                                             <div className="review-whole-container">
                                                 <div className="row r-1 u-s-m-b-26 u-s-p-b-22">
                                                     <div className="col-lg-6 col-md-6">
-                                                        <div className="total-score-wrapper">
+
+                                                        {/* {
+                                                            reviewData.map((r) => {
+                                                                if (id === r.productId) {
+                                                                    console.log(r);
+
+                                                                    const ratedReviews = reviewData.filter(r => r.rating !== null);
+
+                                                                    // Calculate the average rating
+                                                                    const totalRatings = ratedReviews.length;
+                                                                    const sumOfRatings = ratedReviews.reduce((total, r) => total + r.rating, 0);
+                                                                    const averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
+
+                                                                    return (
+                                                                        <div className="total-score-wrapper" key={r.id}>
+                                                                            <h6 className="review-h6">Average Rating</h6>
+                                                                            <div className="circle-wrapper">
+                                                                                <h1>{averageRating.toFixed(1)}</h1>
+                                                                            </div>
+                                                                            <h6 className="review-h6">Based on {totalRatings} Reviews</h6>
+                                                                        </div>
+                                                                    )
+                                                                }
+                                                            })
+                                                        } */}
+
+
+
+                                                        <div className="total-score-wrapper" >
                                                             <h6 className="review-h6">Average Rating</h6>
                                                             <div className="circle-wrapper">
-                                                                <h1>4.5</h1>
+                                                                <h1>{averageRating.toFixed(1)}</h1>
                                                             </div>
-                                                            <h6 className="review-h6">Based on 23 Reviews</h6>
+                                                            <h6 className="review-h6">Based on {totalRatings} Reviews</h6>
                                                         </div>
+
+
                                                     </div>
                                                     <div className="col-lg-6 col-md-6">
 
-
                                                         <div className="total-star-meter">
 
-                                                            <div className="star-wrapper">
-                                                                <span>5 Stars</span>
-                                                                <div className="star">
-                                                                    <span style={{ width: 0 }} />
-                                                                </div>
-                                                                <span>(0)</span>
-                                                            </div>
-                                                            <div className="star-wrapper">
-                                                                <span>4 Stars</span>
-                                                                <div className="star">
-                                                                    <span style={{ width: 67 }} />
-                                                                </div>
-                                                                <span>(23)</span>
-                                                            </div>
-                                                            <div className="star-wrapper">
-                                                                <span>3 Stars</span>
-                                                                <div className="star">
-                                                                    <span style={{ width: 0 }} />
-                                                                </div>
-                                                                <span>(0)</span>
-                                                            </div>
-                                                            <div className="star-wrapper">
-                                                                <span>2 Stars</span>
-                                                                <div className="star">
-                                                                    <span style={{ width: 0 }} />
-                                                                </div>
-                                                                <span>(0)</span>
-                                                            </div>
-                                                            <div className="star-wrapper">
-                                                                <span>1 Star</span>
-                                                                <div className="star">
-                                                                    <span style={{ width: 0 }} />
-                                                                </div>
-                                                                <span>(0)</span>
-                                                            </div>
+                                                            {[5, 4, 3, 2, 1].map(starRating => {
+
+                                                                const reviewsWithRating = reviewData.filter(review => review.rating === starRating && review.productId === id);
+
+                                                                const totalReviews = reviewsWithRating.length;
+
+                                                                const starWidth = totalReviews > 0 ? (totalReviews / reviewData.length) * 100 : 0;
+
+                                                                return (
+                                                                    <div className="star-wrapper" key={starRating}>
+                                                                        <span>{starRating} Stars</span>
+                                                                        <div className="star">
+                                                                            <span style={{ width: `${starWidth}%` }} />
+                                                                        </div>
+                                                                        <span>({totalReviews})</span>
+                                                                    </div>
+                                                                );
+                                                            })}
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -480,8 +509,6 @@ function Singlepage({ CartIncDec }) {
                                                         <div className="your-rating-wrapper">
                                                             <h6 className="review-h6">Your Review is matter.</h6>
                                                             <h6 className="review-h6">Have you used this product before?</h6>
-
-
 
                                                             <form onSubmit={handleSubmit}>
 
@@ -510,7 +537,8 @@ function Singlepage({ CartIncDec }) {
                                                                         </label>
                                                                     </div>
 
-                                                                    <input type="file" id="image-upload" name="image" accept="image/*" />
+                                                                    <input type="file" id="image-upload" name="image" />
+
                                                                 </div>
 
 
@@ -562,7 +590,7 @@ function Singlepage({ CartIncDec }) {
                                                                     return (
                                                                         <div className="review-data">
                                                                             <div className="reviewer-name-and-date">
-                                                                                <h6 className="reviewer-name">{r.name}</h6>
+                                                                                <h6 className="reviewer-name">{r.email}</h6>
                                                                                 <h6 className="review-posted-date">10 May 2018</h6>
                                                                             </div>
                                                                             <div className="reviewer-stars-title-body">
@@ -596,25 +624,9 @@ function Singlepage({ CartIncDec }) {
                                                                     </a>
                                                                 </li>
                                                                 <li className="active">
-                                                                    <a href="single-product.html">1</a>
+                                                                    <a href="single-product.html">Show more Reviews</a>
                                                                 </li>
-                                                                <li>
-                                                                    <a href="single-product.html">2</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="single-product.html">3</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="single-product.html">...</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="single-product.html">10</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="single-product.html" title="Next">
-                                                                        <i className="fas fa-angle-right" />
-                                                                    </a>
-                                                                </li>
+
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -843,7 +855,7 @@ function Singlepage({ CartIncDec }) {
 
             </div>
             {/* Different-Product-Section /- */}
-        </div>
+        </div >
     );
 }
 

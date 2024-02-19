@@ -30,6 +30,7 @@ export const getProduct = createAsyncThunk(
 export const addProduct = createAsyncThunk(
     'product/add',
     async (data) => {
+        console.log(data);
         let imgname = [];
         let fileurl = [];
         let productData = { ...data };
