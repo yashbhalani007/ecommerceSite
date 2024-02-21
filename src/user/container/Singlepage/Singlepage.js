@@ -541,9 +541,6 @@ function Singlepage({ CartIncDec }) {
 
                                                                 </div>
 
-
-
-
                                                                 <label htmlFor="your-email">Email
                                                                     <span className="astk"> *</span>
                                                                 </label>
@@ -584,6 +581,7 @@ function Singlepage({ CartIncDec }) {
                                                     <div className="reviewers">
                                                         {
                                                             reviewData.map((r) => {
+                                                                console.log(r);
                                                                 const starWidth = (r.rating / 5) * 100;
 
                                                                 if (id === r.productId) {
@@ -592,7 +590,7 @@ function Singlepage({ CartIncDec }) {
                                                                             <div className="reviewer-name-and-date">
                                                                                 <h6 className="reviewer-name">{r.email}</h6>
                                                                                 <h6 className="review-posted-date">10 May 2018</h6>
-                                                                            </div>
+                                                                            </div>  
                                                                             <div className="reviewer-stars-title-body">
                                                                                 <div className="reviewer-stars">
                                                                                     <div className="star">

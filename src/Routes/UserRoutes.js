@@ -23,6 +23,8 @@ import NewArrival from '../user/container/NewArrival/NewArrival';
 import Category from '../user/container/Category/Category';
 import Error from '../Error';
 import { useSelector } from 'react-redux';
+import Order from '../user/container/Order/Order';
+import RateProduct from '../user/container/Order/RateProduct';
 
 
 function UserRoutes(props) {
@@ -57,6 +59,8 @@ function UserRoutes(props) {
                 <Route path="/trackorder" element={<TrackOrder />} />
                 <Route path="/conformation" element={<Conformation/>} />
                 <Route path="/newarrival" element={<NewArrival/>} />
+                <Route path="/order" element={<Order/>} />
+                <Route path="/RateProduct" element={<RateProduct/>} />
                 <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
