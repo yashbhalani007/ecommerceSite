@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,11 +10,39 @@ function Checkout(props) {
     const productData = product.products
     const [shipping, setShipping] = useState()
     const dispatch = useDispatch()
+    const [data, setData] = useState([]);
+    const [getState, setgetState] = useState([]);
+    const [selectedState, getselectedState] = useState();
+    const [getCity, setgetCity] = useState([]);
+    const [counteryData, setcountryData] = useState();
 
     // const cartItem = cartData.map((Obj) => {
     //     const matchingProduct = productData.filter((product) => Obj.id === product.id)[0];
     //     return matchingProduct;
     // });
+
+    useEffect(() => {
+        axios.get('https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json')
+            .then(res => setData(res.data))
+            .catch(err => console.log(err))
+    }, [])
+
+    let country = [...new Set(data.map(item => item.country))];
+    country.sort()
+
+    const handleCountry = (e) => {
+        let states = data.filter(state => state.country === e.target.value);
+        states = [...new Set(states.map(item => item.subcountry))];
+        states.sort()
+
+        setgetState(states);
+    }
+
+    const handlestate = (e) => {
+        let citys = data.filter(city => city.subcountry === e.target.value)
+        setgetCity(citys)
+    }
+
 
     const orderTotal = cartData.reduce((total, item) => {
         const product = productData.find(product => item.id === product.id);
@@ -38,7 +67,7 @@ function Checkout(props) {
                 shippingCharge = 419 + (additionalWeight * 42)
             }
             tax = parseFloat(product.price * (product.tax / 100)) * item.qty
-            
+
             total.tax += tax
             total.shippingCharges += parseFloat(shippingCharge * item.qty)
             total.orderTotal += (product.price * item.qty) + (item.qty * shippingCharge) + tax
@@ -161,14 +190,51 @@ function Checkout(props) {
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <div className="select-box-wrapper">
-                                                    <select className="select-box" id="select-country">
-                                                        <option selected="selected" value>Choose your country...</option>
+                                                    <select className="select-box" id="select-country" onChange={(e) => handleCountry(e)}>
+                                                        {/* <option selected="selected" value>Choose your country...</option>
                                                         <option value>India (IN)</option>
                                                         <option value>United Kingdom (UK)</option>
                                                         <option value>United States (US)</option>
-                                                        <option value>United Arab Emirates (UAE)</option>
+                                                        <option value>United Arab Emirates (UAE)</option> */}
+                                                        <option value=''>--- select country ---</option>
+                                                        {
+                                                            country.map(item => <option key={item} value={counteryData}>{item}</option>)
+                                                        }
                                                     </select>
                                                 </div>
+                                            </div>
+
+
+                                            <div className="u-s-m-b-13">
+                                                <label htmlFor="select-state">State / Country
+                                                    <span className="astk"> *</span>
+                                                </label>
+                                                <div className="select-box-wrapper">
+                                                    <select className="select-box" id="select-state" onChange={(e) => handlestate(e)}>
+                                                        {/* <option selected="selected" value>Choose your state...</option>
+                                                        <option value>Alabama</option>
+                                                        <option value>Alaska</option>
+                                                        <option value>Arizona</option> */}
+
+                                                        {
+                                                            getState.map(item => <option key={item} value={selectedState}>{item}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="u-s-m-b-13">
+
+                                                <label htmlFor="select-state">Town / City
+                                                    <span className="astk"> *</span>
+                                                </label>
+                                                <div className="select-box-wrapper">
+                                                    <select className="select-box" id="select-state">
+                                                        {
+                                                            getCity.map(item => <option key={item.name}>{item.name}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+
                                             </div>
                                             <div className="street-address u-s-m-b-13">
                                                 <label htmlFor="req-st-address">Street Address
@@ -177,25 +243,6 @@ function Checkout(props) {
                                                 <input type="text" id="req-st-address" className="text-field" placeholder="House name and street name" />
                                                 <label className="sr-only" htmlFor="opt-st-address" />
                                                 <input type="text" id="opt-st-address" className="text-field" placeholder="Apartment, suite unit etc. (optional)" />
-                                            </div>
-                                            <div className="u-s-m-b-13">
-                                                <label htmlFor="town-city">Town / City
-                                                    <span className="astk">*</span>
-                                                </label>
-                                                <input type="text" id="town-city" className="text-field" />
-                                            </div>
-                                            <div className="u-s-m-b-13">
-                                                <label htmlFor="select-state">State / Country
-                                                    <span className="astk"> *</span>
-                                                </label>
-                                                <div className="select-box-wrapper">
-                                                    <select className="select-box" id="select-state">
-                                                        <option selected="selected" value>Choose your state...</option>
-                                                        <option value>Alabama</option>
-                                                        <option value>Alaska</option>
-                                                        <option value>Arizona</option>
-                                                    </select>
-                                                </div>
                                             </div>
                                             <div className="u-s-m-b-13">
                                                 <label htmlFor="postcode">Postcode / Zip
@@ -248,11 +295,45 @@ function Checkout(props) {
                                                         <span className="astk">*</span>
                                                     </label>
                                                     <div className="select-box-wrapper">
-                                                        <select className="select-box" id="select-country-extra">
-                                                            <option selected="selected" value>Choose your country...</option>
-                                                            <option value>United Kingdom (UK)</option>
-                                                            <option value>United States (US)</option>
-                                                            <option value>United Arab Emirates (UAE)</option>
+                                                        <select className="select-box" id="select-country" onChange={(e) => handleCountry(e)}>
+                                                            {/* <option selected="selected" value>Choose your country...</option>
+                                                        <option value>India (IN)</option>
+                                                        <option value>United Kingdom (UK)</option>
+                                                        <option value>United States (US)</option>
+                                                        <option value>United Arab Emirates (UAE)</option> */}
+                                                            <option value=''>--- select country ---</option>
+                                                            {
+                                                                country.map(item => <option key={item} value={counteryData}>{item}</option>)
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="u-s-m-b-13">
+                                                    <label htmlFor="select-state-extra">State / Country
+                                                        <span className="astk"> *</span>
+                                                    </label>
+                                                    <div className="select-box-wrapper">
+                                                        <select className="select-box" id="select-state" onChange={(e) => handlestate(e)}>
+                                                            {/* <option selected="selected" value>Choose your state...</option>
+                                                        <option value>Alabama</option>
+                                                        <option value>Alaska</option>
+                                                        <option value>Arizona</option> */}
+
+                                                            {
+                                                                getState.map(item => <option key={item} value={selectedState}>{item}</option>)
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="u-s-m-b-13">
+                                                    <label htmlFor="select-state">Town / City
+                                                        <span className="astk"> *</span>
+                                                    </label>
+                                                    <div className="select-box-wrapper">
+                                                        <select className="select-box" id="select-state">
+                                                            {
+                                                                getCity.map(item => <option key={item.name}>{item.name}</option>)
+                                                            }
                                                         </select>
                                                     </div>
                                                 </div>
@@ -264,31 +345,15 @@ function Checkout(props) {
                                                     <label className="sr-only" htmlFor="opt-st-address-extra" />
                                                     <input type="text" id="opt-st-address-extra" className="text-field" placeholder="Apartment, suite unit etc. (optional)" />
                                                 </div>
-                                                <div className="u-s-m-b-13">
-                                                    <label htmlFor="town-city-extra">Town / City
-                                                        <span className="astk">*</span>
-                                                    </label>
-                                                    <input type="text" id="town-city-extra" className="text-field" />
-                                                </div>
-                                                <div className="u-s-m-b-13">
-                                                    <label htmlFor="select-state-extra">State / Country
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <div className="select-box-wrapper">
-                                                        <select className="select-box" id="select-state-extra">
-                                                            <option selected="selected" value>Choose your state...</option>
-                                                            <option value>Alabama</option>
-                                                            <option value>Alaska</option>
-                                                            <option value>Arizona</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+
                                                 <div className="u-s-m-b-13">
                                                     <label htmlFor="postcode-extra">Postcode / Zip
                                                         <span className="astk">*</span>
                                                     </label>
                                                     <input type="text" id="postcode-extra" className="text-field" />
                                                 </div>
+
+
                                                 <div className="group-inline u-s-m-b-13">
                                                     <div className="group-1 u-s-p-r-16">
                                                         <label htmlFor="email-extra">Email address
