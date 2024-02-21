@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { collection, addDoc, getDocs, getDoc, updateDoc, doc } from "firebase/firestore";
 import { auth, db, storage } from "../../firebase";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 import { onAuthStateChanged } from "firebase/auth";
 
 const initialState = {
@@ -30,6 +30,7 @@ export const getProduct = createAsyncThunk(
 export const addProduct = createAsyncThunk(
     'product/add',
     async (data) => {
+        console.log(data);
         let imgname = [];
         let fileurl = [];
         let productData = { ...data };
@@ -50,10 +51,12 @@ export const addProduct = createAsyncThunk(
             await Promise.all(data.Images.map(async (file) => {
                 const number = Math.floor(Math.random() * 10000);
                 const storageRef = ref(storage, `products/${number}_${file.name}`);
+                console.log(storageRef, file, file.name);
 
                 const snapshot = await uploadBytes(storageRef, file);
                 const url = await getDownloadURL(ref(storage, snapshot.ref));
 
+                console.log(number,url,storageRef,snapshot,file.name);
                 imgname.push(`${number}_${file.name}`);
                 fileurl.push(url);
             }));
