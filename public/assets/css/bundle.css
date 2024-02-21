@@ -380,7 +380,7 @@ body {
 }
 
 .one {
-  background-image: url(../images/main-slider/home.jpg);
+  background-image: url(../images/main-slider/bg_3.jpg);
 }
 
 .two {
@@ -388,7 +388,7 @@ body {
 }
 
 .three {
-  background-image: url(../images/main-slider/hero4.png);
+  background-image: url(../images/main-slider/bg_4.jpg);
 }
 
 .owl-item .slide-animation * {
@@ -829,6 +829,13 @@ body {
   display: contents;
 }
 
+.v-list p {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  margin-top: 18px;
+  margin-left: 20px;
+}
+
 .v-list>li {
   position: relative;
 }
@@ -1040,7 +1047,7 @@ body {
 /**
   * Our document contains an element at the end that will work as a backdrop.
   */
-.body-backdrop {
+/* .body-backdrop {
   width: 100%;
   height: 100%;
   top: 0;
@@ -1049,7 +1056,7 @@ body {
   display: none;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 999997;
-}
+} */
 
 /* Banner-Hover-Effect-component */
 /**
@@ -1666,6 +1673,13 @@ body {
   overflow: hidden;
 }
 
+.new_item {
+  margin: 0 5px 30px !important;
+    overflow: hidden;
+    height: 500px !important;
+    width: 291px !important;
+}
+
 .new-item {
   background-color: rgb(202, 202, 202);
   position: relative;
@@ -2045,7 +2059,7 @@ body {
     display: none;
   }
 
-  .star-rating  label {
+  .star-rating label {
     color: #bbb;
     font-size: 2rem;
     padding: 0;
@@ -2061,11 +2075,64 @@ body {
   }
 }
 
+.newstar-rating label {
+  padding: 5px !important;
+}
+
 #image-preview {
   width: 200px;
   height: 200px;
 }
 
+.order_review {
+  display: flex;
+  align-items: baseline !important;
+  font-size: 18px !important;
+}
+
+.reviewItem {
+  display: inline-block !important;
+  padding: 30px !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.review_submit {
+  text-align: end;
+}
+
+
+.very-bad {
+  color: red;
+
+}
+
+.bad {
+  color: rgb(255, 115, 0);
+
+}
+
+.good {
+  color: rgb(255, 187, 0);
+
+}
+
+.very-good {
+  color: rgb(0, 128, 0);
+
+}
+
+.excellent {
+  color: rgb(28, 121, 0)
+}
+
+.rating_name  {
+  margin-left: 15px;
+}
+
+.rating_name p {
+  font-weight: bold;
+}
 
 
 /* Section-Maker component */
@@ -2437,6 +2504,7 @@ body {
 .text-field:focus {
   outline: 0;
   border-color: #292929;
+
 }
 
 /*--------------------------------------------------------------
@@ -2471,36 +2539,36 @@ body {
   vertical-align: top;
 }
 
-.form-search {
+.form-searchbox {
   width: 100%;
   position: relative;
   overflow: hidden;
 }
 
-.form-search .text-field {
+.form-searchbox .text-field {
   padding: 0 0 0 15px;
   border-color: #d90429;
 }
 
-.form-search.select-hide {
+.form-searchbox.select-hide {
   visibility: hidden;
 }
 
-.form-search .select-box-position {
+.form-searchbox .select-box-position {
   position: absolute;
   right: 40px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.form-search .select-box-position .select-box {
+.form-searchbox .select-box-position .select-box {
   border-left: 1px solid #d90429;
   border-right: none;
   border-top: none;
   border-bottom: none;
 }
 
-.form-search button {
+.form-searchbox button {
   width: 40px;
   height: 46px;
   position: absolute;

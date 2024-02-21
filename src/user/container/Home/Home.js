@@ -18,6 +18,13 @@ function Home({ CartIncDec }) {
         slidesToScroll: 4
     };
 
+    const newSettings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 4
+    };
+
     const dispatch = useDispatch()
 
     const product = useSelector(state => state.products)
@@ -399,8 +406,6 @@ function Home({ CartIncDec }) {
 
                                             })
                                         }
-
-
                                     </Slider>
                                 </div>
 
@@ -439,196 +444,131 @@ function Home({ CartIncDec }) {
                             <div className="tab-content">
                                 <div className="tab-pane active show fade" id="consumer-latest-products">
                                     <div className="row align-items-center">
-                                        <div className="col-lg-1 col-md-12">
-                                            <ul className="nav tab-nav-style-2-a">
-                                                <li className="nav-item">
-                                                    <a className="nav-link active" data-toggle="tab" href="#laptops" title="Laptops">
-                                                        <i className="ion ion-md-laptop" />
-                                                    </a>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <a className="nav-link" data-toggle="tab" href="#smart-phones" title="Smart Phones">
-                                                        <i className="ion ion-ios-phone-portrait" />
-                                                    </a>
-                                                </li>
 
-                                                <li className="nav-item">
-                                                    <a className="nav-link" data-toggle="tab" href="#tv" title="TV's">
-                                                        <i className="ion ion-md-tv" />
-                                                    </a>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <a className="nav-link" data-toggle="tab" href="#cam-corder" title="Camera & Camcorders">
-                                                        <i className="ion ion-md-camera" />
-                                                    </a>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <a className="nav-link" data-toggle="tab" href="#audio-amplifiers" title="Audio & Amplifiers">
-                                                        <i className="ion ion-md-microphone" />
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
                                         <div className="col-lg-11 col-md-12">
                                             <div className="tab-content">
                                                 <div className="tab-pane fade show active" id="laptops">
-                                                    <div className="slider-fouc">
-                                                        <div className="specific-category-slider owl-carousel" data-item={3}>
-                                                            <div className="item">
-                                                                <div className="image-container">
-                                                                    <a className="item-img-wrapper-link" href="single-product.html">
-                                                                        <img className="img-fluid" src="images/product/product@3x.jpg" alt="Product" />
-                                                                    </a>
-                                                                    <div className="item-action-behaviors">
 
-                                                                        <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist
-                                                                        </a>
-                                                                        <a className="item-addCart" href="javascript:void(0)">Add to Cart
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="item-content">
-                                                                    <div className="what-product-is">
-                                                                        <ul className="bread-crumb">
-                                                                            <li className="has-separator">
-                                                                                <a href="shop-v1-root-category.html">Consumer
-                                                                                    Electronics
+                                                    <Slider {...newSettings}>
+                                                        {
+                                                            uniqueProducts.map((v) => {
+                                                                if (v.subcategory === 'Laptop') {
+                                                                    return (
+                                                                        <div className="item new_item">
+                                                                            <div className="image-container">
+                                                                                <a className="item-img-wrapper-link">
+                                                                                    <img className="img-fluid" src={v.fileurl[0]} alt="Product" />
                                                                                 </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="shop-v2-sub-category.html">Laptops</a>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <h6 className="item-title">
-                                                                            <a href="single-product.html">HP Pavilion 15
-                                                                                Notebook
-                                                                            </a>
-                                                                        </h6>
-                                                                        <div className="item-stars">
-                                                                            <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                <span style={{ width: 0 }} />
+                                                                                <div className="item-action-behaviors">
+
+                                                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist
+                                                                                    </a>
+                                                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart
+                                                                                    </a>
+                                                                                </div>
                                                                             </div>
-                                                                            <span>(0)</span>
+                                                                            <div className="item-content">
+                                                                                <div className="what-product-is">
+                                                                                    <ul className="bread-crumb">
+                                                                                        <li className="has-separator">
+                                                                                            <a href="shop-v1-root-category.html">{v.category}
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="shop-v2-sub-category.html">{v.subcategory}</a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                    <h6 className="item-title">
+                                                                                        <a href="single-product.html">{v.product_name}
+                                                                                        </a>
+                                                                                    </h6>
+                                                                                    <div className="item-stars">
+                                                                                        <div className="star" title="0 out of 5 - based on 0 Reviews">
+                                                                                            <span style={{ width: 0 }} />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="price-template">
+                                                                                    <div className="item-new-price">
+                                                                                        $55.00
+                                                                                    </div>
+                                                                                    <div className="item-old-price">
+                                                                                        $60.00
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="tag new">
+                                                                                <span>NEW</span>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="price-template">
-                                                                        <div className="item-new-price">
-                                                                            $55.00
+                                                                    )
+                                                                }
+
+                                                            })
+                                                        }
+                                                    </Slider>
+
+                                                    
+                                                    <Slider {...newSettings}>
+                                                        {
+                                                            uniqueProducts.map((v) => {
+                                                                if (v.category === 'Electronics') {
+                                                                    return (
+                                                                        <div className="item new_item">
+                                                                            <div className="image-container">
+                                                                                <a className="item-img-wrapper-link">
+                                                                                    <img className="img-fluid" src={v.fileurl[0]} alt="Product" />
+                                                                                </a>
+                                                                                <div className="item-action-behaviors">
+
+                                                                                    <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist
+                                                                                    </a>
+                                                                                    <a className="item-addCart" href="javascript:void(0)">Add to Cart
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="item-content">
+                                                                                <div className="what-product-is">
+                                                                                    <ul className="bread-crumb">
+                                                                                        <li className="has-separator">
+                                                                                            <a href="shop-v1-root-category.html">{v.category}
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <a href="shop-v2-sub-category.html">{v.subcategory}</a>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                    <h6 className="item-title">
+                                                                                        <a href="single-product.html">{v.product_name}
+                                                                                        </a>
+                                                                                    </h6>
+                                                                                    <div className="item-stars">
+                                                                                        <div className="star" title="0 out of 5 - based on 0 Reviews">
+                                                                                            <span style={{ width: 0 }} />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="price-template">
+                                                                                    <div className="item-new-price">
+                                                                                        $55.00
+                                                                                    </div>
+                                                                                    <div className="item-old-price">
+                                                                                        $60.00
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="tag new">
+                                                                                <span>NEW</span>
+                                                                            </div>
                                                                         </div>
-                                                                        <div className="item-old-price">
-                                                                            $60.00
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="tag new">
-                                                                    <span>NEW</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                    )
+                                                                }
+
+                                                            })
+                                                        }
+                                                    </Slider>
+
                                                 </div>
-
-                                                <div className="tab-pane fade" id="tv">
-                                                    <div className="slider-fouc">
-                                                        <div className="specific-category-slider owl-carousel" data-item={3}>
-                                                            <div className="item">
-                                                                <div className="image-container">
-                                                                    <a className="item-img-wrapper-link" href="single-product.html">
-                                                                        <img className="img-fluid" src="images/product/product@3x.jpg" alt="Product" />
-                                                                    </a>
-                                                                    <div className="item-action-behaviors">
-                                                                        <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist
-                                                                        </a>
-                                                                        <a className="item-addCart" href="javascript:void(0)">Add to Cart
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="item-content">
-                                                                    <div className="what-product-is">
-                                                                        <ul className="bread-crumb">
-                                                                            <li className="has-separator">
-                                                                                <a href="shop-v1-root-category.html">Consumer
-                                                                                    Electronics
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="shop-v2-sub-category.html">TV/LCD/LED
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <h6 className="item-title">
-                                                                            <a href="single-product.html">Hisense 4k LED
-                                                                                TV</a>
-                                                                        </h6>
-                                                                        <div className="item-stars">
-                                                                            <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                <span style={{ width: 0 }} />
-                                                                            </div>
-                                                                            <span>(0)</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="price-template">
-                                                                        <div className="item-new-price">
-                                                                            $55.00
-                                                                        </div>
-                                                                        <div className="item-old-price">
-                                                                            $60.00
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="tag new">
-                                                                    <span>NEW</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="item">
-                                                                <div className="image-container">
-                                                                    <a className="item-img-wrapper-link" href="single-product.html">
-                                                                        <img className="img-fluid" src="images/product/product@3x.jpg" alt="Product" />
-                                                                    </a>
-                                                                    <div className="item-action-behaviors">
-                                                                        <a className="item-addwishlist" href="javascript:void(0)">Add to Wishlist
-                                                                        </a>
-                                                                        <a className="item-addCart" href="javascript:void(0)">Add to Cart
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="item-content">
-                                                                    <div className="what-product-is">
-                                                                        <ul className="bread-crumb">
-                                                                            <li className="has-separator">
-                                                                                <a href="shop-v1-root-category.html">Consumer
-                                                                                    Electronics
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="shop-v2-sub-category.html">TV/LCD/LED
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <h6 className="item-title">
-                                                                            <a href="single-product.html">TCL 4k LED TV</a>
-                                                                        </h6>
-                                                                        <div className="item-stars">
-                                                                            <div className="star" title="0 out of 5 - based on 0 Reviews">
-                                                                                <span style={{ width: 0 }} />
-                                                                            </div>
-                                                                            <span>(0)</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="price-template">
-                                                                        <div className="item-new-price">
-                                                                            $55.00
-                                                                        </div>
-                                                                        <div className="item-old-price">
-                                                                            $60.00
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
 
                                             </div>
                                         </div>

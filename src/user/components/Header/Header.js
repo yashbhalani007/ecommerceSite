@@ -114,8 +114,12 @@ function Header({ favItem }) {
                           <i className="fas fa-cog u-s-m-r-9" />
                           My Cart
                         </NavLink>
-
-                        {/* <NavLink className="fas fa-cog u-s-m-r-9" to={"/Cart"}>My Cart</NavLink> */}
+                      </li>
+                      <li>
+                        <NavLink to={"/order"}>
+                          <i className="fas fa-cog u-s-m-r-9" />
+                          My Orders
+                        </NavLink>
                       </li>
                       <li>
                         <NavLink to={"/wishlist"}>
@@ -177,7 +181,7 @@ function Header({ favItem }) {
                   </div>
                 </div>
                 <div className="col-lg-6 u-d-none-lg">
-                  <form action className="form-search">
+                  <form action className="form-searchbox">
                     <label className="sr-only" htmlFor="search-landscape">
                       Search
                     </label>
