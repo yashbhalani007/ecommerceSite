@@ -853,3 +853,7 @@ a.more-link {
     background-color: #a0152d;
     border: none;
 }
+
+.is-invalid {
+    border: 1px solid red;
+}

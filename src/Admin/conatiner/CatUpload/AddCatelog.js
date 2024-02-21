@@ -127,7 +127,7 @@ function AddCatelog({ data, setData, isSelected, imgFile, tabChange, group_id })
 
     const DataForm = { ...formData, group_id, sizes: sizeData }
     console.log(DataForm);
-
+    
     setData(DataForm)
     if (DataForm) {
       tabChange()
