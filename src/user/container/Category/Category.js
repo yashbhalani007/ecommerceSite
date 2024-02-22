@@ -111,6 +111,16 @@ function Category({ CartIncDec }) {
         setItemsPerPage(9);
     };
 
+    var settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true
+  };
+
     return (
         <div id='app'>
             <div>

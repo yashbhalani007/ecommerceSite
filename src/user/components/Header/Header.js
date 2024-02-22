@@ -198,7 +198,7 @@ function Header({ favItem }) {
                         </label>
 
                         <select className="select-box" value={selectedCategory} id="select-category" onChange={handleCategoryChange} >
-
+                        
                           <option value='All'>
                             All
                           </option>
