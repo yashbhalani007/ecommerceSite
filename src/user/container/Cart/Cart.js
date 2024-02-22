@@ -209,7 +209,7 @@ function Cart(props) {
                                                     </td>
                                                     <td>
                                                         <span className="calc-text">
-                                                            ${cartitems.reduce((total, v) => total + v.price * v.qty * 0.18, 0).toFixed(2)}
+                                                            ${cartitems.reduce((total, v) => total + v.price * v.qty * (v.tax / 100), 0).toFixed(2)}
                                                         </span>
                                                     </td>
                                                 </tr>

@@ -1,9 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { addOrder } from '../../../redux/slice/order.slice';
 
 function Checkout(props) {
+    const [isChecked, setIsChecked] = useState(false);
     const cart = useSelector(state => state.cart)
     const cartData = cart.cart
     const product = useSelector(state => state.products)
@@ -81,6 +86,72 @@ function Checkout(props) {
     const tax = orderTotal.tax;
     // console.log(cartItem);    
 
+    const handleCheckboxChange = (event) => {
+        // Update the state when the checkbox is checked or unchecked
+        setIsChecked(!isChecked);
+    };
+
+    let billingSchema;
+    if (!isChecked) {
+        // console.log('Not Checked');
+        billingSchema = yup.object().shape({
+            firstName: yup.string().required('Please Enter First Name'),
+            lastName: yup.string().required('Please Enter Last Name'),
+            address: yup.string().required('Please Enter Address'),
+            city: yup.string().required('Please Enter City'),
+            state: yup.string().required('Please Enter State'),
+            country: yup.string().required('Please Enter Country'),
+            zipCode: yup.string().required('Please Enter Zip Code'),
+            phoneNumber: yup.string().required('Please Enter Phone Number'),
+            email: yup.string().email('Please Enter a Valid Email').required('Please Enter a Email'),
+            paymentMethod: yup.string().required('Please Select a Payment Method'),
+            terms: yup.boolean(true).required('Please Accept Terms and Conditions'),
+            orderNotes: yup.string(),
+        })
+    } else {
+        // console.log('Checked');
+        billingSchema = yup.object().shape({
+            firstName: yup.string().required('Please Enter First Name'),
+            lastName: yup.string().required('Please Enter Last Name'),
+            address: yup.string().required('Please Enter Address'),
+            city: yup.string().required('Please Enter City'),
+            state: yup.string().required('Please Enter State'),
+            country: yup.string().required('Please Enter Country'),
+            zipCode: yup.string().required('Please Enter Zip Code'),
+            phoneNumber: yup.string().required('Please Enter Phone Number'),
+            email: yup.string().email('Please Enter a Valid Email').required('Please Enter a Email'),
+            paymentMethod: yup.string().required('Please Select a Payment Method'),
+            terms: yup.boolean(true).required('Please Accept Terms and Conditions'),
+
+            shippingFirstName: yup.string().required('Please Enter First Name'),
+            shippingLastName: yup.string().required('Please Enter Last Name'),
+            shippingAddress: yup.string().required('Please Enter Address'),
+            shippingCity: yup.string().required('Please Enter City'),
+            shippingState: yup.string().required('Please Enter State'),
+            shippingCountry: yup.string().required('Please Enter Country'),
+            shippingZipCode: yup.string().required('Please Enter Zip Code'),
+            shippingPhoneNumber: yup.string().required('Please Enter Phone Number'),
+            shippingEmail: yup.string().email('Please Enter a Valid Email').required('Please Enter a Email'),
+            orderNotes: yup.string(),
+
+
+        })
+    }
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+        watch
+    } = useForm({ resolver: yupResolver(billingSchema) });
+
+    const onSubmit = (formData) => {
+        console.log('Form submitted');
+        console.log({ ...formData, grandTotal, totalShippingCharges, tax, product: cartData });
+        dispatch(addOrder({ ...formData, grandTotal, totalShippingCharges, tax, product: cartData }));
+    }
+
     return (
         <div id='app'>
             <div>
@@ -106,66 +177,7 @@ function Checkout(props) {
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12 col-md-12">
-                                {/* First-Accordion */}
-                                {/* <div>
-                                    <div className="message-open u-s-m-b-24">
-                                        Returning customer?
-                                        <strong>
-                                            <a className="u-c-brand" data-toggle="collapse" href="#showlogin">Click here to login
-                                            </a>
-                                        </strong>
-                                    </div>
-                                    <div className="collapse u-s-m-b-24" id="showlogin">
-                                        <h6 className="collapse-h6">Welcome back! Sign in to your account.</h6>
-                                        <h6 className="collapse-h6">If you have shopped with us before, please enter your details in the boxes below. If you are a new customer, please proceed to the Billing &amp; Shipping section.</h6>
-                                        <form>
-                                            <div className="group-inline u-s-m-b-13">
-                                                <div className="group-1 u-s-p-r-16">
-                                                    <label htmlFor="user-name-email">Username or Email
-                                                        <span className="astk">*</span>
-                                                    </label>
-                                                    <input type="text" id="user-name-email" className="text-field" placeholder="Username / Email" />
-                                                </div>
-                                                <div className="group-2">
-                                                    <label htmlFor="password">Password
-                                                        <span className="astk">*</span>
-                                                    </label>
-                                                    <input type="text" id="password" className="text-field" placeholder="Password" />
-                                                </div>
-                                            </div>
-                                            <div className="u-s-m-b-13">
-                                                <button type="submit" className="button button-outline-secondary">Login</button>
-                                                <input type="checkbox" className="check-box" id="remember-me-token" />
-                                                <label className="label-text" htmlFor="remember-me-token">Remember me</label>
-                                            </div>
-                                            <div className="page-anchor">
-                                                <a href="#" className="u-c-brand">Lost your password?</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div> */}
-                                {/* First-Accordion /- */}
-                                {/* Second Accordion */}
-                                {/* <div>
-                                    <div className="message-open u-s-m-b-24">
-                                        Have a coupon?
-                                        <strong>
-                                            <a className="u-c-brand" data-toggle="collapse" href="#showcoupon">Click here to enter your code</a>
-                                        </strong>
-                                    </div>
-                                    <div className="collapse u-s-m-b-24" id="showcoupon">
-                                        <h6 className="collapse-h6">
-                                            Enter your coupon code if you have one.
-                                        </h6>
-                                        <div className="coupon-field">
-                                            <label className="sr-only" htmlFor="coupon-code">Apply Coupon</label>
-                                            <input id="coupon-code" type="text" className="text-field" placeholder="Coupon Code" />
-                                            <button type="submit" className="button">Apply Coupon</button>
-                                        </div>
-                                    </div>
-                                </div> */}
-                                {/* Second Accordion /- */}
-                                <form>
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="row">
                                         {/* Billing-&-Shipping-Details */}
                                         <div className="col-lg-6">
@@ -176,13 +188,19 @@ function Checkout(props) {
                                                     <label htmlFor="first-name">First Name
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="first-name" className="text-field" />
+                                                    <input type="text" id="first-name" className={`text-field ${errors.firstName ? 'is-invalid' : ''}`} {...register('firstName')} />
+                                                    {errors.firstName && (
+                                                        <div className="invalid-feedback">{errors.firstName.message}</div>
+                                                    )}
                                                 </div>
                                                 <div className="group-2">
                                                     <label htmlFor="last-name">Last Name
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="last-name" className="text-field" />
+                                                    <input type="text" id="last-name" className={`text-field ${errors.lastName ? 'is-invalid' : ''}`} {...register('lastName')} />
+                                                    {errors.lastName && (
+                                                        <div className="invalid-feedback">{errors.lastName.message}</div>
+                                                    )}
                                                 </div>
                                             </div>
                                             <div className="u-s-m-b-13">
@@ -202,6 +220,9 @@ function Checkout(props) {
                                                         }
                                                     </select>
                                                 </div>
+                                                {errors.country && (
+                                                    <div className="invalid-feedback">{errors.country.message}</div>
+                                                )}
                                             </div>
 
 
@@ -240,38 +261,49 @@ function Checkout(props) {
                                                 <label htmlFor="req-st-address">Street Address
                                                     <span className="astk">*</span>
                                                 </label>
-                                                <input type="text" id="req-st-address" className="text-field" placeholder="House name and street name" />
-                                                <label className="sr-only" htmlFor="opt-st-address" />
-                                                <input type="text" id="opt-st-address" className="text-field" placeholder="Apartment, suite unit etc. (optional)" />
+                                                <input type="text" id="req-st-address" className={`text-field ${errors.address ? 'is-invalid' : ''}`} placeholder="House name/no and apartment/scoety, landmark" {...register('address')} />
+                                                {errors.address && (
+                                                    <div className="invalid-feedback">{errors.address.message}</div>
+                                                )}
                                             </div>
                                             <div className="u-s-m-b-13">
                                                 <label htmlFor="postcode">Postcode / Zip
                                                     <span className="astk">*</span>
                                                 </label>
-                                                <input type="text" id="postcode" className="text-field" />
+                                                <input type="text" id="postcode" className={`text-field ${errors.zipCode ? 'is-invalid' : ''}`} {...register('zipCode')} />
+                                                {errors.zipCode && (
+                                                    <div className="invalid-feedback">{errors.zipCode.message}</div>
+                                                )}
                                             </div>
                                             <div className="group-inline u-s-m-b-13">
                                                 <div className="group-1 u-s-p-r-16">
                                                     <label htmlFor="email">Email address
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="email" className="text-field" />
+                                                    <input type="text" id="email" className={`text-field ${errors.email ? 'is-invalid' : ''}`} {...register('email')} />
                                                 </div>
+                                                {errors.email && (
+                                                    <div className="invalid-feedback">{errors.email.message}</div>
+                                                )}
                                                 <div className="group-2">
                                                     <label htmlFor="phone">Phone
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="phone" className="text-field" />
+                                                    <input type="text" id="phone" className={`text-field ${errors.phoneNumber ? 'is-invalid' : ''}`} {...register('phoneNumber')} />
                                                 </div>
+                                                {errors.phoneNumber && (
+                                                    <div className="invalid-feedback">{errors.phoneNumber.message}</div>
+                                                )}
                                             </div>
-                                            <div className="u-s-m-b-30">
+                                            {/* <div className="u-s-m-b-30">
                                                 <input type="checkbox" className="check-box" id="create-account" />
                                                 <label className="label-text" htmlFor="create-account">Create Account</label>
-                                            </div>
+                                            </div> */}
                                             {/* Form-Fields /- */}
                                             <h4 className="section-h4">Shipping Details</h4>
                                             <div className="u-s-m-b-24">
-                                                <input type="checkbox" className="check-box" id="ship-to-different-address" data-toggle="collapse" data-target="#showdifferent" />
+                                                <input type="checkbox" className="check-box" id="ship-to-different-address" data-toggle="collapse" data-target="#showdifferent" checked={isChecked}
+                                                    onClick={handleCheckboxChange} />
                                                 <label className="label-text" htmlFor="ship-to-different-address">Ship to a different address?</label>
                                             </div>
                                             <div className="collapse" id="showdifferent">
@@ -281,14 +313,20 @@ function Checkout(props) {
                                                         <label htmlFor="first-name-extra">First Name
                                                             <span className="astk">*</span>
                                                         </label>
-                                                        <input type="text" id="first-name-extra" className="text-field" />
+                                                        <input type="text" id="first-name-extra" className={`text-field ${errors.shippingFirstName ? 'is-invalid' : ''}`} {...register('shippingFirstName')} />
                                                     </div>
+                                                    {errors.shippingFirstName && (
+                                                        <div className="invalid-feedback">{errors.shippingFirstName.message}</div>
+                                                    )}
                                                     <div className="group-2">
                                                         <label htmlFor="last-name-extra">Last Name
                                                             <span className="astk">*</span>
                                                         </label>
-                                                        <input type="text" id="last-name-extra" className="text-field" />
+                                                        <input type="text" id="last-name-extra" className={`text-field ${errors.shippingLastName ? 'is-invalid' : ''}`} {...register('shippingLastName')} />
                                                     </div>
+                                                    {errors.shippingLastName && (
+                                                        <div className="invalid-feedback">{errors.shippingLastName.message}</div>
+                                                    )}
                                                 </div>
                                                 <div className="u-s-m-b-13">
                                                     <label htmlFor="select-country-extra">Country
@@ -336,21 +374,29 @@ function Checkout(props) {
                                                             }
                                                         </select>
                                                     </div>
+                                                    {errors.shippingCountry && (
+                                                        <div className="invalid-feedback">{errors.shippingCountry.message}</div>
+                                                    )}
                                                 </div>
                                                 <div className="street-address u-s-m-b-13">
                                                     <label htmlFor="req-st-address-extra">Street Address
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="req-st-address-extra" className="text-field" placeholder="House name and street name" />
-                                                    <label className="sr-only" htmlFor="opt-st-address-extra" />
-                                                    <input type="text" id="opt-st-address-extra" className="text-field" placeholder="Apartment, suite unit etc. (optional)" />
+                                                    <input type="text" id="req-st-address-extra" className={`text-field ${errors.shippingAddress ? 'is-invalid' : ''}`} placeholder="House name/no, Appartment/society, landmark" {...register('shippingAddress')} />
+                                                    {/* <label className="sr-only" htmlFor="opt-st-address-extra" />
+                                                    <input type="text" id="opt-st-address-extra" className="text-field" placeholder="Apartment, suite unit etc. (optional)"/> */}
+                                                    {errors.shippingAddress && (
+                                                        <div className="invalid-feedback">{errors.shippingAddress.message}</div>
+                                                    )}
                                                 </div>
-
                                                 <div className="u-s-m-b-13">
                                                     <label htmlFor="postcode-extra">Postcode / Zip
                                                         <span className="astk">*</span>
                                                     </label>
-                                                    <input type="text" id="postcode-extra" className="text-field" />
+                                                    <input type="text" id="postcode-extra" className={`text-field ${errors.shippingZipCode ? 'is-invalid' : ''}`} {...register('shippingZipCode')} />
+                                                    {errors.shippingZipCode && (
+                                                        <div className="invalid-feedback">{errors.shippingZipCode.message}</div>
+                                                    )}
                                                 </div>
 
 
@@ -359,20 +405,26 @@ function Checkout(props) {
                                                         <label htmlFor="email-extra">Email address
                                                             <span className="astk">*</span>
                                                         </label>
-                                                        <input type="text" id="email-extra" className="text-field" />
+                                                        <input type="text" id="email-extra" className={`text-field ${errors.shippingEmail ? 'is-invalid' : ''}`} {...register('shippingEmail')} />
                                                     </div>
+                                                    {errors.shippingEmail && (
+                                                        <div className="invalid-feedback">{errors.shippingEmail.message}</div>
+                                                    )}
                                                     <div className="group-2">
                                                         <label htmlFor="phone-extra">Phone
                                                             <span className="astk">*</span>
                                                         </label>
-                                                        <input type="text" id="phone-extra" className="text-field" />
+                                                        <input type="text" id="phone-extra" className={`text-field ${errors.shippingPhoneNumber ? 'is-invalid' : ''}`} {...register('shippingPhoneNumber')} />
                                                     </div>
+                                                    {errors.shippingPhoneNumber && (
+                                                        <div className="invalid-feedback">{errors.shippingPhoneNumber.message}</div>
+                                                    )}
                                                 </div>
                                                 {/* Form-Fields /- */}
                                             </div>
                                             <div>
                                                 <label htmlFor="order-notes">Order Notes</label>
-                                                <textarea className="text-area" id="order-notes" placeholder="Notes about your order, e.g. special notes for delivery." defaultValue={""} />
+                                                <textarea className="text-area" id="order-notes" placeholder="Notes about your order, e.g. special notes for delivery." defaultValue={""} {...register('orderNotes')} />
                                             </div>
                                         </div>
                                         {/* Billing-&-Shipping-Details /- */}
@@ -436,19 +488,22 @@ function Checkout(props) {
                                                     </tbody>
                                                 </table>
                                                 <div className="u-s-m-b-13">
-                                                    <input type="radio" className="radio-box" name="payment-method" id="cash-on-delivery" />
+                                                    <input type="radio" className="radio-box" name="payment-method" id="cash-on-delivery" value={'Cash on Delivery'} {...register('paymentMethod')} />
                                                     <label className="label-text" htmlFor="cash-on-delivery">Cash on Delivery</label>
                                                 </div>
                                                 <div className="u-s-m-b-13">
-                                                    <input type="radio" className="radio-box" name="payment-method" id="credit-card-stripe" />
+                                                    <input type="radio" className="radio-box" name="payment-method" id="credit-card-stripe" value={'Credit Card (Stripe)'}  {...register('paymentMethod')} />
                                                     <label className="label-text" htmlFor="credit-card-stripe">Credit Card (Stripe)</label>
                                                 </div>
                                                 <div className="u-s-m-b-13">
-                                                    <input type="radio" className="radio-box" name="payment-method" id="paypal" />
+                                                    <input type="radio" className="radio-box" name="payment-method" id="paypal" value={'Paypal'}  {...register('paymentMethod')} />
                                                     <label className="label-text" htmlFor="paypal">Paypal</label>
                                                 </div>
+                                                {errors.paymentMethod && (
+                                                    <div className="invalid-feedback">{errors.paymentMethod.message}</div>
+                                                )}
                                                 <div className="u-s-m-b-13">
-                                                    <input type="checkbox" className="check-box" id="accept" />
+                                                    <input type="checkbox" className="check-box" id="accept" {...register('terms')} />
                                                     <label className="label-text no-color" htmlFor="accept">I’ve read and accept the
                                                         <a href="terms-and-conditions.html" className="u-c-brand">terms &amp; conditions</a>
                                                     </label>
