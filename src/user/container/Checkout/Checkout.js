@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,12 +15,39 @@ function Checkout(props) {
     const productData = product.products
     const [shipping, setShipping] = useState()
     const dispatch = useDispatch()
-    // console.log(cartData);
-    // console.log(productData);
+    const [data, setData] = useState([]);
+    const [getState, setgetState] = useState([]);
+    const [selectedState, getselectedState] = useState();
+    const [getCity, setgetCity] = useState([]);
+    const [counteryData, setcountryData] = useState();
+
     // const cartItem = cartData.map((Obj) => {
     //     const matchingProduct = productData.filter((product) => Obj.id === product.id)[0];
     //     return matchingProduct;
     // });
+
+    useEffect(() => {
+        axios.get('https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json')
+            .then(res => setData(res.data))
+            .catch(err => console.log(err))
+    }, [])
+
+    let country = [...new Set(data.map(item => item.country))];
+    country.sort()
+
+    const handleCountry = (e) => {
+        let states = data.filter(state => state.country === e.target.value);
+        states = [...new Set(states.map(item => item.subcountry))];
+        states.sort()
+
+        setgetState(states);
+    }
+
+    const handlestate = (e) => {
+        let citys = data.filter(city => city.subcountry === e.target.value)
+        setgetCity(citys)
+    }
+
 
     const orderTotal = cartData.reduce((total, item) => {
         const product = productData.find(product => item.id === product.id);
@@ -180,17 +208,54 @@ function Checkout(props) {
                                                     <span className="astk">*</span>
                                                 </label>
                                                 <div className="select-box-wrapper">
-                                                    <select className={`select-box ${errors.country ? 'is-invalid' : ''}`} id="select-country" {...register('country')}>
-                                                        <option selected="selected" value=''>Choose your country...</option>
-                                                        <option value='India'>India (IN)</option>
-                                                        <option value='United Kingdom'>United Kingdom (UK)</option>
-                                                        <option value='United States'>United States (US)</option>
-                                                        <option value='United Arab Emirates'>United Arab Emirates (UAE)</option>
+                                                    <select className="select-box" id="select-country" onChange={(e) => handleCountry(e)}>
+                                                        {/* <option selected="selected" value>Choose your country...</option>
+                                                        <option value>India (IN)</option>
+                                                        <option value>United Kingdom (UK)</option>
+                                                        <option value>United States (US)</option>
+                                                        <option value>United Arab Emirates (UAE)</option> */}
+                                                        <option value=''>--- select country ---</option>
+                                                        {
+                                                            country.map(item => <option key={item} value={counteryData}>{item}</option>)
+                                                        }
                                                     </select>
                                                 </div>
                                                 {errors.country && (
                                                     <div className="invalid-feedback">{errors.country.message}</div>
                                                 )}
+                                            </div>
+
+
+                                            <div className="u-s-m-b-13">
+                                                <label htmlFor="select-state">State / Country
+                                                    <span className="astk"> *</span>
+                                                </label>
+                                                <div className="select-box-wrapper">
+                                                    <select className="select-box" id="select-state" onChange={(e) => handlestate(e)}>
+                                                        {/* <option selected="selected" value>Choose your state...</option>
+                                                        <option value>Alabama</option>
+                                                        <option value>Alaska</option>
+                                                        <option value>Arizona</option> */}
+
+                                                        {
+                                                            getState.map(item => <option key={item} value={selectedState}>{item}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="u-s-m-b-13">
+
+                                                <label htmlFor="select-state">Town / City
+                                                    <span className="astk"> *</span>
+                                                </label>
+                                                <div className="select-box-wrapper">
+                                                    <select className="select-box" id="select-state">
+                                                        {
+                                                            getCity.map(item => <option key={item.name}>{item.name}</option>)
+                                                        }
+                                                    </select>
+                                                </div>
+
                                             </div>
                                             <div className="street-address u-s-m-b-13">
                                                 <label htmlFor="req-st-address">Street Address
@@ -199,31 +264,6 @@ function Checkout(props) {
                                                 <input type="text" id="req-st-address" className={`text-field ${errors.address ? 'is-invalid' : ''}`} placeholder="House name/no and apartment/scoety, landmark" {...register('address')} />
                                                 {errors.address && (
                                                     <div className="invalid-feedback">{errors.address.message}</div>
-                                                )}
-                                            </div>
-                                            <div className="u-s-m-b-13">
-                                                <label htmlFor="town-city">Town / City
-                                                    <span className="astk">*</span>
-                                                </label>
-                                                <input type="text" id="town-city" className={`text-field ${errors.city ? 'is-invalid' : ''}`} {...register('city')} />
-                                                {errors.city && (
-                                                    <div className="invalid-feedback">{errors.city.message}</div>
-                                                )}
-                                            </div>
-                                            <div className="u-s-m-b-13">
-                                                <label htmlFor="select-state">State / Country
-                                                    <span className="astk"> *</span>
-                                                </label>
-                                                <div className="select-box-wrapper">
-                                                    <select className={`select-box ${errors.state ? 'is-invalid' : ''}`} id="select-state" {...register('state')}>
-                                                        <option selected="selected" value=''>Choose your state...</option>
-                                                        <option value='Alabama'>Alabama</option>
-                                                        <option value='Alaska'>Alaska</option>
-                                                        <option value='Arizona '>Arizona</option>
-                                                    </select>
-                                                </div>
-                                                {errors.state && (
-                                                    <div className="invalid-feedback">{errors.state.message}</div>
                                                 )}
                                             </div>
                                             <div className="u-s-m-b-13">
@@ -293,11 +333,45 @@ function Checkout(props) {
                                                         <span className="astk">*</span>
                                                     </label>
                                                     <div className="select-box-wrapper">
-                                                        <select className={`select-box ${errors.shippingCountry ? 'is-invalid' : ''}`} id="select-country-extra" {...register('shippingCountry')}>
-                                                            <option selected="selected" value=''>Choose your country...</option>
-                                                            <option value='United Kingdom'>United Kingdom (UK)</option>
-                                                            <option value='United States'>United States (US)</option>
-                                                            <option value='United Arab Emirates'>United Arab Emirates (UAE)</option>
+                                                        <select className="select-box" id="select-country" onChange={(e) => handleCountry(e)}>
+                                                            {/* <option selected="selected" value>Choose your country...</option>
+                                                        <option value>India (IN)</option>
+                                                        <option value>United Kingdom (UK)</option>
+                                                        <option value>United States (US)</option>
+                                                        <option value>United Arab Emirates (UAE)</option> */}
+                                                            <option value=''>--- select country ---</option>
+                                                            {
+                                                                country.map(item => <option key={item} value={counteryData}>{item}</option>)
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="u-s-m-b-13">
+                                                    <label htmlFor="select-state-extra">State / Country
+                                                        <span className="astk"> *</span>
+                                                    </label>
+                                                    <div className="select-box-wrapper">
+                                                        <select className="select-box" id="select-state" onChange={(e) => handlestate(e)}>
+                                                            {/* <option selected="selected" value>Choose your state...</option>
+                                                        <option value>Alabama</option>
+                                                        <option value>Alaska</option>
+                                                        <option value>Arizona</option> */}
+
+                                                            {
+                                                                getState.map(item => <option key={item} value={selectedState}>{item}</option>)
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="u-s-m-b-13">
+                                                    <label htmlFor="select-state">Town / City
+                                                        <span className="astk"> *</span>
+                                                    </label>
+                                                    <div className="select-box-wrapper">
+                                                        <select className="select-box" id="select-state">
+                                                            {
+                                                                getCity.map(item => <option key={item.name}>{item.name}</option>)
+                                                            }
                                                         </select>
                                                     </div>
                                                     {errors.shippingCountry && (
@@ -316,31 +390,6 @@ function Checkout(props) {
                                                     )}
                                                 </div>
                                                 <div className="u-s-m-b-13">
-                                                    <label htmlFor="town-city-extra">Town / City
-                                                        <span className="astk">*</span>
-                                                    </label>
-                                                    <input type="text" id="town-city-extra" className={`text-field ${errors.shippingCity ? 'is-invalid' : ''}`} {...register('shippingCity')} />
-                                                    {errors.shippingCity && (
-                                                        <div className="invalid-feedback">{errors.shippingCity.message}</div>
-                                                    )}
-                                                </div>
-                                                <div className="u-s-m-b-13">
-                                                    <label htmlFor="select-state-extra">State / Country
-                                                        <span className="astk"> *</span>
-                                                    </label>
-                                                    <div className="select-box-wrapper" >
-                                                        <select className="select-box" id="select-state-extra" {...register('shippingState')}>
-                                                            <option selected="selected" value=''>Choose your state...</option>
-                                                            <option value='Alabama'>Alabama</option>
-                                                            <option value='Alaska'>Alaska</option>
-                                                            <option value='Arizona'>Arizona</option>
-                                                        </select>
-                                                    </div>
-                                                    {errors.shippingState && (
-                                                        <div className="invalid-feedback">{errors.shippingState.message}</div>
-                                                    )}
-                                                </div>
-                                                <div className="u-s-m-b-13">
                                                     <label htmlFor="postcode-extra">Postcode / Zip
                                                         <span className="astk">*</span>
                                                     </label>
@@ -349,6 +398,8 @@ function Checkout(props) {
                                                         <div className="invalid-feedback">{errors.shippingZipCode.message}</div>
                                                     )}
                                                 </div>
+
+
                                                 <div className="group-inline u-s-m-b-13">
                                                     <div className="group-1 u-s-p-r-16">
                                                         <label htmlFor="email-extra">Email address
