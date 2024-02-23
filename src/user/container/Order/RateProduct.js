@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 function RateProduct(props) {
 
     const [rating, setRating] = useState(0);
+    const [selectedImages, setSelectedImages] = useState([]); // State to store selected image files
+    const [imageNames, setImageNames] = useState([]); // State to store image names
 
     const dispatch = useDispatch()
 
@@ -18,7 +20,7 @@ function RateProduct(props) {
 
     useEffect(() => {
         dispatch(getReviews())
-    },[])
+    }, [])
 
     const handleClick = (value) => {
         setRating(value);
@@ -39,6 +41,19 @@ function RateProduct(props) {
             default:
                 return "";
         }
+    };
+
+    const handleImageChange = (event) => {
+        const imageFiles = Array.from(event.target.files);
+        if (imageFiles.length > 0) {
+            setSelectedImages(prevImages => [...prevImages, ...imageFiles]);
+            setImageNames(prevNames => [...prevNames, ...imageFiles.map(image => image.name)]);
+        }
+    };
+
+    const removeImage = (indexToRemove) => {
+        setSelectedImages(prevImages => prevImages.filter((image, index) => index !== indexToRemove));
+        setImageNames(prevNames => prevNames.filter((name, index) => index !== indexToRemove));
     };
 
     const handleSubmit = async (event) => {
@@ -151,7 +166,23 @@ function RateProduct(props) {
                                                 <span className="astk"> *</span>
                                             </label>
                                             <textarea className="text-area u-s-m-b-8" id="review-text-area" placeholder="Review" defaultValue={""} />
-                                            <input type="file" id="image-upload" name="image" />
+
+                                            <input type="file" id="image-upload" name="image" multiple onChange={handleImageChange} />
+                                            {selectedImages.length > 0 && (
+                                                <div className='review_img'>
+                                                    {selectedImages.map((image, index) => (
+                                                        <div className='image-area' key={index}>
+                                                            <img src={URL.createObjectURL(image)} alt={`Selected Image ${index + 1}`} />
+                                                            {/* <button className='reviewImg_btw' type="button" onClick={() => removeImage(index)}>
+
+                                                            </button> */}
+
+                                                            <a className="remove-image" href="#" style={{ display: 'inline' }} onClick={() => removeImage(index)}>×</a>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+
                                             <div className="review_submit">
                                                 <button type='submit' className="button button-outline-secondary">Submit Review</button>
                                             </div>
@@ -165,38 +196,7 @@ function RateProduct(props) {
 
                         </div>
 
-                        <div className="pagination-area">
-                            <div className="pagination-number">
-                                <ul>
-                                    <li style={{ display: 'none' }}>
-                                        <a href="shop-v1-root-category.html" title="Previous">
-                                            <i className="fa fa-angle-left" />
-                                        </a>
-                                    </li>
-                                    <li className="active">
-                                        <a href="shop-v1-root-category.html">1</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-v1-root-category.html">2</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-v1-root-category.html">3</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-v1-root-category.html">...</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-v1-root-category.html">10</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop-v1-root-category.html" title="Next">
-                                            <i className="fa fa-angle-right" />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        {/* Shop-Pagination /- */}
+
                     </div>
                 </div>
             </div>

@@ -25,6 +25,7 @@ import Error from '../Error';
 import { useSelector } from 'react-redux';
 import Order from '../user/container/Order/Order';
 import RateProduct from '../user/container/Order/RateProduct';
+import ReviewData from '../user/container/ReviewData/ReviewData';
 
 
 function UserRoutes(props) {
@@ -61,6 +62,7 @@ function UserRoutes(props) {
                 <Route path="/newarrival" element={<NewArrival/>} />
                 <Route path="/order" element={<Order/>} />
                 <Route path="/RateProduct" element={<RateProduct/>} />
+                <Route path="/reviewData" element={<ReviewData/>} />
                 <Route path="*" element={<Error />} />
             </Routes>
             <Footer />
