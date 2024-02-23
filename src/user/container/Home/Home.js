@@ -150,7 +150,7 @@ function Home({ CartIncDec }) {
                                                     let sumOfRatings = ratedReviews.reduce((total, review) => total + review.rating, 0);
                                                     let averageRating = totalRatings > 0 ? sumOfRatings / totalRatings : 0;
                                                     return (
-                                                        <Link to={"/product_Details/" + v.id} target='_blank'>
+                                                        <Link to={"/product_Details/" + v.id}>
                                                             <div>
                                                                 <div className="item">
                                                                     <div className="image-container">

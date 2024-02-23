@@ -230,7 +230,7 @@ function Category({ CartIncDec }) {
 
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
 
-                                                        <Link to={"/product_Details/" + v.id} target='_blank'>
+                                                        <Link to={"/product_Details/" + v.id} >
                                                             <div className="item">
                                                                 <div className="image-container">
 
@@ -286,7 +286,7 @@ function Category({ CartIncDec }) {
                                             } else if (v.category === selectedCategory && v.status === 'approve') {
                                                 return (
                                                     <div className="product-item col-lg-4 col-md-6 col-sm-6" key={v.id}>
-                                                        <Link to={"/product_Details/" + v.id} target='_blank'>
+                                                        <Link to={"/product_Details/" + v.id} >
                                                             <div className="item">
                                                                 <div className="image-container">
 

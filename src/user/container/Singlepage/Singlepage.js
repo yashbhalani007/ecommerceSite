@@ -622,7 +622,7 @@ function Singlepage({ CartIncDec }) {
                                                                     </a>
                                                                 </li>
                                                                 <li className="active">
-                                                                    <a href="/reviewData" target='_blank'>Show more Reviews</a>
+                                                                    <a href="/reviewData">Show more Reviews</a>
                                                                 </li>
 
                                                             </ul>
